@@ -6,7 +6,7 @@ setInterval(draw, 10);
 
 
 
-/* --- BALL VARIABLES --- */
+/* --- BALL --- */
 
 // dimensions
 var ballRadius = 10;
@@ -21,22 +21,7 @@ var y = canvas.height - 30;
 var dx = 2;
 var dy = -2;
 
-
-
-/* --- PADDLE VARIABLES --- */
-
-// dimensions
-paddleHeight = 10;
-paddleWidth = 75;
-
-// initial position
-paddleX = (canvas.width - paddleWidth) / 2;
-
-
-
-
-/* --- FUNCTIONS --- */
-
+// draw the ball
 function drawBall() {
 	ctx.beginPath();
 	ctx.arc(x, y, ballRadius, beginAngle, endAngle);
@@ -45,6 +30,40 @@ function drawBall() {
 	ctx.closePath();
 }
 
+
+/* --- PADDLE --- */
+
+// dimensions
+paddleHeight = 10;
+paddleWidth = 75;
+
+// initial position
+paddleX = (canvas.width - paddleWidth) / 2;
+
+// controls the movement of the paddle
+var moveDistance = 7;
+var rightPressed = false;
+var leftPressed = false;
+document.addEventListener("keydown", keyDownHandler);
+document.addEventListener("keyup", keyUpHandler);
+
+function keyDownHandler(event) {
+	if(event.keyCode == 39) {
+		rightPressed = true;
+	} else if(event.keyCode == 37) {
+		leftPressed = true;
+	}
+}
+
+function keyUpHandler(event) {
+	if(event.keyCode == 39) {
+		rightPressed = false;
+	} else if(event.keyCode == 37) {
+		leftPressed = false;
+	}
+}
+
+// draw the paddle
 function drawPaddle() {
 	ctx.beginPath();
 	ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
@@ -52,6 +71,8 @@ function drawPaddle() {
 	ctx.fill();
 	ctx.closePath();
 }
+
+/* --- FUNCTIONS --- */
 
 function checkWallCollision() {
 	if(y + dy < ballRadius || y + dy > canvas.height - ballRadius) {
@@ -69,13 +90,20 @@ function draw() {
 	// draw the ball
 	drawBall();
 
-	//draw the paddle
+	// draw the paddle
 	drawPaddle();
 
 	// detect collisions
 	checkWallCollision();
 
-	// set the next position for the ball
+	// set the next position of the ball
 	x += dx;
 	y += dy;
+
+	// set the next position of the paddle
+	if(rightPressed && paddleX < canvas.width - paddleWidth) {
+		paddleX += moveDistance;
+	} else if(leftPressed && paddleX > 0) {
+		paddleX -= moveDistance;
+	}
 }
