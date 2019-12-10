@@ -4,7 +4,16 @@ var ctx = canvas.getContext('2d');
 // update the canvas every 10ms
 setInterval(draw, 10);
 
-// sets the initial position of the ball
+
+
+/* --- BALL VARIABLES --- */
+
+// dimensions
+var ballRadius = 10;
+var beginAngle = 0;
+var endAngle = 2 * Math.PI;
+
+// initial position
 var x = canvas.width / 2;
 var y = canvas.height - 30;
 
@@ -12,15 +21,34 @@ var y = canvas.height - 30;
 var dx = 2;
 var dy = -2;
 
-// ball dimensions
-var ballRadius = 10;
-var beginAngle = 0;
-var endAngle = 2 * Math.PI;
+
+
+/* --- PADDLE VARIABLES --- */
+
+// dimensions
+paddleHeight = 10;
+paddleWidth = 75;
+
+// initial position
+paddleX = (canvas.width - paddleWidth) / 2;
+
+
+
+
+/* --- FUNCTIONS --- */
 
 function drawBall() {
 	ctx.beginPath();
 	ctx.arc(x, y, ballRadius, beginAngle, endAngle);
 	ctx.fillStyle = "blue";
+	ctx.fill();
+	ctx.closePath();
+}
+
+function drawPaddle() {
+	ctx.beginPath();
+	ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
+	ctx.fillStyle = "red";
 	ctx.fill();
 	ctx.closePath();
 }
@@ -40,6 +68,9 @@ function draw() {
 
 	// draw the ball
 	drawBall();
+
+	//draw the paddle
+	drawPaddle();
 
 	// detect collisions
 	checkWallCollision();
