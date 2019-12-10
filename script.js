@@ -79,6 +79,7 @@ function drawPaddle() {
 
 function checkWallCollision() {
 
+	// check end condition
 	if(gameOver){
 		return;
 	}
@@ -98,18 +99,22 @@ function checkWallCollision() {
 	// ball touches the bottom frame
 	if(ballY + dy > canvas.height - ballRadius){
 
+		// testing logs
 		console.log('ballX: ', ballX);
 		console.log('paddleX: ', paddleX);
 		console.log('paddleWidth: ', paddleWidth);
+		console.log('speed: ', speed);
 
 		// ball is between left and right edges of the paddle
 		if(ballX > paddleX && ballX < paddleX + paddleWidth) {
 			// change direction of vertical movement
 			dy = -dy;
 			// increase speed
-			speed += 10;
+			clearInterval(interval);
+			speed -= 0.25;
 			interval = setInterval(draw, speed)
 		} else {
+			// game over
 			alert("GAME OVER");
 			clearInterval(interval);
 			document.location.reload(false);
