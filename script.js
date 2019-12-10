@@ -1,8 +1,11 @@
 var canvas = document.getElementById('myCanvas');
 var ctx = canvas.getContext('2d');
 
+
 // update the canvas every 10ms
-setInterval(draw, 10);
+var speed = 10;
+var interval = setInterval(draw, speed);
+var gameOver = false;
 
 
 
@@ -76,6 +79,10 @@ function drawPaddle() {
 
 function checkWallCollision() {
 
+	if(gameOver){
+		return;
+	}
+
 	// ball touches top edge
 	if(ballY + dy < ballRadius) {
 		// change direction of vertical movement
@@ -99,9 +106,14 @@ function checkWallCollision() {
 		if(ballX > paddleX && ballX < paddleX + paddleWidth) {
 			// change direction of vertical movement
 			dy = -dy;
+			// increase speed
+			speed += 10;
+			interval = setInterval(draw, speed)
 		} else {
 			alert("GAME OVER");
-			document.location.reload();
+			clearInterval(interval);
+			document.location.reload(false);
+			gameOver = true;
 		}
 	}
 }
