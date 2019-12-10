@@ -101,7 +101,8 @@ for (var i = 0; i < brickColumnCount; i++){
 	for(var j = 0; j < brickRowCount; j++){
 		bricks[i][j] = {
 			x: i * (brickWidth + brickPadding) + brickOffsetLeft, 
-			y: j * (brickHeight + brickPadding) + brickOffsetTop
+			y: j * (brickHeight + brickPadding) + brickOffsetTop,
+			status: 1
 		};
 	}
 }
@@ -111,11 +112,16 @@ for (var i = 0; i < brickColumnCount; i++){
 function drawBricks(){
 	for(var i = 0; i < brickColumnCount; i++){
 		for(var j = 0; j < brickRowCount; j++){
-			ctx.beginPath();
-			ctx.rect(bricks[i][j].x, bricks[i][j].y, brickWidth, brickHeight);
-			ctx.fillStyle = "red";
-			ctx.fill();
-			ctx.closePath();
+
+			var currBrick = bricks[i][j];
+
+			if(currBrick.status == 1){
+				ctx.beginPath();
+				ctx.rect(currBrick.x, currBrick.y, brickWidth, brickHeight);
+				ctx.fillStyle = "red";
+				ctx.fill();
+				ctx.closePath();
+			}
 		}
 	}
 }
@@ -158,16 +164,45 @@ function checkWallCollision() {
 		if(ballX > paddleX && ballX < paddleX + paddleWidth) {
 			// change direction of vertical movement
 			dy = -dy;
+
+
 			// increase speed
-			clearInterval(interval);
-			speed -= 0.25;
-			interval = setInterval(draw, speed)
+			// clearInterval(interval);
+			// speed -= 0.25;
+			// interval = setInterval(draw, speed)
+
+
 		} else {
 			// game over
 			alert("GAME OVER");
 			clearInterval(interval);
 			document.location.reload(false);
 			gameOver = true;
+		}
+	}
+}
+
+function checkBrickCollision() {
+	for(var i = 0; i < brickColumnCount; i++){
+		for(var j = 0; j < brickRowCount; j++){
+			var currBrick = bricks[i][j];
+
+			// brick is active
+			if(currBrick.status == 1){
+				// ball is between beginning and end of brick
+				if(ballX > currBrick.x && ballX < currBrick.x + brickWidth) {
+					// ball is touching the top or bottom of the brick
+					if(ballY - ballRadius >= currBrick.y && ballY - ballRadius <= currBrick.y + brickHeight){
+						console.log('ballX: ', ballX);
+						console.log('ballY: ', ballY);
+						console.log('brickX: ', currBrick.x);
+						console.log('brickY: ', currBrick.y);
+
+						currBrick.status = 0;
+						dy = -dy;
+					}	
+				}
+			}
 		}
 	}
 }
@@ -185,8 +220,11 @@ function draw() {
 	// draw the bricks
 	drawBricks();
 
-	// detect collisions
+	// detect wall collision
 	checkWallCollision();
+
+	// detect brick collision
+	checkBrickCollision();
 
 	// set the next position of the ball
 	ballX += dx;
