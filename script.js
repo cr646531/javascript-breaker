@@ -1,8 +1,8 @@
 var canvas = document.getElementById('myCanvas');
 var ctx = canvas.getContext('2d');
 
-// update the canvas every 20ms
-setInterval(draw, 20);
+// update the canvas every 10ms
+setInterval(draw, 10);
 
 // sets the initial position of the ball
 var x = canvas.width / 2;
@@ -25,11 +25,11 @@ function drawBall() {
 	ctx.closePath();
 }
 
-function collisionDetect() {
-	if(y + dy < 0 || y + dy > canvas.height) {
+function checkWallCollision() {
+	if(y + dy < ballRadius || y + dy > canvas.height - ballRadius) {
 		dy = -dy;
 	}
-	if(x + dx < 0 || x + dx > canvas.width) {
+	if(x + dx < ballRadius || x + dx > canvas.width - ballRadius) {
 		dx = -dx;
 	}
 }
@@ -42,7 +42,7 @@ function draw() {
 	drawBall();
 
 	// detect collisions
-	collisionDetect();
+	checkWallCollision();
 
 	// set the next position for the ball
 	x += dx;
