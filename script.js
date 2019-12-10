@@ -13,7 +13,9 @@ var dy = -2;
 
 
 function draw() {
-	
+	// clear the canvas
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+
 	// draw the ball
 	ctx.beginPath();
 	ctx.arc(x, y, 10, 0, Math.PI*2);
