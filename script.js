@@ -9,7 +9,11 @@ var gameOver = false;
 
 
 
-/* --- BALL --- */
+
+
+
+
+/* ------------------ BALL -------------------- */
 
 // dimensions
 var ballRadius = 10;
@@ -34,7 +38,11 @@ function drawBall() {
 }
 
 
-/* --- PADDLE --- */
+
+
+
+
+/* ------------------- PADDLE -------------------- */
 
 // dimensions
 paddleHeight = 10;
@@ -70,12 +78,53 @@ function keyUpHandler(event) {
 function drawPaddle() {
 	ctx.beginPath();
 	ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
-	ctx.fillStyle = "red";
+	ctx.fillStyle = "purple";
 	ctx.fill();
 	ctx.closePath();
 }
 
-/* --- FUNCTIONS --- */
+
+/* ------------------- BRICKS --------------------- */
+
+var brickRowCount = 3;
+var brickColumnCount = 5;
+var brickWidth = 75;
+var brickHeight = 20;
+var brickPadding = 10;
+var brickOffsetTop = 30;
+var brickOffsetLeft = 30;
+
+
+var bricks = [];
+for (var i = 0; i < brickColumnCount; i++){
+	bricks[i] = [];
+	for(var j = 0; j < brickRowCount; j++){
+		bricks[i][j] = {
+			x: i * (brickWidth + brickPadding) + brickOffsetLeft, 
+			y: j * (brickHeight + brickPadding) + brickOffsetTop
+		};
+	}
+}
+
+
+
+function drawBricks(){
+	for(var i = 0; i < brickColumnCount; i++){
+		for(var j = 0; j < brickRowCount; j++){
+			ctx.beginPath();
+			ctx.rect(bricks[i][j].x, bricks[i][j].y, brickWidth, brickHeight);
+			ctx.fillStyle = "red";
+			ctx.fill();
+			ctx.closePath();
+		}
+	}
+}
+
+
+
+
+
+/* -------------------- GAME LOGIC ---------------------- */
 
 function checkWallCollision() {
 
@@ -132,6 +181,9 @@ function draw() {
 
 	// draw the paddle
 	drawPaddle();
+
+	// draw the bricks
+	drawBricks();
 
 	// detect collisions
 	checkWallCollision();
