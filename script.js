@@ -14,8 +14,8 @@ var beginAngle = 0;
 var endAngle = 2 * Math.PI;
 
 // initial position
-var x = canvas.width / 2;
-var y = canvas.height - 30;
+var ballX = canvas.width / 2;
+var ballY = canvas.height - 30;
 
 // controls how many pixels the ball will move on every update
 var dx = 2;
@@ -24,7 +24,7 @@ var dy = -2;
 // draw the ball
 function drawBall() {
 	ctx.beginPath();
-	ctx.arc(x, y, ballRadius, beginAngle, endAngle);
+	ctx.arc(ballX, ballY, ballRadius, beginAngle, endAngle);
 	ctx.fillStyle = "blue";
 	ctx.fill();
 	ctx.closePath();
@@ -75,11 +75,34 @@ function drawPaddle() {
 /* --- FUNCTIONS --- */
 
 function checkWallCollision() {
-	if(y + dy < ballRadius || y + dy > canvas.height - ballRadius) {
+
+	// ball touches top edge
+	if(ballY + dy < ballRadius) {
+		// change direction of vertical movement
 		dy = -dy;
 	}
-	if(x + dx < ballRadius || x + dx > canvas.width - ballRadius) {
+
+	// ball touches left or right edge
+	if(ballX + dx < ballRadius || ballX + dx > canvas.width - ballRadius) {
+		// change direction of horizontal movement
 		dx = -dx;
+	}
+
+	// ball touches the bottom frame
+	if(ballY + dy > canvas.height - ballRadius){
+
+		console.log('ballX: ', ballX);
+		console.log('paddleX: ', paddleX);
+		console.log('paddleWidth: ', paddleWidth);
+
+		// ball is between left and right edges of the paddle
+		if(ballX > paddleX && ballX < paddleX + paddleWidth) {
+			// change direction of vertical movement
+			dy = -dy;
+		} else {
+			alert("GAME OVER");
+			document.location.reload();
+		}
 	}
 }
 
@@ -97,10 +120,10 @@ function draw() {
 	checkWallCollision();
 
 	// set the next position of the ball
-	x += dx;
-	y += dy;
+	ballX += dx;
+	ballY += dy;
 
-	// set the next position of the paddle
+	// set the next position of the paddle based on the keyboard input
 	if(rightPressed && paddleX < canvas.width - paddleWidth) {
 		paddleX += moveDistance;
 	} else if(leftPressed && paddleX > 0) {
