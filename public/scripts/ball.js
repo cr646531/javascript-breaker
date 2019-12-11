@@ -1,5 +1,6 @@
 
-class Ball {
+
+export default class Ball {
 	radius = 10;
 	color = "blue";
 	sAngle = 0;
@@ -16,15 +17,4 @@ class Ball {
 		this.dx = dx;
 		this.dy = dy;
 	}
-
-	drawBall(x, y) {
-		ctx.beginPath();
-		ctx.arc(x, y, this.radius, this.sAngle, this.eAngle);
-		ctx.fillStyle = this.color;
-		ctx.fill();
-		ctx.closePath();
-	}
-
 }
-
-module.exports = Ball;

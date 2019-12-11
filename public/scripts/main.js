@@ -1,3 +1,5 @@
+import Ball from './ball.js';
+
 var canvas = document.getElementById('myCanvas');
 var ctx = canvas.getContext('2d');
 
@@ -35,17 +37,14 @@ function drawBall() {
 }
 
 
-
-
-
 /* ------------------- PADDLE -------------------- */
 
 // dimensions
-paddleHeight = 10;
-paddleWidth = 75;
+var paddleHeight = 10;
+var paddleWidth = 75;
 
 // initial position
-paddleX = (canvas.width - paddleWidth) / 2;
+var paddleX = (canvas.width - paddleWidth) / 2;
 
 // controls the movement of the paddle
 var moveDistance = 7;
@@ -257,7 +256,7 @@ function draw() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 	// draw the ball
-	drawBall();
+	drawBall(ballX, ballY);
 
 	// draw the paddle
 	drawPaddle();
