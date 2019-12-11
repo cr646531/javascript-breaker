@@ -1,0 +1,24 @@
+{
+  "name": "breakout",
+  "version": "1.0.0",
+  "description": "",
+  "main": "ball.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cr646531/breakout.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cr646531/breakout/issues"
+  },
+  "homepage": "https://github.com/cr646531/breakout#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

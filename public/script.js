@@ -13,6 +13,7 @@ var gameOver = false;
 
 
 
+
 /* ------------------ BALL -------------------- */
 
 // dimensions
