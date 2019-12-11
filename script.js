@@ -57,6 +57,7 @@ var rightPressed = false;
 var leftPressed = false;
 document.addEventListener("keydown", keyDownHandler);
 document.addEventListener("keyup", keyUpHandler);
+document.addEventListener("mousemove", mouseMoveHandler);
 
 function keyDownHandler(event) {
 	if(event.keyCode == 39) {
@@ -74,6 +75,13 @@ function keyUpHandler(event) {
 	}
 }
 
+function mouseMoveHandler(event) {
+	var relativeX = event.clientX - canvas.offsetLeft;
+	if(relativeX > paddleWidth / 2 && relativeX < canvas.width - paddleWidth / 2) {
+		paddleX = relativeX - paddleWidth / 2;
+	}
+}
+
 // draw the paddle
 function drawPaddle() {
 	ctx.beginPath();
@@ -82,6 +90,10 @@ function drawPaddle() {
 	ctx.fill();
 	ctx.closePath();
 }
+
+
+
+
 
 
 /* ------------------- BRICKS --------------------- */
@@ -107,8 +119,6 @@ for (var i = 0; i < brickColumnCount; i++){
 	}
 }
 
-
-
 function drawBricks(){
 	for(var i = 0; i < brickColumnCount; i++){
 		for(var j = 0; j < brickRowCount; j++){
@@ -126,6 +136,33 @@ function drawBricks(){
 	}
 }
 
+
+
+
+
+/* -------------------- SCORE --------------------- */
+
+var score = 0;
+
+function drawScore() {
+	ctx.font = "16px Arial";
+	ctx.fillStyle = "black";
+	ctx.fillText(`Score: ${score}`, 8, 20);
+}
+
+
+
+
+
+/* -------------------- LIVES --------------------- */
+
+var lives = 3;
+
+function drawLives() {
+	ctx.font = "16px Arial";
+	ctx.fillStyle = "black";
+	ctx.fillText(`Lives: ${lives}`, canvas.width - 65, 20);
+}
 
 
 
@@ -154,30 +191,38 @@ function checkWallCollision() {
 	// ball touches the bottom frame
 	if(ballY + dy > canvas.height - ballRadius){
 
-		// testing logs
-		console.log('ballX: ', ballX);
-		console.log('paddleX: ', paddleX);
-		console.log('paddleWidth: ', paddleWidth);
-		console.log('speed: ', speed);
+		/* TEST */
+		// console.log('ballX: ', ballX);
+		// console.log('paddleX: ', paddleX);
+		// console.log('paddleWidth: ', paddleWidth);
+		// console.log('speed: ', speed);
 
 		// ball is between left and right edges of the paddle
 		if(ballX > paddleX && ballX < paddleX + paddleWidth) {
 			// change direction of vertical movement
 			dy = -dy;
 
-
 			// increase speed
-			// clearInterval(interval);
-			// speed -= 0.25;
-			// interval = setInterval(draw, speed)
-
-
-		} else {
-			// game over
-			alert("GAME OVER");
 			clearInterval(interval);
-			document.location.reload(false);
-			gameOver = true;
+			speed -= 0.25;
+			interval = setInterval(draw, speed)
+
+			// add 1 to the player's score
+			score += 1;
+		// ball hit the bottom edge
+		} else {
+
+			// check to see if player has any lives remaining
+			if(lives === 0){
+				// game over
+				alert(`GAME OVER!\n\nScore: ${score}`);
+				clearInterval(interval);
+				document.location.reload(false);
+				gameOver = true;
+			} else {
+				lives--;
+				dy = -dy;
+			}
 		}
 	}
 }
@@ -189,17 +234,21 @@ function checkBrickCollision() {
 
 			// brick is active
 			if(currBrick.status == 1){
+
 				// ball is between beginning and end of brick
 				if(ballX > currBrick.x && ballX < currBrick.x + brickWidth) {
+
 					// ball is touching the top or bottom of the brick
 					if(ballY - ballRadius >= currBrick.y && ballY - ballRadius <= currBrick.y + brickHeight){
-						console.log('ballX: ', ballX);
-						console.log('ballY: ', ballY);
-						console.log('brickX: ', currBrick.x);
-						console.log('brickY: ', currBrick.y);
 
+						// eliminate the brick
 						currBrick.status = 0;
+
+						// change vertical direction of the ball
 						dy = -dy;
+
+						// add 5 to the player's score
+						score += 5;
 					}	
 				}
 			}
@@ -220,6 +269,12 @@ function draw() {
 	// draw the bricks
 	drawBricks();
 
+	// draw the score
+	drawScore();
+
+	// draw lives
+	drawLives();
+
 	// detect wall collision
 	checkWallCollision();
 
@@ -236,4 +291,9 @@ function draw() {
 	} else if(leftPressed && paddleX > 0) {
 		paddleX -= moveDistance;
 	}
+
+	/* Gives control of the rendering to the browser */
+	// requestAnimationFrame(draw);
 }
+
+// draw();
