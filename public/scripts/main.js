@@ -14,27 +14,25 @@ var gameOver = false;
 
 /* ------------------ BALL -------------------- */
 
-// dimensions
-var ballRadius = 10;
-var beginAngle = 0;
-var endAngle = 2 * Math.PI;
 
 // initial position
 var ballX = canvas.width / 2;
 var ballY = canvas.height - 30;
 
-// controls how many pixels the ball will move on every update
-var dx = 2;
-var dy = -2;
+
+var ball = new Ball(20, "red");
+
+console.log(ball);
 
 // draw the ball
 function drawBall() {
 	ctx.beginPath();
-	ctx.arc(ballX, ballY, ballRadius, beginAngle, endAngle);
-	ctx.fillStyle = "blue";
+	ctx.arc(ballX, ballY, ball.radius, ball.sAngle, ball.eAngle);
+	ctx.fillStyle = ball.color;
 	ctx.fill();
 	ctx.closePath();
 }
+
 
 
 /* ------------------- PADDLE -------------------- */
@@ -172,19 +170,19 @@ function checkWallCollision() {
 	}
 
 	// ball touches top edge
-	if(ballY + dy < ballRadius) {
+	if(ballY + ball.dy < ball.radius) {
 		// change direction of vertical movement
-		dy = -dy;
+		ball.dy = -ball.dy;
 	}
 
 	// ball touches left or right edge
-	if(ballX + dx < ballRadius || ballX + dx > canvas.width - ballRadius) {
+	if(ballX + ball.dx < ball.radius || ballX + ball.dx > canvas.width - ball.radius) {
 		// change direction of horizontal movement
-		dx = -dx;
+		ball.dx = -ball.dx;
 	}
 
 	// ball touches the bottom frame
-	if(ballY + dy > canvas.height - ballRadius){
+	if(ballY + ball.dy > canvas.height - ball.radius){
 
 		/* TEST */
 		// console.log('ballX: ', ballX);
@@ -195,7 +193,7 @@ function checkWallCollision() {
 		// ball is between left and right edges of the paddle
 		if(ballX > paddleX && ballX < paddleX + paddleWidth) {
 			// change direction of vertical movement
-			dy = -dy;
+			ball.dy = -ball.dy;
 
 			// increase speed
 			clearInterval(interval);
@@ -216,7 +214,7 @@ function checkWallCollision() {
 				gameOver = true;
 			} else {
 				lives--;
-				dy = -dy;
+				ball.dy = -ball.dy;
 			}
 		}
 	}
@@ -234,13 +232,13 @@ function checkBrickCollision() {
 				if(ballX > currBrick.x && ballX < currBrick.x + brickWidth) {
 
 					// ball is touching the top or bottom of the brick
-					if(ballY - ballRadius >= currBrick.y && ballY - ballRadius <= currBrick.y + brickHeight){
+					if(ballY - ball.radius >= currBrick.y && ballY - ball.radius <= currBrick.y + brickHeight){
 
 						// eliminate the brick
 						currBrick.status = 0;
 
 						// change vertical direction of the ball
-						dy = -dy;
+						ball.dy = -ball.dy;
 
 						// add 5 to the player's score
 						score += 5;
@@ -256,7 +254,7 @@ function draw() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 	// draw the ball
-	drawBall(ballX, ballY);
+	drawBall();
 
 	// draw the paddle
 	drawPaddle();
@@ -277,8 +275,8 @@ function draw() {
 	checkBrickCollision();
 
 	// set the next position of the ball
-	ballX += dx;
-	ballY += dy;
+	ballX += ball.dx;
+	ballY += ball.dy;
 
 	// set the next position of the paddle based on the keyboard input
 	if(rightPressed && paddleX < canvas.width - paddleWidth) {
