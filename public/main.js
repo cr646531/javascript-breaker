@@ -10,10 +10,6 @@ var gameOver = false;
 
 
 
-
-
-
-
 /* ------------------ BALL -------------------- */
 
 // dimensions
@@ -37,7 +33,6 @@ function drawBall() {
 	ctx.fill();
 	ctx.closePath();
 }
-
 
 
 
