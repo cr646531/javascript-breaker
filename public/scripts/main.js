@@ -175,7 +175,7 @@ function checkWallCollision() {
 			// change direction of vertical movement
 			ball.dy = -ball.dy;
 
-			increase speed
+			//increase speed
 			clearInterval(interval);
 			speed -= 0.25;
 			interval = setInterval(draw, speed)
