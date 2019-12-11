@@ -1,4 +1,5 @@
 import Ball from './ball.js';
+import Paddle from './paddle.js';
 
 var canvas = document.getElementById('myCanvas');
 var ctx = canvas.getContext('2d');
@@ -19,10 +20,8 @@ var gameOver = false;
 var ballX = canvas.width / 2;
 var ballY = canvas.height - 30;
 
+var ball = new Ball();
 
-var ball = new Ball(20, "red");
-
-console.log(ball);
 
 // draw the ball
 function drawBall() {
@@ -37,15 +36,16 @@ function drawBall() {
 
 /* ------------------- PADDLE -------------------- */
 
-// dimensions
-var paddleHeight = 10;
-var paddleWidth = 75;
+var paddle = new Paddle();
+// // dimensions
+// var paddleHeight = 10;
+// var paddleWidth = 75;
 
 // initial position
-var paddleX = (canvas.width - paddleWidth) / 2;
+var paddleX = (canvas.width - paddle.width) / 2;
 
-// controls the movement of the paddle
-var moveDistance = 7;
+// // controls the movement of the paddle
+// var moveDistance = 7;
 var rightPressed = false;
 var leftPressed = false;
 document.addEventListener("keydown", keyDownHandler);
@@ -70,16 +70,16 @@ function keyUpHandler(event) {
 
 function mouseMoveHandler(event) {
 	var relativeX = event.clientX - canvas.offsetLeft;
-	if(relativeX > paddleWidth / 2 && relativeX < canvas.width - paddleWidth / 2) {
-		paddleX = relativeX - paddleWidth / 2;
+	if(relativeX > paddle.width / 2 && relativeX < canvas.width - paddle.width / 2) {
+		paddleX = relativeX - paddle.width / 2;
 	}
 }
 
 // draw the paddle
 function drawPaddle() {
 	ctx.beginPath();
-	ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
-	ctx.fillStyle = "purple";
+	ctx.rect(paddleX, canvas.height - paddle.height, paddle.width, paddle.height);
+	ctx.fillStyle = paddle.color;
 	ctx.fill();
 	ctx.closePath();
 }
@@ -184,14 +184,8 @@ function checkWallCollision() {
 	// ball touches the bottom frame
 	if(ballY + ball.dy > canvas.height - ball.radius){
 
-		/* TEST */
-		// console.log('ballX: ', ballX);
-		// console.log('paddleX: ', paddleX);
-		// console.log('paddleWidth: ', paddleWidth);
-		// console.log('speed: ', speed);
-
 		// ball is between left and right edges of the paddle
-		if(ballX > paddleX && ballX < paddleX + paddleWidth) {
+		if(ballX > paddleX && ballX < paddleX + paddle.width) {
 			// change direction of vertical movement
 			ball.dy = -ball.dy;
 
@@ -279,10 +273,10 @@ function draw() {
 	ballY += ball.dy;
 
 	// set the next position of the paddle based on the keyboard input
-	if(rightPressed && paddleX < canvas.width - paddleWidth) {
-		paddleX += moveDistance;
+	if(rightPressed && paddleX < canvas.width - paddle.width) {
+		paddleX += paddle.distance;
 	} else if(leftPressed && paddleX > 0) {
-		paddleX -= moveDistance;
+		paddleX -= paddle.distance;
 	}
 
 	/* Gives control of the rendering to the browser */
