@@ -97,28 +97,6 @@ function mouseMoveHandler(event) {
 
 var brickLayout = new Bricks();
 var bricks = brickLayout.getArray();
-console.log(bricks);
-
-// var brickRowCount = 3;
-// var brickColumnCount = 5;
-// var brickWidth = 75;
-// var brickHeight = 20;
-// var brickPadding = 10;
-// var brickOffsetTop = 30;
-// var brickOffsetLeft = 30;
-
-
-// var bricks = [];
-// for (var i = 0; i < brickColumnCount; i++){
-// 	bricks[i] = [];
-// 	for(var j = 0; j < brickRowCount; j++){
-// 		bricks[i][j] = {
-// 			x: i * (brickWidth + brickPadding) + brickOffsetLeft, 
-// 			y: j * (brickHeight + brickPadding) + brickOffsetTop,
-// 			status: 1
-// 		};
-// 	}
-// }
 
 function drawBricks(){
 	for(var i = 0; i < brickLayout.columns; i++){
@@ -197,10 +175,13 @@ function checkWallCollision() {
 			// change direction of vertical movement
 			ball.dy = -ball.dy;
 
-			// increase speed
+			increase speed
 			clearInterval(interval);
 			speed -= 0.25;
 			interval = setInterval(draw, speed)
+
+			// // incease speed
+			// ball.increaseSpeed();
 
 			// add 1 to the player's score
 			score += 1;

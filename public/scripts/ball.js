@@ -7,4 +7,9 @@ export default class Ball {
 		this.dx = dx;
 		this.dy = dy;
 	}
+
+	increaseSpeed() {
+		this.dx += .25;
+		this.dy -= .25;
+	}
 }
