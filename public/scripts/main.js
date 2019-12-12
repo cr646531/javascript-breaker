@@ -16,12 +16,13 @@ var hit;
 
 
 /* ----------------------- GLOBAL VARIABLES ---------------------- */
+var level = 1;
 
 var ball = new Ball(canvas.width / 2, canvas.height - 30);
 var paddle = new Paddle();
 var brickLayout = new Bricks(level);
-var bricks = brickLayout.test();
-var level = 1;
+var bricks = brickLayout.getArray();
+
 var score = 0;
 var lives = 3;
 
@@ -127,7 +128,7 @@ function checkWin(){
 		speed = 10;
 		level++;
 		brickLayout = new Bricks(level);
-		bricks = brickLayout.test();
+		bricks = brickLayout.getArray();
 		drawBricks();
 	}
 }

@@ -15,22 +15,7 @@ export default class Bricks {
         this.leftOffset = leftOffset;
     }
 
-    getArray(){
-        var brickArray = [];
-        for (var i = 0; i < this.columns; i++){
-            brickArray[i] = [];
-            for(var j = 0; j < this.rows; j++){
-                brickArray[i][j] = {
-                    x: i * (this.width + this.padding) + this.leftOffset, 
-                    y: j * (this.height + this.padding) + this.topOffset,
-                    status: 1
-                };
-            }
-        }
-        return brickArray;
-    }
-
-    test() {
+    getArray() {
         var brickArray = [];
 
         if(this.columns <= 5){
@@ -39,10 +24,6 @@ export default class Bricks {
             padding = 10;
             this.width = (this.canvasWidth - (padding * (this.columns + 1))) / this.columns;
         }
-
-        
-
-        
 
         for(var i = 0; i < this.columns; i++){
             brickArray[i] = [];
