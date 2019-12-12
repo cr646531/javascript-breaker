@@ -3,6 +3,7 @@ import Paddle from './paddle.js';
 import Bricks from './bricks.js';
 import checkWallCollision from './wallCollision.js';
 import checkBrickCollision from './brickCollision.js';
+import Bomb from './bomb.js';
 
 var canvas = document.getElementById('myCanvas');
 var ctx = canvas.getContext('2d');
@@ -17,12 +18,14 @@ var advance = false;
 
 
 /* ----------------------- GLOBAL VARIABLES ---------------------- */
-var level = 1;
+var level = 0;
 var score = 0;
 var lives = 3;
 var extraBall = 0;
 var extraResult;
 var extraHit;
+var bomb = 0;
+var bombCollision;
 
 var ball = new Ball(canvas.width / 2, canvas.height - 30);
 var paddle = new Paddle();
@@ -77,6 +80,13 @@ function drawLives() {
 	ctx.fillText(`Lives: ${lives}`, canvas.width - 65, 20);
 }
 
+function drawBomb(bomb) {
+	ctx.font = "16px Arial";
+	ctx.fillStyle = bomb.color;
+	ctx.fillText('X', bomb.x, bomb.y);
+	
+}
+
 
 
 
@@ -115,6 +125,27 @@ function mouseMoveHandler(event) {
 
 
 
+
+/* ------------------- NEW LEVEL ----------------------- */
+
+function newLevel() {
+	level++;
+	brickLayout = new Bricks(level);
+	bricks = brickLayout.getArray();
+	drawBricks();
+	advance = false;
+
+	if(level < 5) {
+		extraBall = new Ball(canvas.width / 2, canvas.height - 30, 10, "purple", 0.5, -0.5, 2)
+	} else if(level == 5) {
+		bomb = new Bomb(canvas.width / 2, canvas.height - 30);
+	} else if(level == 10) {
+		bomb = 0;
+	}
+}
+
+
+
 /* -------------------- GAME LOGIC ---------------------- */
 
 
@@ -129,7 +160,6 @@ function checkConditions() {
 			alert(`GAME OVER!\n\nScore: ${score}`);
 			clearInterval(interval);
 			document.location.reload(false);
-			// gameOver = true;
 		} 			
 	} 
 
@@ -146,17 +176,24 @@ function checkConditions() {
 		speed -= 0.25;
 		interval = setInterval(draw, speed);
 	}
+
+	// if the bomb touched the paddle, the player loses a life
+	// if the player has no more lives, then the game ends
+	if(bomb == 1) {
+		if(lives > 0) {
+			lives--;
+		} else {
+			alert(`GAME OVER!\n\nScore: ${score}`);
+			clearInterval(interval);
+			document.location.reload(false);
+		} 
+	}
 	
 	// if the ball touched the paddle the player gains a point
 	// if all the bricks have been destroyed, the new level begins
 	if(result == 1) {
 		if(advance){
-			level++;
-			brickLayout = new Bricks(level);
-			bricks = brickLayout.getArray();
-			drawBricks();
-			advance = false;
-			extraBall = new Ball(canvas.width / 2, canvas.height - 30, 10, "purple", 0.5, -0.5, 2)
+			newLevel();
 		}
 		score++;
 	}
@@ -213,12 +250,21 @@ function draw() {
 	// check game conditions
 	checkConditions();
 
+	// dictates the movement of the extra ball
 	if(extraBall){
 		drawBall(extraBall);
 		extraResult = checkWallCollision(extraBall, paddle);
 		extraHit = checkBrickCollision(bricks, brickLayout, extraBall);
 		extraBall.x += extraBall.dx;
 		extraBall.y += extraBall.dy;
+	}
+
+	// dictates the movement of the bomb
+	if(bomb) {
+		drawBomb(bomb);
+		bombCollision = checkWallCollision(bomb, paddle);
+		bomb.x += bomb.dx;
+		bomb.y += bomb.dy;
 	}
 
 	// set the next position of the ball
