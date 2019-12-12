@@ -22,10 +22,11 @@ var level = 0;
 var score = 0;
 var lives = 3;
 var extraBall = 0;
-var extraResult;
+var extraCollision;
 var extraHit;
 var bomb = 0;
 var bombCollision;
+var randomNumberGenerator;
 
 var ball = new Ball(canvas.width / 2, canvas.height - 30);
 var paddle = new Paddle();
@@ -123,6 +124,11 @@ function mouseMoveHandler(event) {
 	}
 }
 
+/* ------------------- RANDOM NUMBER GENERATOR ------------------ */
+
+function getRandomInt(max) {
+	return Math.floor(Math.random() * Math.floor(max));
+}
 
 
 
@@ -135,13 +141,29 @@ function newLevel() {
 	drawBricks();
 	advance = false;
 
-	if(level < 5) {
-		extraBall = new Ball(canvas.width / 2, canvas.height - 30, 10, "purple", 0.5, -0.5, 2)
-	} else if(level == 5) {
-		bomb = new Bomb(canvas.width / 2, canvas.height - 30);
-	} else if(level == 10) {
+	// if the player ended a level with the bomb in tact, the player gets a longer paddle
+	if(bomb) {
+		paddle.width += 10;
 		bomb = 0;
 	}
+
+	// if the player ended a level with the extra ball in tact, the player gets 50 points
+	if(extraBall) {
+		score += 50;
+		extraBall = 0;
+	}
+
+	// determines, at random, which extra entities will spawn
+	randomNumberGenerator = getRandomInt(3);
+	if(randomNumberGenerator == 2) {
+		extraBall = new Ball(canvas.width / 2, canvas.height - 30, 10, "purple", 0.5, -0.5, 2)
+	}
+	randomNumberGenerator = getRandomInt(3);
+	if(randomNumberGenerator == 2) {
+		bomb = new Bomb(canvas.width / 2, canvas.height - 30);
+	}
+
+
 }
 
 
@@ -164,22 +186,23 @@ function checkConditions() {
 	} 
 
 	// if the extra ball touched the floor, the player loses the extra ball
-	if(extraResult == -1){
+	if(extraCollision == -1){
 		extraBall = 0;
 	}
 
 	// if the extra ball touched the paddle, the player gains a point and the speed increases
-	if(extraResult == 1){
+	if(extraCollision == 1){
 		score++;
 		// increase speed
 		clearInterval(interval);
 		speed -= 0.25;
 		interval = setInterval(draw, speed);
+		extraCollision = 0;
 	}
 
-	// if the bomb touched the paddle, the player loses a life
+	// if the bomb touched the paddle, the player loses a life && the bomb disappears
 	// if the player has no more lives, then the game ends
-	if(bomb == 1) {
+	if(bombCollision == 1) {
 		if(lives > 0) {
 			lives--;
 		} else {
@@ -187,6 +210,8 @@ function checkConditions() {
 			clearInterval(interval);
 			document.location.reload(false);
 		} 
+		bomb = 0;
+		bombCollision = 0;
 	}
 	
 	// if the ball touched the paddle the player gains a point
@@ -247,13 +272,10 @@ function draw() {
 	// returns false otherwise
 	hit = checkBrickCollision(bricks, brickLayout, ball);
 
-	// check game conditions
-	checkConditions();
-
 	// dictates the movement of the extra ball
 	if(extraBall){
 		drawBall(extraBall);
-		extraResult = checkWallCollision(extraBall, paddle);
+		extraCollision = checkWallCollision(extraBall, paddle);
 		extraHit = checkBrickCollision(bricks, brickLayout, extraBall);
 		extraBall.x += extraBall.dx;
 		extraBall.y += extraBall.dy;
@@ -266,6 +288,9 @@ function draw() {
 		bomb.x += bomb.dx;
 		bomb.y += bomb.dy;
 	}
+
+	// check game conditions
+	checkConditions();
 
 	// set the next position of the ball
 	ball.x += ball.dx;
