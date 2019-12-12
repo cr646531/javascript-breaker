@@ -13,18 +13,23 @@ var speed = 10;
 var interval = setInterval(draw, speed);
 var result;
 var hit;
+var advance = false;
 
 
 /* ----------------------- GLOBAL VARIABLES ---------------------- */
 var level = 1;
+var score = 0;
+var lives = 3;
+var extraBall = 0;
+var extraResult;
+var extraHit;
 
 var ball = new Ball(canvas.width / 2, canvas.height - 30);
 var paddle = new Paddle();
 var brickLayout = new Bricks(level);
 var bricks = brickLayout.getArray();
 
-var score = 0;
-var lives = 3;
+
 
 
 /* ------------------------ DRAW FUNCTIONS ------------------------- */
@@ -113,7 +118,61 @@ function mouseMoveHandler(event) {
 /* -------------------- GAME LOGIC ---------------------- */
 
 
-function checkWin(){
+function checkConditions() {
+
+	// if the ball touched the floor then the player loses a life
+	// if the player has no more lives, then the game ends
+	if(result == -1) {
+		if(lives > 0) {
+			lives--;
+		} else {
+			alert(`GAME OVER!\n\nScore: ${score}`);
+			clearInterval(interval);
+			document.location.reload(false);
+			// gameOver = true;
+		} 			
+	} 
+
+	// if the extra ball touched the floor, the player loses the extra ball
+	if(extraResult == -1){
+		extraBall = 0;
+	}
+
+	// if the extra ball touched the paddle, the player gains a point and the speed increases
+	if(extraResult == 1){
+		score++;
+		// increase speed
+		clearInterval(interval);
+		speed -= 0.25;
+		interval = setInterval(draw, speed);
+	}
+	
+	// if the ball touched the paddle the player gains a point
+	// if all the bricks have been destroyed, the new level begins
+	if(result == 1) {
+		if(advance){
+			level++;
+			brickLayout = new Bricks(level);
+			bricks = brickLayout.getArray();
+			drawBricks();
+			advance = false;
+			extraBall = new Ball(canvas.width / 2, canvas.height - 30, 10, "purple", 0.5, -0.5, 2)
+		}
+		score++;
+	}
+
+	// if the player destroyed a brick, the player gains five points
+	if(hit){
+		score += 5;
+	}
+
+	// if the player destroyed a brick with the extra ball, the player gains 10 points
+	if(extraHit){
+		score += 10;
+	}
+
+	// if there are no bricks remaining, the player is ready to advance
+	// the new level will begin once the ball touches the players paddle
 	var flag = 0;
 
 	for(var i = 0; i < brickLayout.columns; i++){
@@ -125,12 +184,9 @@ function checkWin(){
 	}
 
 	if(flag === 0){
-		speed = 10;
-		level++;
-		brickLayout = new Bricks(level);
-		bricks = brickLayout.getArray();
-		drawBricks();
+		advance = true;
 	}
+
 }
 
 
@@ -149,39 +205,25 @@ function draw() {
 	// returns 0 otherwise
 	result = checkWallCollision(ball, paddle);
 
-	// ball touched floor
-	if(result == -1){
-		// the player has no lives left
-		if(lives === 0){
-			// game over
-			alert(`GAME OVER!\n\nScore: ${score}`);
-			clearInterval(interval);
-			document.location.reload(false);
-			gameOver = true;
-		} else {
-			// player loses a life
-			lives--;
-		}
-	// ball hit the paddle
-	} else if(result == 1) {
-		// player gets points
-		score++;
-	}
-
-	// function returns a true or false to determine if a brick was hit
+	
+	// returns true if a brick was hit
+	// returns false otherwise
 	hit = checkBrickCollision(bricks, brickLayout, ball);
 
-	if(hit){
-		score += 5;
-	}
+	// check game conditions
+	checkConditions();
 
-	// check win
-	checkWin();
+	if(extraBall){
+		drawBall(extraBall);
+		extraResult = checkWallCollision(extraBall, paddle);
+		extraHit = checkBrickCollision(bricks, brickLayout, extraBall);
+		extraBall.x += extraBall.dx;
+		extraBall.y += extraBall.dy;
+	}
 
 	// set the next position of the ball
 	ball.x += ball.dx;
 	ball.y += ball.dy;
-
 
 	// set the next position of the paddle based on the keyboard input
 	if(rightPressed && paddle.position < canvas.width - paddle.width) {
@@ -190,8 +232,4 @@ function draw() {
 		paddle.position -= paddle.distance;
 	}
 
-	/* Gives control of the rendering to the browser */
-	// requestAnimationFrame(draw);
 }
-
-// draw();
