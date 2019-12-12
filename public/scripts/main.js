@@ -15,18 +15,19 @@ var result;
 var hit;
 
 
-
-
-/* ------------------ BALL -------------------- */
-
-
-// initial position
-// var ball.x = canvas.width / 2;
-// var ball.y = canvas.height - 30;
+/* ----------------------- GLOBAL VARIABLES ---------------------- */
 
 var ball = new Ball(canvas.width / 2, canvas.height - 30);
+var paddle = new Paddle();
+var brickLayout = new Bricks(level);
+var bricks = brickLayout.test();
+var level = 1;
+var score = 0;
+var lives = 3;
 
-// draw the ball
+
+/* ------------------------ DRAW FUNCTIONS ------------------------- */
+
 function drawBall(ball) {
 	ctx.beginPath();
 	ctx.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);
@@ -35,14 +36,6 @@ function drawBall(ball) {
 	ctx.closePath();
 }
 
-
-
-
-/* ------------------- PADDLE -------------------- */
-
-var paddle = new Paddle();
-
-// draw the paddle
 function drawPaddle() {
 	ctx.beginPath();
 	ctx.rect(paddle.position, canvas.height - paddle.height, paddle.width, paddle.height);
@@ -51,10 +44,37 @@ function drawPaddle() {
 	ctx.closePath();
 }
 
+function drawBricks() {
+	for(var i = 0; i < brickLayout.columns; i++){
+		for(var j = 0; j < brickLayout.rows; j++){
+			var currBrick = bricks[i][j];
+			if(currBrick.status == 1){
+				ctx.beginPath();
+				ctx.rect(currBrick.x, currBrick.y, brickLayout.width, brickLayout.height);
+				ctx.fillStyle = brickLayout.color;
+				ctx.fill();
+				ctx.closePath();
+			}
+		}
+	}
+}
+
+function drawScore() {
+	ctx.font = "16px Arial";
+	ctx.fillStyle = "black";
+	ctx.fillText(`Score: ${score}`, 8, 20);
+}
+
+function drawLives() {
+	ctx.font = "16px Arial";
+	ctx.fillStyle = "black";
+	ctx.fillText(`Lives: ${lives}`, canvas.width - 65, 20);
+}
 
 
 
-/* -------------------- KEYBOARD INPUT ------------------------ */
+
+/* ------------------------ KEYBOARD INPUT ---------------------------- */
 
 // // controls the movement of the paddle
 var rightPressed = false;
@@ -89,97 +109,8 @@ function mouseMoveHandler(event) {
 
 
 
-
-
-
-
-/* ------------------- BRICKS --------------------- */
-
-var level = 1;
-
-var brickLayout = new Bricks(level);
-var bricks = brickLayout.test();
-
-function drawBricks(){
-	for(var i = 0; i < brickLayout.columns; i++){
-		for(var j = 0; j < brickLayout.rows; j++){
-
-			var currBrick = bricks[i][j];
-
-			if(currBrick.status == 1){
-				ctx.beginPath();
-				ctx.rect(currBrick.x, currBrick.y, brickLayout.width, brickLayout.height);
-				ctx.fillStyle = brickLayout.color;
-				ctx.fill();
-				ctx.closePath();
-			}
-		}
-	}
-}
-
-
-
-
-
-/* -------------------- SCORE --------------------- */
-
-var score = 0;
-
-function drawScore() {
-	ctx.font = "16px Arial";
-	ctx.fillStyle = "black";
-	ctx.fillText(`Score: ${score}`, 8, 20);
-}
-
-
-
-
-
-/* -------------------- LIVES --------------------- */
-
-var lives = 3;
-
-function drawLives() {
-	ctx.font = "16px Arial";
-	ctx.fillStyle = "black";
-	ctx.fillText(`Lives: ${lives}`, canvas.width - 65, 20);
-}
-
-
-
-
 /* -------------------- GAME LOGIC ---------------------- */
 
-
-
-// function checkBrickCollision() {
-// 	for(var i = 0; i < brickLayout.columns; i++){
-// 		for(var j = 0; j < brickLayout.rows; j++){
-// 			var currBrick = bricks[i][j];
-
-// 			// brick is active
-// 			if(currBrick.status == 1){
-
-// 				// ball is between beginning and end of brick
-// 				if(ball.x > currBrick.x && ball.x < currBrick.x + brickLayout.width) {
-
-// 					// ball is touching the top or bottom of the brick
-// 					if(ball.y - ball.radius >= currBrick.y && ball.y - ball.radius <= currBrick.y + brickLayout.height){
-
-// 						// eliminate the brick
-// 						currBrick.status = 0;
-
-// 						// change vertical direction of the ball
-// 						ball.dy = -ball.dy;
-
-// 						// add 5 to the player's score
-// 						score += 5;
-// 					}	
-// 				}
-// 			}
-// 		}
-// 	}
-// }
 
 function checkWin(){
 	var flag = 0;
@@ -200,6 +131,7 @@ function checkWin(){
 		drawBricks();
 	}
 }
+
 
 function draw() {
 	// clear the canvas
