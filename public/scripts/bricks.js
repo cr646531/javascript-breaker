@@ -1,5 +1,5 @@
 export default class Bricks {
-    constructor(rows = 3, columns = 5, color = "red", padding = 10, width = 75, height = 20, topOffset = 30, leftOffset = 30) {
+    constructor(columns = 5, rows = 3, color = "red", padding = 10, width = 75, height = 20, topOffset = 30, leftOffset = 30) {
         this.canvasWidth = 480;
         this.canvasHeight = 320
 

@@ -18,16 +18,15 @@ var gameOver = false;
 
 
 // initial position
-var ballX = canvas.width / 2;
-var ballY = canvas.height - 30;
+// var ball.x = canvas.width / 2;
+// var ball.y = canvas.height - 30;
 
-var ball = new Ball();
-
+var ball = new Ball(canvas.width / 2, canvas.height - 30);
 
 // draw the ball
 function drawBall() {
 	ctx.beginPath();
-	ctx.arc(ballX, ballY, ball.radius, ball.sAngle, ball.eAngle);
+	ctx.arc(ball.x, ball.y, ball.radius, ball.sAngle, ball.eAngle);
 	ctx.fillStyle = ball.color;
 	ctx.fill();
 	ctx.closePath();
@@ -39,13 +38,10 @@ function drawBall() {
 
 var paddle = new Paddle();
 
-// initial position
-var paddleX = (canvas.width - paddle.width) / 2;
-
 // draw the paddle
 function drawPaddle() {
 	ctx.beginPath();
-	ctx.rect(paddleX, canvas.height - paddle.height, paddle.width, paddle.height);
+	ctx.rect(paddle.position, canvas.height - paddle.height, paddle.width, paddle.height);
 	ctx.fillStyle = paddle.color;
 	ctx.fill();
 	ctx.closePath();
@@ -83,7 +79,7 @@ function keyUpHandler(event) {
 function mouseMoveHandler(event) {
 	var relativeX = event.clientX - canvas.offsetLeft;
 	if(relativeX > paddle.width / 2 && relativeX < canvas.width - paddle.width / 2) {
-		paddleX = relativeX - paddle.width / 2;
+		paddle.position = relativeX - paddle.width / 2;
 	}
 }
 
@@ -95,7 +91,9 @@ function mouseMoveHandler(event) {
 
 /* ------------------- BRICKS --------------------- */
 
-var brickLayout = new Bricks(3, 20);
+var level = 1;
+
+var brickLayout = new Bricks(level);
 var bricks = brickLayout.test();
 
 function drawBricks(){
@@ -156,51 +154,47 @@ function checkWallCollision() {
 	}
 
 	// ball touches top edge
-	if(ballY + ball.dy < ball.radius) {
-		// change direction of vertical movement
+	if(ball.y + ball.dy < ball.radius) {
 		ball.dy = -ball.dy;
 	}
 
 	// ball touches left or right edge
-	if(ballX + ball.dx < ball.radius || ballX + ball.dx > canvas.width - ball.radius) {
-		// change direction of horizontal movement
+	if(ball.x + ball.dx < ball.radius || ball.x + ball.dx > canvas.width - ball.radius) {
 		ball.dx = -ball.dx;
 	}
 
 	// ball touches the bottom frame
-	if(ballY + ball.dy > canvas.height - ball.radius){
+	if(ball.y + ball.dy > canvas.height - ball.radius){
 
 		// ball is between left and right edges of the paddle
-		if(ballX > paddleX && ballX < paddleX + paddle.width) {
+		if(ball.x > paddle.position && ball.x < paddle.position + paddle.width) {
+
 			// change direction of vertical movement
 			ball.dy = -ball.dy;
+			// increase score
+			score += 1;
 
 			//increase speed
-			clearInterval(interval);
-			speed -= 0.25;
-			interval = setInterval(draw, speed)
+			// clearInterval(interval);
+			// speed -= 0.10;
+			// interval = setInterval(draw, speed)
 
-			// // incease speed
+			//incease speed
 			// ball.increaseSpeed();
 
-			// add 1 to the player's score
-			score += 1;
-		// ball hit the bottom edge
 		} else {
 
 			// check to see if player has any lives remaining
 			if(lives === 0){
-				// game over
-				alert(`GAME OVER!\n\nScore: ${score}`);
-				clearInterval(interval);
-				document.location.reload(false);
-				gameOver = true;
+				return true;
 			} else {
 				lives--;
 				ball.dy = -ball.dy;
 			}
 		}
 	}
+
+	return false;
 }
 
 function checkBrickCollision() {
@@ -212,10 +206,10 @@ function checkBrickCollision() {
 			if(currBrick.status == 1){
 
 				// ball is between beginning and end of brick
-				if(ballX > currBrick.x && ballX < currBrick.x + brickLayout.width) {
+				if(ball.x > currBrick.x && ball.x < currBrick.x + brickLayout.width) {
 
 					// ball is touching the top or bottom of the brick
-					if(ballY - ball.radius >= currBrick.y && ballY - ball.radius <= currBrick.y + brickLayout.height){
+					if(ball.y - ball.radius >= currBrick.y && ball.y - ball.radius <= currBrick.y + brickLayout.height){
 
 						// eliminate the brick
 						currBrick.status = 0;
@@ -232,40 +226,63 @@ function checkBrickCollision() {
 	}
 }
 
+function checkWin(){
+	var flag = 0;
+
+	for(var i = 0; i < brickLayout.columns; i++){
+		for(var j = 0; j < brickLayout.rows; j++){
+			if(bricks[i][j].status === 1){
+				flag = 1;
+			}
+		}
+	}
+
+	if(flag === 0){
+		speed = 10;
+		level++;
+		brickLayout = new Bricks(level);
+		bricks = brickLayout.test();
+		drawBricks();
+	}
+}
+
 function draw() {
 	// clear the canvas
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-	// draw the ball
+
 	drawBall();
-
-	// draw the paddle
 	drawPaddle();
-
-	// draw the bricks
 	drawBricks();
-
-	// draw the score
 	drawScore();
-
-	// draw lives
 	drawLives();
 
 	// detect wall collision
-	checkWallCollision();
+	gameOver = checkWallCollision();
+
+	if(gameOver){
+		// game over
+		alert(`GAME OVER!\n\nScore: ${score}`);
+		clearInterval(interval);
+		document.location.reload(false);
+		gameOver = true;
+	}
 
 	// detect brick collision
 	checkBrickCollision();
 
+	// check win
+	checkWin();
+
 	// set the next position of the ball
-	ballX += ball.dx;
-	ballY += ball.dy;
+	ball.x += ball.dx;
+	ball.y += ball.dy;
 
 	// set the next position of the paddle based on the keyboard input
-	if(rightPressed && paddleX < canvas.width - paddle.width) {
-		paddleX += paddle.distance;
-	} else if(leftPressed && paddleX > 0) {
-		paddleX -= paddle.distance;
+	if(rightPressed && paddle.position < canvas.width - paddle.width) {
+		paddle.position += paddle.distance;
+	} else if(leftPressed && paddle.position > 0) {
+		paddle.position -= paddle.distance;
 	}
 
 	/* Gives control of the rendering to the browser */
