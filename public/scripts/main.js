@@ -1,6 +1,7 @@
 import Ball from './ball.js';
 import Paddle from './paddle.js';
 import Bricks from './bricks.js';
+import checkWallCollision from './wallCollision.js';
 
 var canvas = document.getElementById('myCanvas');
 var ctx = canvas.getContext('2d');
@@ -9,7 +10,7 @@ var ctx = canvas.getContext('2d');
 // update the canvas every 10ms
 var speed = 10;
 var interval = setInterval(draw, speed);
-var gameOver = false;
+var result;
 
 
 
@@ -24,13 +25,14 @@ var gameOver = false;
 var ball = new Ball(canvas.width / 2, canvas.height - 30);
 
 // draw the ball
-function drawBall() {
+function drawBall(ball) {
 	ctx.beginPath();
-	ctx.arc(ball.x, ball.y, ball.radius, ball.sAngle, ball.eAngle);
+	ctx.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);
 	ctx.fillStyle = ball.color;
 	ctx.fill();
 	ctx.closePath();
 }
+
 
 
 
@@ -146,56 +148,48 @@ function drawLives() {
 
 /* -------------------- GAME LOGIC ---------------------- */
 
-function checkWallCollision() {
+// function checkWallCollision(ball) {
 
-	// check end condition
-	if(gameOver){
-		return;
-	}
+// 	// // check end condition
+// 	// if(gameOver){
+// 	// 	return;
+// 	// }
 
-	// ball touches top edge
-	if(ball.y + ball.dy < ball.radius) {
-		ball.dy = -ball.dy;
-	}
+// 	// ball touches top edge
+// 	if(ball.y + ball.dy < ball.radius) {
+// 		ball.dy = -ball.dy;
+// 	}
 
-	// ball touches left or right edge
-	if(ball.x + ball.dx < ball.radius || ball.x + ball.dx > canvas.width - ball.radius) {
-		ball.dx = -ball.dx;
-	}
+// 	// ball touches left or right edge
+// 	if(ball.x + ball.dx < ball.radius || ball.x + ball.dx > canvas.width - ball.radius) {
+// 		ball.dx = -ball.dx;
+// 	}
 
-	// ball touches the bottom frame
-	if(ball.y + ball.dy > canvas.height - ball.radius){
+// 	// ball touches the bottom frame
+// 	if(ball.y + ball.dy > canvas.height - ball.radius){
 
-		// ball is between left and right edges of the paddle
-		if(ball.x > paddle.position && ball.x < paddle.position + paddle.width) {
+// 		// ball is between left and right edges of the paddle
+// 		if(ball.x > paddle.position && ball.x < paddle.position + paddle.width) {
 
-			// change direction of vertical movement
-			ball.dy = -ball.dy;
-			// increase score
-			score += 1;
+// 			// change direction of vertical movement
+// 			ball.dy = -ball.dy;
+// 			// increase score
+// 			score += 1;
 
-			//increase speed
-			// clearInterval(interval);
-			// speed -= 0.10;
-			// interval = setInterval(draw, speed)
+// 			//increase speed
+// 			// clearInterval(interval);
+// 			// speed -= 0.10;
+// 			// interval = setInterval(draw, speed)
 
-			//incease speed
-			// ball.increaseSpeed();
-
-		} else {
-
-			// check to see if player has any lives remaining
-			if(lives === 0){
-				return true;
-			} else {
-				lives--;
-				ball.dy = -ball.dy;
-			}
-		}
-	}
-
-	return false;
-}
+// 			//incease speed
+// 			// ball.increaseSpeed();
+// 		} else {
+// 			ball.dy = -ball.dy;
+// 			return true;
+// 		}
+// 	}
+// 	return false;
+// }
 
 function checkBrickCollision() {
 	for(var i = 0; i < brickLayout.columns; i++){
@@ -250,22 +244,32 @@ function draw() {
 	// clear the canvas
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-
-	drawBall();
+	drawBall(ball);
 	drawPaddle();
 	drawBricks();
 	drawScore();
 	drawLives();
 
 	// detect wall collision
-	gameOver = checkWallCollision();
+	result = checkWallCollision(ball, paddle);
 
-	if(gameOver){
-		// game over
-		alert(`GAME OVER!\n\nScore: ${score}`);
-		clearInterval(interval);
-		document.location.reload(false);
-		gameOver = true;
+	// ball touched floor
+	if(result == -1){
+		// check to see if the player has any lives
+		if(lives === 0){
+			// game over
+			alert(`GAME OVER!\n\nScore: ${score}`);
+			clearInterval(interval);
+			document.location.reload(false);
+			gameOver = true;
+		} else {
+			// player loses a life
+			lives--;
+		}
+	// ball hit the paddle
+	} else if(result == 1) {
+		// player gets points
+		score++;
 	}
 
 	// detect brick collision
@@ -277,6 +281,7 @@ function draw() {
 	// set the next position of the ball
 	ball.x += ball.dx;
 	ball.y += ball.dy;
+
 
 	// set the next position of the paddle based on the keyboard input
 	if(rightPressed && paddle.position < canvas.width - paddle.width) {
