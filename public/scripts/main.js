@@ -95,8 +95,8 @@ function mouseMoveHandler(event) {
 
 /* ------------------- BRICKS --------------------- */
 
-var brickLayout = new Bricks();
-var bricks = brickLayout.getArray();
+var brickLayout = new Bricks(3, 20);
+var bricks = brickLayout.test();
 
 function drawBricks(){
 	for(var i = 0; i < brickLayout.columns; i++){
