@@ -143,12 +143,14 @@ function draw() {
 	drawScore();
 	drawLives();
 
-	// detect wall collision
+	// returns 1 if the ball hit the paddle
+	// returns -1 if the ball hit the ground
+	// returns 0 otherwise
 	result = checkWallCollision(ball, paddle);
 
 	// ball touched floor
 	if(result == -1){
-		// check to see if the player has any lives
+		// the player has no lives left
 		if(lives === 0){
 			// game over
 			alert(`GAME OVER!\n\nScore: ${score}`);
