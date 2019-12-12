@@ -18,25 +18,29 @@ var interval = setInterval(draw, speed);
 
 
 /* ----------------------- GLOBAL VARIABLES ---------------------- */
-var level = 0;
-var score = 0;
-var lives = 3;
+var global = {
+	level: 0,
+	score: 0,
+	lives: 3,
 
-// level generator variables
-var advance = false;
-var randomNumberGenerator;
+	//level generator variables
+	advance: false,
+	randomNumberGenerator: null,
 
-// collision detection variables
-var ballWallCollision;
-var ballBrickCollision;
-var extraBallWallCollision;
-var extraBallBrickCollision;
-var bombCollision;
+	// collision detection variables
+	ballWallCollision: 0,
+	ballBrickCollision: 0,
+	extraBallWallCollision: 0,
+	extraBallBrickCollision: 0,
+	bombCollision: 0,
+}
+
+
 
 // entity variables
 var ball = new Ball(canvas.width / 2, canvas.height - 30);
 var paddle = new Paddle();
-var brickLayout = new Bricks(level);
+var brickLayout = new Bricks(global.level);
 var bricks = brickLayout.getArray();
 
 // extra entity variables
@@ -84,13 +88,13 @@ function drawBricks() {
 function drawScore() {
 	ctx.font = "16px Arial";
 	ctx.fillStyle = "black";
-	ctx.fillText(`Score: ${score}`, 8, 20);
+	ctx.fillText(`Score: ${global.score}`, 8, 20);
 }
 
 function drawLives() {
 	ctx.font = "16px Arial";
 	ctx.fillStyle = "black";
-	ctx.fillText(`Lives: ${lives}`, canvas.width - 65, 20);
+	ctx.fillText(`Lives: ${global.lives}`, canvas.width - 65, 20);
 }
 
 function drawBomb(bomb) {
@@ -147,11 +151,11 @@ function getRandomInt(max) {
 /* ------------------- NEW LEVEL ----------------------- */
 
 function newLevel() {
-	level++;
-	brickLayout = new Bricks(level);
+	global.level++;
+	brickLayout = new Bricks(global.level);
 	bricks = brickLayout.getArray();
 	drawBricks();
-	advance = false;
+	global.advance = false;
 
 	// if the player ended a level with the bomb in tact, the player gets a longer paddle
 	if(bomb) {
@@ -161,17 +165,17 @@ function newLevel() {
 
 	// if the player ended a level with the extra ball in tact, the player gets 50 points
 	if(extraBall) {
-		score += 50;
+		global.score += 50;
 		extraBall = 0;
 	}
 
 	// determines, at random, which extra entities will spawn
-	randomNumberGenerator = getRandomInt(3);
-	if(randomNumberGenerator == 2) {
+	global.randomNumberGenerator = getRandomInt(3);
+	if(global.randomNumberGenerator == 2) {
 		extraBall = new Ball(canvas.width / 2, canvas.height - 30, 10, "purple", 0.5, -0.5, 2)
 	}
-	randomNumberGenerator = getRandomInt(3);
-	if(randomNumberGenerator == 2) {
+	global.randomNumberGenerator = getRandomInt(3);
+	if(global.randomNumberGenerator == 2) {
 		bomb = new Bomb(canvas.width / 2, canvas.height - 30);
 	}
 
@@ -187,62 +191,62 @@ function checkConditions() {
 
 	// if the ball touched the floor then the player loses a life
 	// if the player has no more lives, then the game ends
-	if(ballWallCollision) == -1) {
-		if(lives > 0) {
-			lives--;
+	if(global.ballWallCollision == -1) {
+		if(global.lives > 0) {
+			global.lives--;
 		} else {
-			alert(`GAME OVER!\n\nScore: ${score}`);
+			alert(`GAME OVER!\n\nScore: ${global.score}`);
 			clearInterval(interval);
 			document.location.reload(false);
 		} 			
 	} 
 
 	// if the extra ball touched the floor, the player loses the extra ball
-	if(extraBallWallCollision == -1){
+	if(global.extraBallWallCollision == -1){
 		extraBall = 0;
 	}
 
 	// if the extra ball touched the paddle, the player gains a point and the speed increases
-	if(extraBallWallCollision == 1){
-		score++;
+	if(global.extraBallWallCollision == 1){
+		global.score++;
 		// increase speed
 		clearInterval(interval);
 		speed -= 0.25;
 		interval = setInterval(draw, speed);
-		extraBallWallCollision = 0;
+		global.extraBallWallCollision = 0;
 	}
 
 	// if the bomb touched the paddle, the player loses a life && the bomb disappears
 	// if the player has no more lives, then the game ends
-	if(bombCollision == 1) {
-		if(lives > 0) {
-			lives--;
+	if(global.bombCollision == 1) {
+		if(global.lives > 0) {
+			global.lives--;
 		} else {
-			alert(`GAME OVER!\n\nScore: ${score}`);
+			alert(`GAME OVER!\n\nScore: ${global.score}`);
 			clearInterval(interval);
 			document.location.reload(false);
 		} 
 		bomb = 0;
-		bombCollision = 0;
+		global.bombCollision = 0;
 	}
 	
 	// if the ball touched the paddle the player gains a point
 	// if all the bricks have been destroyed, the new level begins
-	if(ballWallCollision == 1) {
-		if(advance){
+	if(global.ballWallCollision == 1) {
+		if(global.advance){
 			newLevel();
 		}
-		score++;
+		global.score++;
 	}
 
 	// if the player destroyed a brick, the player gains five points
-	if(ballBrickCollision){
-		score += 5;
+	if(global.ballBrickCollision){
+		global.score += 5;
 	}
 
 	// if the player destroyed a brick with the extra ball, the player gains 10 points
-	if(extraBallBrickCollision){
-		score += 10;
+	if(global.extraBallBrickCollision){
+		global.score += 10;
 	}
 
 	// if there are no bricks remaining, the player is ready to advance
@@ -258,7 +262,7 @@ function checkConditions() {
 	}
 
 	if(flag === 0){
-		advance = true;
+		global.advance = true;
 	}
 
 }
@@ -277,18 +281,18 @@ function draw() {
 	// returns 1 if the ball hit the paddle
 	// returns -1 if the ball hit the ground
 	// returns 0 otherwise
-	ballWallCollision = checkWallCollision(ball, paddle);
+	global.ballWallCollision = checkWallCollision(ball, paddle);
 
 	
 	// returns true if a brick was hit
 	// returns false otherwise
-	ballBrickCollision = checkBrickCollision(bricks, brickLayout, ball);
+	global.ballBrickCollision = checkBrickCollision(bricks, brickLayout, ball);
 
 	// dictates the movement of the extra ball
 	if(extraBall){
 		drawBall(extraBall);
-		extraBallWallCollision = checkWallCollision(extraBall, paddle);
-		extraBallBrickCollision = checkBrickCollision(bricks, brickLayout, extraBall);
+		global.extraBallWallCollision = checkWallCollision(extraBall, paddle);
+		global.extraBallBrickCollision = checkBrickCollision(bricks, brickLayout, extraBall);
 		extraBall.x += extraBall.dx;
 		extraBall.y += extraBall.dy;
 	}
@@ -296,7 +300,7 @@ function draw() {
 	// dictates the movement of the bomb
 	if(bomb) {
 		drawBomb(bomb);
-		bombCollision = checkWallCollision(bomb, paddle);
+		global.bombCollision = checkWallCollision(bomb, paddle);
 		bomb.x += bomb.dx;
 		bomb.y += bomb.dy;
 	}
