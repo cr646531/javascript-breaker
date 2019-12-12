@@ -12,26 +12,38 @@ var ctx = canvas.getContext('2d');
 // update the canvas every 10ms
 var speed = 10;
 var interval = setInterval(draw, speed);
-var result;
-var hit;
-var advance = false;
+
+
+
 
 
 /* ----------------------- GLOBAL VARIABLES ---------------------- */
 var level = 0;
 var score = 0;
 var lives = 3;
-var extraBall = 0;
-var extraCollision;
-var extraHit;
-var bomb = 0;
-var bombCollision;
+
+// level generator variables
+var advance = false;
 var randomNumberGenerator;
 
+// collision detection variables
+var ballWallCollision;
+var ballBrickCollision;
+var extraBallWallCollision;
+var extraBallBrickCollision;
+var bombCollision;
+
+// entity variables
 var ball = new Ball(canvas.width / 2, canvas.height - 30);
 var paddle = new Paddle();
 var brickLayout = new Bricks(level);
 var bricks = brickLayout.getArray();
+
+// extra entity variables
+var extraBall = 0;
+var bomb = 0;
+
+
 
 
 
@@ -175,7 +187,7 @@ function checkConditions() {
 
 	// if the ball touched the floor then the player loses a life
 	// if the player has no more lives, then the game ends
-	if(result == -1) {
+	if(ballWallCollision) == -1) {
 		if(lives > 0) {
 			lives--;
 		} else {
@@ -186,18 +198,18 @@ function checkConditions() {
 	} 
 
 	// if the extra ball touched the floor, the player loses the extra ball
-	if(extraCollision == -1){
+	if(extraBallWallCollision == -1){
 		extraBall = 0;
 	}
 
 	// if the extra ball touched the paddle, the player gains a point and the speed increases
-	if(extraCollision == 1){
+	if(extraBallWallCollision == 1){
 		score++;
 		// increase speed
 		clearInterval(interval);
 		speed -= 0.25;
 		interval = setInterval(draw, speed);
-		extraCollision = 0;
+		extraBallWallCollision = 0;
 	}
 
 	// if the bomb touched the paddle, the player loses a life && the bomb disappears
@@ -216,7 +228,7 @@ function checkConditions() {
 	
 	// if the ball touched the paddle the player gains a point
 	// if all the bricks have been destroyed, the new level begins
-	if(result == 1) {
+	if(ballWallCollision == 1) {
 		if(advance){
 			newLevel();
 		}
@@ -224,12 +236,12 @@ function checkConditions() {
 	}
 
 	// if the player destroyed a brick, the player gains five points
-	if(hit){
+	if(ballBrickCollision){
 		score += 5;
 	}
 
 	// if the player destroyed a brick with the extra ball, the player gains 10 points
-	if(extraHit){
+	if(extraBallBrickCollision){
 		score += 10;
 	}
 
@@ -265,18 +277,18 @@ function draw() {
 	// returns 1 if the ball hit the paddle
 	// returns -1 if the ball hit the ground
 	// returns 0 otherwise
-	result = checkWallCollision(ball, paddle);
+	ballWallCollision = checkWallCollision(ball, paddle);
 
 	
 	// returns true if a brick was hit
 	// returns false otherwise
-	hit = checkBrickCollision(bricks, brickLayout, ball);
+	ballBrickCollision = checkBrickCollision(bricks, brickLayout, ball);
 
 	// dictates the movement of the extra ball
 	if(extraBall){
 		drawBall(extraBall);
-		extraCollision = checkWallCollision(extraBall, paddle);
-		extraHit = checkBrickCollision(bricks, brickLayout, extraBall);
+		extraBallWallCollision = checkWallCollision(extraBall, paddle);
+		extraBallBrickCollision = checkBrickCollision(bricks, brickLayout, extraBall);
 		extraBall.x += extraBall.dx;
 		extraBall.y += extraBall.dy;
 	}
