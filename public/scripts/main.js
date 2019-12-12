@@ -2,6 +2,7 @@ import Ball from './ball.js';
 import Paddle from './paddle.js';
 import Bricks from './bricks.js';
 import checkWallCollision from './wallCollision.js';
+import checkBrickCollision from './brickCollision.js';
 
 var canvas = document.getElementById('myCanvas');
 var ctx = canvas.getContext('2d');
@@ -11,6 +12,7 @@ var ctx = canvas.getContext('2d');
 var speed = 10;
 var interval = setInterval(draw, speed);
 var result;
+var hit;
 
 
 
@@ -148,77 +150,36 @@ function drawLives() {
 
 /* -------------------- GAME LOGIC ---------------------- */
 
-// function checkWallCollision(ball) {
 
-// 	// // check end condition
-// 	// if(gameOver){
-// 	// 	return;
-// 	// }
 
-// 	// ball touches top edge
-// 	if(ball.y + ball.dy < ball.radius) {
-// 		ball.dy = -ball.dy;
-// 	}
+// function checkBrickCollision() {
+// 	for(var i = 0; i < brickLayout.columns; i++){
+// 		for(var j = 0; j < brickLayout.rows; j++){
+// 			var currBrick = bricks[i][j];
 
-// 	// ball touches left or right edge
-// 	if(ball.x + ball.dx < ball.radius || ball.x + ball.dx > canvas.width - ball.radius) {
-// 		ball.dx = -ball.dx;
-// 	}
+// 			// brick is active
+// 			if(currBrick.status == 1){
 
-// 	// ball touches the bottom frame
-// 	if(ball.y + ball.dy > canvas.height - ball.radius){
+// 				// ball is between beginning and end of brick
+// 				if(ball.x > currBrick.x && ball.x < currBrick.x + brickLayout.width) {
 
-// 		// ball is between left and right edges of the paddle
-// 		if(ball.x > paddle.position && ball.x < paddle.position + paddle.width) {
+// 					// ball is touching the top or bottom of the brick
+// 					if(ball.y - ball.radius >= currBrick.y && ball.y - ball.radius <= currBrick.y + brickLayout.height){
 
-// 			// change direction of vertical movement
-// 			ball.dy = -ball.dy;
-// 			// increase score
-// 			score += 1;
+// 						// eliminate the brick
+// 						currBrick.status = 0;
 
-// 			//increase speed
-// 			// clearInterval(interval);
-// 			// speed -= 0.10;
-// 			// interval = setInterval(draw, speed)
+// 						// change vertical direction of the ball
+// 						ball.dy = -ball.dy;
 
-// 			//incease speed
-// 			// ball.increaseSpeed();
-// 		} else {
-// 			ball.dy = -ball.dy;
-// 			return true;
+// 						// add 5 to the player's score
+// 						score += 5;
+// 					}	
+// 				}
+// 			}
 // 		}
 // 	}
-// 	return false;
 // }
-
-function checkBrickCollision() {
-	for(var i = 0; i < brickLayout.columns; i++){
-		for(var j = 0; j < brickLayout.rows; j++){
-			var currBrick = bricks[i][j];
-
-			// brick is active
-			if(currBrick.status == 1){
-
-				// ball is between beginning and end of brick
-				if(ball.x > currBrick.x && ball.x < currBrick.x + brickLayout.width) {
-
-					// ball is touching the top or bottom of the brick
-					if(ball.y - ball.radius >= currBrick.y && ball.y - ball.radius <= currBrick.y + brickLayout.height){
-
-						// eliminate the brick
-						currBrick.status = 0;
-
-						// change vertical direction of the ball
-						ball.dy = -ball.dy;
-
-						// add 5 to the player's score
-						score += 5;
-					}	
-				}
-			}
-		}
-	}
-}
 
 function checkWin(){
 	var flag = 0;
@@ -272,8 +233,12 @@ function draw() {
 		score++;
 	}
 
-	// detect brick collision
-	checkBrickCollision();
+	// function returns a true or false to determine if a brick was hit
+	hit = checkBrickCollision(bricks, brickLayout, ball);
+
+	if(hit){
+		score += 5;
+	}
 
 	// check win
 	checkWin();
