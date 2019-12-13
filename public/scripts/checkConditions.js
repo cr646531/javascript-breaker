@@ -1,3 +1,7 @@
+function getRandomInt(max) {
+	return Math.floor(Math.random() * Math.floor(max));
+}
+
 export default function checkConditions(global, brickLayout, bricks) {
 
 	// if the ball touched the floor then the player loses a life
@@ -23,6 +27,23 @@ export default function checkConditions(global, brickLayout, bricks) {
     
     // if the power ball touched the floor, the player loses the power ball
     if(global.powerBallWallCollision == -1) {
+        global.powerBall = 0;
+    }
+
+    // if the power ball touched the paddle, the player gains a power up
+    if(global.powerBallWallCollision > 0) {
+        if(global.powerBall) {
+            global.randomNumberGenerator = getRandomInt(3);
+            if(global.randomNumberGenerator == 0) {
+                global.powerUp = "Slow Time";
+            }
+            if(global.randomNumberGenerator == 1) {
+                global.powerUp = "Super Ball";
+            }
+            if(global.randomNumberGenerator == 2) {
+                global.powerUp = "Sticky Paddle";
+            }
+        }
         global.powerBall = 0;
     }
 
