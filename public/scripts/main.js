@@ -242,7 +242,7 @@ function gameOver() {
 
 function increaseSpeed() {
 	clearInterval(interval);
-	speed -= 0.05;
+	speed -= 0.01;
 	interval = setInterval(draw, speed);
 }
 
