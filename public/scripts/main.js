@@ -207,20 +207,6 @@ function newLevel() {
 		paddle.power = "none";
 	}
 
-	// if the player ended a level with the power ball in tact, the player gets a random power up
-	if(global.powerBall) {
-		global.randomNumberGenerator = getRandomInt(3);
-		if(global.randomNumberGenerator == 0) {
-			global.powerUp = "Slow Time";
-		}
-		if(global.randomNumberGenerator == 1) {
-			global.powerUp = "Super Ball";
-		}
-		if(global.randomNumberGenerator == 2) {
-			global.powerUp = "Sticky Paddle";
-		}
-	}
-
 	// determines, at random, which extra entities will spawn
 
 	// generates the power ball
@@ -252,7 +238,7 @@ function gameOver() {
 
 function increaseSpeed() {
 	clearInterval(interval);
-	speed -= 0.01;
+	speed -= 0.05;
 	interval = setInterval(draw, speed);
 }
 
@@ -302,7 +288,7 @@ function draw() {
 	global.ballWallCollision = checkWallCollision(ball, paddle);
 
 	// if the ball hit the paddle, increase the speed
-	if(global.ballWallCollision == 1) {
+	if(global.ballWallCollision > 0) {
 		increaseSpeed();
 	}
 
