@@ -27,6 +27,7 @@ var global = {
 	//level generator variables
 	advance: false,
 	randomNumberGenerator: null,
+	rowThrottle: 3,
 
 	// collision detection variables
 	ballWallCollision: 0,
@@ -175,13 +176,19 @@ function getRandomInt(max) {
 
 function newLevel() {
 
+	// at level 10 and level 30, remove one row of bricks
+	if(global.level == 10) {
+		global.rowThrottle--;
+	} else if(global.level == 30) {
+		global.rowThrottle--;
+	}
 
 	// increase the level
 	global.level++;
 	global.advance = false;
 
 	// draw the next set of bricks
-	brickLayout = new Bricks(global.level);
+	brickLayout = new Bricks(global.level, global.rowThrottle);
 	bricks = brickLayout.getArray();
 	drawBricks();
 
