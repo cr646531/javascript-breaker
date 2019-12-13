@@ -19,7 +19,12 @@ export default function checkConditions(global, brickLayout, bricks) {
 	// if the extra ball touched the paddle, the player gains a point
 	if(global.extraBallWallCollision == 1){
         global.score++;
-	}
+    }
+    
+    // if the power ball touched the floor, the player loses the power ball
+    if(global.powerBallWallCollision == -1) {
+        global.powerBall = 0;
+    }
 
 	// if the bomb touched the paddle, the player loses a life && the bomb disappears
 	if(global.bombCollision == 1) {

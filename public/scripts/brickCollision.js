@@ -13,8 +13,10 @@ export default function checkBrickCollision(bricks, brickLayout, ball) {
 					// ball is touching the top or bottom of the brick
 					if(ball.y - ball.radius >= currBrick.y && ball.y - ball.radius <= currBrick.y + brickLayout.height){
 
-						// eliminate the brick
-						currBrick.status = 0;
+                        // eliminate the brick - unless it's the power ball
+                        if(!ball.power){
+                            currBrick.status = 0;
+                        }
 
 						// change vertical direction of the ball
 						ball.dy = -ball.dy;

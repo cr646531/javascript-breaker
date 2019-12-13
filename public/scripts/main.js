@@ -18,7 +18,7 @@ var interval = setInterval(draw, speed);
 
 /* ----------------------- GLOBAL VARIABLES ---------------------- */
 var global = {
-	level: 0,
+	level: 1,
 	score: 0,
 	lives: 3,
 	gameStatus: 0,
@@ -33,10 +33,16 @@ var global = {
 	extraBallWallCollision: 0,
 	extraBallBrickCollision: 0,
 	bombCollision: 0,
+	powerBallWallCollision: 0,
+	powerBallBrickCollision: 0,
 
 	// extra entity variables
 	extraBall: 0,
-	bomb: 0
+	bomb: 0,
+	powerBall: 0,
+
+	// power up
+	powerUp: "Slow Time"
 }
 
 
@@ -46,9 +52,6 @@ var ball = new Ball(canvas.width / 2, canvas.height - 30);
 var paddle = new Paddle();
 var brickLayout = new Bricks(global.level);
 var bricks = brickLayout.getArray();
-
-
-
 
 
 
@@ -103,7 +106,12 @@ function drawBomb(bomb) {
 	ctx.font = "16px Arial";
 	ctx.fillStyle = bomb.color;
 	ctx.fillText('X', bomb.x, bomb.y);
-	
+}
+
+function drawPowerUp() {
+	ctx.font = "16px Arial";
+	ctx.fillStyle = "black";
+	ctx.fillText(`${global.powerUp}`, canvas.width / 2, canvas.height / 2)
 }
 
 
@@ -111,13 +119,15 @@ function drawBomb(bomb) {
 
 /* ------------------------ KEYBOARD INPUT ---------------------------- */
 
-// // controls the movement of the paddle
+// controls the movement of the paddle
 var rightPressed = false;
 var leftPressed = false;
+var click = false;
 
 document.addEventListener("keydown", keyDownHandler);
 document.addEventListener("keyup", keyUpHandler);
 document.addEventListener("mousemove", mouseMoveHandler);
+document.addEventListener("click", clickHandler);
 
 function keyDownHandler(event) {
 	if(event.keyCode == 39) {
@@ -142,6 +152,15 @@ function mouseMoveHandler(event) {
 	}
 }
 
+function clickHandler(event) {
+	if(global.powerUp){
+		click = true;
+	}
+}
+
+
+
+
 /* ------------------- RANDOM NUMBER GENERATOR ------------------ */
 
 function getRandomInt(max) {
@@ -150,14 +169,19 @@ function getRandomInt(max) {
 
 
 
-/* ------------------- GAME CONDITIONS ----------------------- */
+
+
+/* ------------------- LEVEL GENERATOR ----------------------- */
 
 function newLevel() {
+	// increase the level
 	global.level++;
+	global.advance = false;
+
+	// draw the next set of bricks
 	brickLayout = new Bricks(global.level);
 	bricks = brickLayout.getArray();
 	drawBricks();
-	global.advance = false;
 
 	// if the player ended a level with the bomb in tact, the player gets a longer paddle, and the bomb disappears
 	if(global.bomb) {
@@ -171,12 +195,30 @@ function newLevel() {
 		global.extraBall = 0;
 	}
 
-	// determines, at random, which extra entities will spawn
-	global.randomNumberGenerator = getRandomInt(3);
-	if(global.randomNumberGenerator == 2) {
-		global.extraBall = new Ball(canvas.width / 2, canvas.height - 30, 10, "purple", 0.5, -0.5, 2)
+	// if the player ended a level with the power ball in tact, the player gets a random power up
+	if(global.powerBall) {
+		global.powerUp = "Slow Time";
+		global.powerBall = 0;
 	}
-	global.randomNumberGenerator = getRandomInt(3);
+
+	// determines, at random, which extra entities will spawn
+
+	//global.randomNumberGenerator = getRandomInt(5);
+	global.randomNumberGenerator = 5;
+	if(global.randomNumberGenerator == 5){
+		global.powerBall = new Ball(canvas.width / 2, canvas.height - 30, 10, "yellow", 0.5, -0.5, true)
+	}
+
+	// ensures the player will not receive an extra ball and a power ball at the same time
+	if(!global.powerBall){
+		global.randomNumberGenerator = getRandomInt(3);
+		if(global.randomNumberGenerator == 2) {
+			global.extraBall = new Ball(canvas.width / 2, canvas.height - 30, 10, "purple", 0.5, -0.5)
+		}
+	}
+
+	//global.randomNumberGenerator = getRandomInt(3);
+	global.randomNumberGenerator = 0;
 	if(global.randomNumberGenerator == 2) {
 		global.bomb = new Bomb(canvas.width / 2, canvas.height - 30);
 	}
@@ -194,7 +236,13 @@ function increaseSpeed() {
 	interval = setInterval(draw, speed);
 }
 
-
+function usePowerUp() {
+	if(global.powerUp == "Slow Time") {
+		clearInterval(interval);
+		speed = 20;
+		interval = setInterval(draw, speed);
+	}
+}
 
 
 
@@ -211,6 +259,11 @@ function draw() {
 	drawScore();
 	drawLives();
 
+	if(global.powerUp) {
+		drawPowerUp();
+	}
+	
+
 	// returns 1 if the ball hit the paddle
 	// returns -1 if the ball hit the ground
 	// returns 0 otherwise
@@ -226,7 +279,7 @@ function draw() {
 	// returns false otherwise
 	global.ballBrickCollision = checkBrickCollision(bricks, brickLayout, ball);
 
-	// dictates the movement of the extra ball
+	// dictates the logic of the extra ball - assuming it exists
 	if(global.extraBall) {
 		drawBall(global.extraBall);
 		
@@ -244,7 +297,32 @@ function draw() {
 		global.extraBall.y += global.extraBall.dy;
 	}
 
-	// dictates the movement of the bomb
+	// dictates the logic of the power ball - assuming it exists
+	if(global.powerBall) {
+		drawBall(global.powerBall);
+
+		// returns 1 if the power ball touched the paddle
+		// returns -1 if the power ball touched the ground
+		// returns 0 otherwise
+		global.powerBallWallCollision = checkWallCollision(global.powerBall, paddle);
+
+		// returns true if a brick was hit
+		// returns false otherwise
+		global.powerBallBrickCollision = checkBrickCollision(bricks, brickLayout, global.powerBall);
+
+		// update position of power ball
+		global.powerBall.x += global.powerBall.dx;
+		global.powerBall.y += global.powerBall.dy;
+	}
+
+	// use the player's power up
+	if(click == true) {
+		usePowerUp();
+		global.powerUp = 0;
+		click = false;
+	}
+
+	// dictates the logic of the bomb - assuming it exists
 	if(global.bomb) {
 		drawBomb(global.bomb);
 
@@ -285,5 +363,4 @@ function draw() {
 	} else if(leftPressed && paddle.position > 0) {
 		paddle.position -= paddle.distance;
 	}
-
 }
