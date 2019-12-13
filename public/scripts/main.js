@@ -42,7 +42,7 @@ var global = {
 	powerBall: 0,
 
 	// power up
-	powerUp: "Slow Time"
+	powerUp: 0
 }
 
 
@@ -174,6 +174,10 @@ function getRandomInt(max) {
 /* ------------------- LEVEL GENERATOR ----------------------- */
 
 function newLevel() {
+
+	// testing
+	console.log(speed);
+
 	// increase the level
 	global.level++;
 	global.advance = false;
@@ -203,8 +207,8 @@ function newLevel() {
 
 	// determines, at random, which extra entities will spawn
 
-	//global.randomNumberGenerator = getRandomInt(5);
-	global.randomNumberGenerator = 5;
+	global.randomNumberGenerator = getRandomInt(5);
+	//global.randomNumberGenerator = 5;
 	if(global.randomNumberGenerator == 5){
 		global.powerBall = new Ball(canvas.width / 2, canvas.height - 30, 10, "yellow", 0.5, -0.5, true)
 	}
@@ -217,8 +221,7 @@ function newLevel() {
 		}
 	}
 
-	//global.randomNumberGenerator = getRandomInt(3);
-	global.randomNumberGenerator = 0;
+	global.randomNumberGenerator = getRandomInt(3);
 	if(global.randomNumberGenerator == 2) {
 		global.bomb = new Bomb(canvas.width / 2, canvas.height - 30);
 	}
@@ -239,7 +242,7 @@ function increaseSpeed() {
 function usePowerUp() {
 	if(global.powerUp == "Slow Time") {
 		clearInterval(interval);
-		speed = 20;
+		speed = 10;
 		interval = setInterval(draw, speed);
 	}
 }
