@@ -21,7 +21,7 @@ export default function checkWallCollision(ball, paddle) {
 
 		// ball is between left and right edges of the paddle
 		if(ball.x > paddle.position && ball.x < paddle.position + paddle.width) {
-			return 1;
+			return ball.x - paddle.position
 		} else {
 			return -1;
 		}

@@ -22,6 +22,7 @@ var global = {
 	score: 0,
 	lives: 3,
 	gameStatus: 0,
+	holdBall: false,
 
 	//level generator variables
 	advance: false,
@@ -42,7 +43,8 @@ var global = {
 	powerBall: 0,
 
 	// power up
-	powerUp: 0
+	powerUp: 0,
+
 }
 
 
@@ -153,9 +155,7 @@ function mouseMoveHandler(event) {
 }
 
 function clickHandler(event) {
-	if(global.powerUp){
-		click = true;
-	}
+	click = true;
 }
 
 
@@ -197,26 +197,35 @@ function newLevel() {
 		global.extraBall = 0;
 	}
 
-	// if the player ended a level with the super ball - remove the power up super ball power up
+	// if the player ended a level with the super ball - remove the power up
 	if(ball.power == "Super Ball") {
 		ball.power = "none";
 	}
 
+	// if the player ended a level with the sticky paddle - remove the power up
+	if(paddle.power == "Sticky Paddle") {
+		paddle.power = "none";
+	}
+
 	// if the player ended a level with the power ball in tact, the player gets a random power up
 	if(global.powerBall) {
-		global.randomNumberGenerator = getRandomInt(1);
+		global.randomNumberGenerator = getRandomInt(3);
 		if(global.randomNumberGenerator == 0) {
 			global.powerUp = "Slow Time";
 		}
 		if(global.randomNumberGenerator == 1) {
 			global.powerUp = "Super Ball";
 		}
+		if(global.randomNumberGenerator == 2) {
+			global.powerUp = "Sticky Paddle";
+		}
 	}
 
 	// determines, at random, which extra entities will spawn
 
-	global.randomNumberGenerator = getRandomInt(3);
-	if(global.randomNumberGenerator == 2){
+	// generates the power ball
+	global.randomNumberGenerator = getRandomInt(2);
+	if(global.randomNumberGenerator == 1){
 		global.powerBall = new Ball(canvas.width / 2, canvas.height - 30, 10, "yellow", 0.5, -0.5, "powerBall")
 	}
 
@@ -228,6 +237,7 @@ function newLevel() {
 		}
 	}
 
+	// generates a bomb
 	global.randomNumberGenerator = getRandomInt(3);
 	if(global.randomNumberGenerator == 2) {
 		global.bomb = new Bomb(canvas.width / 2, canvas.height - 30);
@@ -255,6 +265,15 @@ function usePowerUp() {
 	if(global.powerUp == "Super Ball") {
 		ball.power = "Super Ball";
 	}
+	if(global.powerUp == "Sticky Paddle") {
+		paddle.power = "Sticky Paddle";
+	}
+
+	// releases the ball if it is stuck to the paddle
+	if(global.holdBall){
+		console.log('here');
+		global.holdBall = false;
+	}
 }
 
 
@@ -277,7 +296,7 @@ function draw() {
 	}
 	
 
-	// returns 1 if the ball hit the paddle
+	// returns the x coordinate of where the ball touched the paddle
 	// returns -1 if the ball hit the ground
 	// returns 0 otherwise
 	global.ballWallCollision = checkWallCollision(ball, paddle);
@@ -296,7 +315,7 @@ function draw() {
 	if(global.extraBall) {
 		drawBall(global.extraBall);
 		
-		// returns 1 if the extra ball touched the paddle
+		// returns the x coordinate of where the extra ball touched the paddle
 		// returns -1 if the extra ball touched the ground
 		// returns 0 otherwise
 		global.extraBallWallCollision = checkWallCollision(global.extraBall, paddle);
@@ -314,7 +333,7 @@ function draw() {
 	if(global.powerBall) {
 		drawBall(global.powerBall);
 
-		// returns 1 if the power ball touched the paddle
+		// returns the x coordinate of where the power ball touched the paddle
 		// returns -1 if the power ball touched the ground
 		// returns 0 otherwise
 		global.powerBallWallCollision = checkWallCollision(global.powerBall, paddle);
@@ -339,7 +358,7 @@ function draw() {
 	if(global.bomb) {
 		drawBomb(global.bomb);
 
-		// returns 1 if the bomb touched the paddle
+		// returns the x coordinate of where the bomb touched the paddle
 		// returns -1 if the bomb touched the ground
 		// returns 0 otherwise
 		global.bombCollision = checkWallCollision(global.bomb, paddle);
@@ -359,16 +378,26 @@ function draw() {
 		gameOver();
 	}
 
+	// set the next position of the ball
+	if(global.ballWallCollision > 0 && paddle.power == "Sticky Paddle") {
+		global.holdBall = global.ballWallCollision;
+	}
+
+	if(global.holdBall){
+		// store the x coordinate of where the ball touched the paddle in holdBall variable
+		ball.x = paddle.position + global.holdBall;
+	} else {
+		ball.x += ball.dx;
+		ball.y += ball.dy;
+	}
+
 	// reset collision detection variables
 	global.ballWallCollision = 0;
 	global.ballBrickCollision = 0;
 	global.extraBallWallCollision = 0;
 	global.extraBallBrickCollision = 0;
 	global.bombCollision = 0;
-
-	// set the next position of the ball
-	ball.x += ball.dx;
-	ball.y += ball.dy;
+	
 
 	// set the next position of the paddle based on the keyboard input
 	if(rightPressed && paddle.position < canvas.width - paddle.width) {

@@ -17,7 +17,7 @@ export default function checkConditions(global, brickLayout, bricks) {
 	}
 
 	// if the extra ball touched the paddle, the player gains a point
-	if(global.extraBallWallCollision == 1){
+	if(global.extraBallWallCollision > 0){
         global.score++;
     }
     
@@ -27,7 +27,7 @@ export default function checkConditions(global, brickLayout, bricks) {
     }
 
 	// if the bomb touched the paddle, the player loses a life && the bomb disappears
-	if(global.bombCollision == 1) {
+	if(global.bombCollision > 0) {
 		if(global.lives > 0){
             global.lives--;
             global.bomb = 0;
@@ -39,7 +39,7 @@ export default function checkConditions(global, brickLayout, bricks) {
 	
 	// if the ball touched the paddle the player gains a point
 	// if all the bricks have been destroyed, the new level begins
-	if(global.ballWallCollision == 1) {
+	if(global.ballWallCollision > 0) {
 		if(global.advance){
             // go to the next level
             return 1;
