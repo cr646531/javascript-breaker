@@ -14,12 +14,15 @@ export default function checkBrickCollision(bricks, brickLayout, ball) {
 					if(ball.y - ball.radius >= currBrick.y && ball.y - ball.radius <= currBrick.y + brickLayout.height){
 
                         // eliminate the brick - unless it's the power ball
-                        if(!ball.power){
+                        if(ball.power !== 'powerBall'){
                             currBrick.status = 0;
                         }
 
-						// change vertical direction of the ball
-						ball.dy = -ball.dy;
+                        // if the player has the power ball - don't change direction
+                        if(ball.power !== "Super Ball") {
+						    // change vertical direction of the ball
+                            ball.dy = -ball.dy;
+                        }
 
 						return true;
 					}	

@@ -175,8 +175,6 @@ function getRandomInt(max) {
 
 function newLevel() {
 
-	// testing
-	console.log(speed);
 
 	// increase the level
 	global.level++;
@@ -199,18 +197,27 @@ function newLevel() {
 		global.extraBall = 0;
 	}
 
+	// if the player ended a level with the super ball - remove the power up super ball power up
+	if(ball.power == "Super Ball") {
+		ball.power = "none";
+	}
+
 	// if the player ended a level with the power ball in tact, the player gets a random power up
 	if(global.powerBall) {
-		global.powerUp = "Slow Time";
-		global.powerBall = 0;
+		global.randomNumberGenerator = getRandomInt(1);
+		if(global.randomNumberGenerator == 0) {
+			global.powerUp = "Slow Time";
+		}
+		if(global.randomNumberGenerator == 1) {
+			global.powerUp = "Super Ball";
+		}
 	}
 
 	// determines, at random, which extra entities will spawn
 
-	global.randomNumberGenerator = getRandomInt(5);
-	//global.randomNumberGenerator = 5;
-	if(global.randomNumberGenerator == 5){
-		global.powerBall = new Ball(canvas.width / 2, canvas.height - 30, 10, "yellow", 0.5, -0.5, true)
+	global.randomNumberGenerator = getRandomInt(3);
+	if(global.randomNumberGenerator == 2){
+		global.powerBall = new Ball(canvas.width / 2, canvas.height - 30, 10, "yellow", 0.5, -0.5, "powerBall")
 	}
 
 	// ensures the player will not receive an extra ball and a power ball at the same time
@@ -244,6 +251,9 @@ function usePowerUp() {
 		clearInterval(interval);
 		speed = 10;
 		interval = setInterval(draw, speed);
+	}
+	if(global.powerUp == "Super Ball") {
+		ball.power = "Super Ball";
 	}
 }
 
