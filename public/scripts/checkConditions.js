@@ -1,6 +1,8 @@
-function getRandomInt(max) {
-	return Math.floor(Math.random() * Math.floor(max));
-}
+import getRandomInt from './rng.js';
+
+// function getRandomInt(max) {
+// 	return Math.floor(Math.random() * Math.floor(max));
+// }
 
 export default function checkConditions(global, brickLayout, bricks) {
 
