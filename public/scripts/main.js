@@ -1,9 +1,9 @@
-import Ball from './ball.js';
-import Paddle from './paddle.js';
-import Bricks from './bricks.js';
+import Ball from './classes/ball.js';
+import Paddle from './classes/paddle.js';
+import Bricks from './classes/bricks.js';
 import checkWallCollision from './wallCollision.js';
 import checkBrickCollision from './brickCollision.js';
-import Bomb from './bomb.js';
+import Bomb from './classes/bomb.js';
 import checkConditions from './checkConditions.js';
 import generateLevel from './generateLevel.js';
 
@@ -164,10 +164,6 @@ function clickHandler(event) {
 
 
 /* ------------------- RANDOM NUMBER GENERATOR ------------------ */
-
-function getRandomInt(max) {
-	return Math.floor(Math.random() * Math.floor(max));
-}
 
 
 

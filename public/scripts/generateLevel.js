@@ -1,6 +1,6 @@
-import Ball from './ball.js';
-import Bomb from './bomb.js';
-import Bricks from './bricks.js';
+import Ball from './classes/ball.js';
+import Bomb from './classes/bomb.js';
+import Bricks from './classes/bricks.js';
 import getRandomInt from './rng.js';
 
 // function getRandomInt(max) {
