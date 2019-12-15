@@ -3,7 +3,6 @@ import Paddle from './classes/paddle.js';
 import Bricks from './classes/bricks.js';
 import checkWallCollision from './wallCollision.js';
 import checkBrickCollision from './brickCollision.js';
-import Bomb from './classes/bomb.js';
 import checkConditions from './checkConditions.js';
 import generateLevel from './generateLevel.js';
 
@@ -48,8 +47,6 @@ var global = {
 	powerUp: 0
 
 }
-
-
 
 // entity variables
 var ball = new Ball(canvas.width / 2, canvas.height - 30);
@@ -177,69 +174,6 @@ function newLevel() {
 	drawBricks();
 }
 
-// function newLevel() {
-
-// 	// at level 10 and level 30, remove one row of bricks
-// 	if(global.level == 10) {
-// 		global.rowThrottle--;
-// 	} else if(global.level == 30) {
-// 		global.rowThrottle--;
-// 	}
-
-// 	// increase the level
-// 	global.level++;
-// 	global.advance = false;
-
-// 	// draw the next set of bricks
-// 	brickLayout = new Bricks(global.level, global.rowThrottle);
-// 	bricks = brickLayout.getArray();
-// 	drawBricks();
-
-// 	// if the player ended a level with the bomb in tact, the player gets a longer paddle, and the bomb disappears
-// 	if(global.bomb) {
-// 		paddle.width += 10;
-// 		global.bomb = 0;
-// 	}
-
-// 	// if the player ended a level with the extra ball in tact, the player gets 50 points
-// 	if(global.extraBall) {
-// 		global.score += 50;
-// 		global.extraBall = 0;
-// 	}
-
-// 	// if the player ended a level with the super ball - remove the power up
-// 	if(ball.power == "Super Ball") {
-// 		ball.power = "none";
-// 	}
-
-// 	// if the player ended a level with the sticky paddle - remove the power up
-// 	if(paddle.power == "Sticky Paddle") {
-// 		paddle.power = "none";
-// 	}
-
-// 	// determines, at random, which extra entities will spawn
-
-// 	// generates the power ball
-// 	global.randomNumberGenerator = getRandomInt(2);
-// 	if(global.randomNumberGenerator == 1){
-// 		global.powerBall = new Ball(canvas.width / 2, canvas.height - 30, 10, "yellow", 0.5, -0.5, "powerBall")
-// 	}
-
-// 	// ensures the player will not receive an extra ball and a power ball at the same time
-// 	if(!global.powerBall){
-// 		global.randomNumberGenerator = getRandomInt(3);
-// 		if(global.randomNumberGenerator == 2) {
-// 			global.extraBall = new Ball(canvas.width / 2, canvas.height - 30, 10, "purple", 0.5, -0.5)
-// 		}
-// 	}
-
-// 	// generates a bomb
-// 	global.randomNumberGenerator = getRandomInt(3);
-// 	if(global.randomNumberGenerator == 2) {
-// 		global.bomb = new Bomb(canvas.width / 2, canvas.height - 30);
-// 	}
-// }
-
 function gameOver() {
 	alert(`GAME OVER!\n\nScore: ${global.score}`);
 	clearInterval(interval);
@@ -302,7 +236,6 @@ function draw() {
 		increaseSpeed();
 	}
 
-	
 	// returns true if a brick was hit
 	// returns false otherwise
 	global.ballBrickCollision = checkBrickCollision(bricks, brickLayout, ball);
@@ -393,7 +326,6 @@ function draw() {
 	global.extraBallWallCollision = 0;
 	global.extraBallBrickCollision = 0;
 	global.bombCollision = 0;
-	
 
 	// set the next position of the paddle based on the keyboard input
 	if(rightPressed && paddle.position < canvas.width - paddle.width) {
