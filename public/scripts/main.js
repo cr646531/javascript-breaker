@@ -18,7 +18,7 @@ var interval = setInterval(draw, speed);
 
 /* ----------------------- GLOBAL VARIABLES ---------------------- */
 var global = {
-	level: 1,
+	level: 0,
 	score: 0,
 	lives: 3,
 	gameStatus: 0,
@@ -198,10 +198,12 @@ function usePowerUp() {
 	if(global.powerUp == "Sticky Paddle") {
 		paddle.power = "Sticky Paddle";
 	}
+	if(global.powerUp == "Cluster Bomb") {
+		ball.power = "Cluster Bomb";
+	}
 
 	// releases the ball if it is stuck to the paddle
 	if(global.holdBall){
-		console.log('here');
 		global.holdBall = false;
 	}
 }

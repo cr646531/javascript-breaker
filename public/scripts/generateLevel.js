@@ -39,6 +39,11 @@ export default function generateLevel(global, ball, paddle, brickLayout, bricks,
 		paddle.power = "none";
 	}
 
+	// if the player ended a level with the cluster bomb - remove the power up 
+	if(ball.power == "Cluster Bomb") {
+		ball.power = "none";
+	}
+
 	// determines, at random, which extra entities will spawn
 
 	// generates the power ball
