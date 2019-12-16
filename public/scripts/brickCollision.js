@@ -30,11 +30,30 @@ export default function checkBrickCollision(bricks, brickLayout, ball) {
 								}
 							} 
 							
-							// if the ball is a row blaster, destroy the entire row
+							// if the ball is a row blaster, destroy all bricks in the same row that are touching the brick
 							if(ball.power == "Row Blaster") {
-								for(var x = 0; x < brickLayout.columns; x++) {
-									bricks[x][j].status = 0;
+								var x = i;
+
+								while(x < brickLayout.columns) {
+									if(bricks[x][j].status == 1){
+										bricks[x][j].status = 0;
+									} else {
+										x = brickLayout.columns;
+									}
+									x++;
 								}
+								var x = i - 1;
+								while(x >= 0) {
+									if(bricks[x][j].status == 1) {
+										bricks[x][j].status = 0;
+									} else {
+										x = -1;
+									}
+									x--;
+								}
+								// for(var x = 0; x < brickLayout.columns; x++) {
+								// 	bricks[x][j].status = 0;
+								// }
 							}
 
 							if(ball.power == "Column Blaster") {
