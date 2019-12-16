@@ -18,7 +18,7 @@ var interval = setInterval(draw, speed);
 
 /* ----------------------- GLOBAL VARIABLES ---------------------- */
 var global = {
-	level: 7,
+	level: 0,
 	score: 0,
 	lives: 3,
 	gameStatus: 0,
@@ -46,7 +46,7 @@ var global = {
 	lasers: [],
 
 	// power up
-	powerUp: "Super Ball"
+	powerUp: 0
 
 }
 
