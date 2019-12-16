@@ -7,6 +7,7 @@ import checkConditions from './checkConditions.js';
 import generateLevel from './generateLevel.js';
 
 import updatePowerBall from './powers/powerBall.js';
+import updateExtraBall from './powers/extraBall.js';
 
 var canvas = document.getElementById('myCanvas');
 var ctx = canvas.getContext('2d');
@@ -49,7 +50,7 @@ var global = {
 	lasers: [],
 
 	// power up
-	powerUp: "Super Ball"
+	powerUp: 0
 
 }
 
@@ -268,19 +269,21 @@ function draw() {
 	// dictates the logic of the extra ball - assuming it exists
 	if(global.extraBall) {
 		drawBall(global.extraBall);
+
+		updateExtraBall(global, paddle, bricks, brickLayout);
 		
-		// returns the x coordinate of where the extra ball touched the paddle
-		// returns -1 if the extra ball touched the ground
-		// returns 0 otherwise
-		global.extraBallWallCollision = checkWallCollision(global.extraBall, paddle);
+		// // returns the x coordinate of where the extra ball touched the paddle
+		// // returns -1 if the extra ball touched the ground
+		// // returns 0 otherwise
+		// global.extraBallWallCollision = checkWallCollision(global.extraBall, paddle);
 
-		// returns true if a brick was hit
-		// returns false otherwise
-		global.extraBallBrickCollision = checkBrickCollision(bricks, brickLayout, global.extraBall, global);
+		// // returns true if a brick was hit
+		// // returns false otherwise
+		// global.extraBallBrickCollision = checkBrickCollision(bricks, brickLayout, global.extraBall, global);
 
-		// update position of extra ball
-		global.extraBall.x += global.extraBall.dx;
-		global.extraBall.y += global.extraBall.dy;
+		// // update position of extra ball
+		// global.extraBall.x += global.extraBall.dx;
+		// global.extraBall.y += global.extraBall.dy;
 	}
 
 	// dictates the logic of the power ball - assuming it exists
