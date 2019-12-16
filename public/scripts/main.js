@@ -9,6 +9,7 @@ import generateLevel from './generateLevel.js';
 import updatePowerBall from './powers/powerBall.js';
 import updateExtraBall from './powers/extraBall.js';
 import updateBall from './powers/ball.js';
+import updateBomb from './powers/bomb.js';
 
 var canvas = document.getElementById('myCanvas');
 var ctx = canvas.getContext('2d');
@@ -51,7 +52,7 @@ var global = {
 	lasers: [],
 
 	// power up
-	powerUp: 0
+	powerUp: "Sticky Paddle"
 
 }
 
@@ -187,7 +188,7 @@ function gameOver() {
 	document.location.reload(false);
 }
 
-export default function increaseSpeed() {
+function increaseSpeed() {
 	clearInterval(interval);
 	speed -= 0.02;
 	interval = setInterval(draw, speed);
@@ -254,6 +255,17 @@ function draw() {
 
 	// dictates the logic of the ball
 	updateBall(global, ball, paddle, bricks, brickLayout);
+	drawBall(ball);
+	// if the ball hit the paddle, increase the speed
+	if(global.ballWallCollision > 0) {
+		increaseSpeed();
+	}
+
+	// dictates the logic of the bomb - assuming it exists
+	if(global.bomb) {
+		drawBomb(global.bomb);
+		updateBomb(global, paddle);
+	}
 
 	// dictates the logic of the extra ball - assuming it exists
 	if(global.extraBall) {
@@ -324,20 +336,6 @@ function draw() {
 		click = false;
 	}
 
-	// dictates the logic of the bomb - assuming it exists
-	if(global.bomb) {
-		drawBomb(global.bomb);
-
-		// returns the x coordinate of where the bomb touched the paddle
-		// returns -1 if the bomb touched the ground
-		// returns 0 otherwise
-		global.bombCollision = checkWallCollision(global.bomb, paddle);
-
-		// update position of the bomb
-		global.bomb.x += global.bomb.dx;
-		global.bomb.y += global.bomb.dy;
-	}
-
 	// returns 1 if the player cleared the level
 	// returns -1 if game over
 	global.gameStatus = checkConditions(global, brickLayout, bricks, ball, paddle);
@@ -346,19 +344,6 @@ function draw() {
 		newLevel();
 	} else if(global.gameStatus == -1) {
 		gameOver();
-	}
-
-	// set the next position of the ball
-	if(global.ballWallCollision > 0 && paddle.power == "Sticky Paddle") {
-		global.holdBall = global.ballWallCollision;
-	}
-
-	if(global.holdBall){
-		// store the x coordinate of where the ball touched the paddle in holdBall variable
-		ball.x = paddle.position + global.holdBall;
-	} else {
-		ball.x += ball.dx;
-		ball.y += ball.dy;
 	}
 
 	// reset collision detection variables

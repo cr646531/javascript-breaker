@@ -50,7 +50,8 @@ export default function generateLevel(global, ball, paddle, brickLayout, bricks,
 	}
 
 	// generates a bomb
-	global.randomNumberGenerator = getRandomInt(3);
+	// global.randomNumberGenerator = getRandomInt(3);
+	global.randomNumberGenerator = 2;
 	if(global.randomNumberGenerator == 2) {
 		global.bomb = new Bomb(480 / 2, 320 - 30);
     }
