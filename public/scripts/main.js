@@ -6,10 +6,10 @@ import checkBrickCollision from './brickCollision.js';
 import checkConditions from './checkConditions.js';
 import generateLevel from './generateLevel.js';
 
-import updatePowerBall from './powers/powerBall.js';
-import updateExtraBall from './powers/extraBall.js';
-import updateBall from './powers/ball.js';
-import updateBomb from './powers/bomb.js';
+import updatePowerBall from './entities/powerBall.js';
+import updateExtraBall from './entities/extraBall.js';
+import updateBall from './entities/ball.js';
+import updateBomb from './entities/bomb.js';
 
 var canvas = document.getElementById('myCanvas');
 var ctx = canvas.getContext('2d');
@@ -360,4 +360,3 @@ function draw() {
 		paddle.position -= paddle.distance;
 	}
 }
-

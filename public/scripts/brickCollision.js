@@ -24,6 +24,7 @@ export default function checkBrickCollision(bricks, brickLayout, ball, global) {
 										if(i + x >= 0 && i + x < brickLayout.columns) {
 											if(j + y >= 0 && j +y < brickLayout.rows) {
 												bricks[i + x][j + y].status = 0;
+												global.score++;
 											}
 										}
 									}
@@ -33,10 +34,10 @@ export default function checkBrickCollision(bricks, brickLayout, ball, global) {
 							// if the ball is a row blaster, destroy all bricks in the same row that are touching the brick
 							if(ball.power == "Row Blaster") {
 								var x = i;
-
 								while(x < brickLayout.columns) {
 									if(bricks[x][j].status == 1){
 										bricks[x][j].status = 0;
+										global.score++;
 									} else {
 										x = brickLayout.columns;
 									}
@@ -46,32 +47,31 @@ export default function checkBrickCollision(bricks, brickLayout, ball, global) {
 								while(x >= 0) {
 									if(bricks[x][j].status == 1) {
 										bricks[x][j].status = 0;
+										global.score++;
 									} else {
 										x = -1;
 									}
 									x--;
 								}
-								// for(var x = 0; x < brickLayout.columns; x++) {
-								// 	bricks[x][j].status = 0;
-								// }
+
 							}
 
 							if(ball.power == "Column Blaster") {
 								for(var y = 0; y < brickLayout.rows; y++) {
 									bricks[i][y].status = 0;
+									global.score++;
 								}
 							}
-
-							// if the ball is a giant ball - destroy bricks based on radius of ball
-
 
 							// if the ball is a ghost ball - only destroy the brick if the ball is moving downwards
 							if(ball.power == "Ghost Ball") {
 								if(ball.dy == 2){
 									currBrick.status = 0;
+									global.score++;
 								}
 							} else {
 								currBrick.status = 0;
+								global.score++;
 							}
 							
 						}
