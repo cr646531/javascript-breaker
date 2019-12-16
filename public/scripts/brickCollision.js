@@ -42,18 +42,18 @@ export default function checkBrickCollision(bricks, brickLayout, ball) {
 									bricks[i][y].status = 0;
 								}
 							}
-							
+			
 							currBrick.status = 0;
 						}
 
-                        // if the player has the power ball - don't change direction
-                        if(ball.power !== "Super Ball") {
+                        // if the ball is a super ball or laser shot - don't change direction
+						if(ball.power !== "Super Ball" && ball.power !== "laser") {
 						    // change vertical direction of the ball
                             ball.dy = -ball.dy;
 						}
 						
 						// if the ball is a scatter ball, or laser shot, it disappears when it hits a brick
-						if(ball.power == "scatter" || ball.power == "laser"){
+						if(ball.power == "scatter") {
 							ball.power = "none";
 						}
 
