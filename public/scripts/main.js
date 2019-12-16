@@ -8,6 +8,7 @@ import generateLevel from './generateLevel.js';
 
 import updatePowerBall from './powers/powerBall.js';
 import updateExtraBall from './powers/extraBall.js';
+import updateBall from './powers/ball.js';
 
 var canvas = document.getElementById('myCanvas');
 var ctx = canvas.getContext('2d');
@@ -186,7 +187,7 @@ function gameOver() {
 	document.location.reload(false);
 }
 
-function increaseSpeed() {
+export default function increaseSpeed() {
 	clearInterval(interval);
 	speed -= 0.02;
 	interval = setInterval(draw, speed);
@@ -250,40 +251,14 @@ function draw() {
 	if(global.powerUp) {
 		drawPowerUp();
 	}
-	
 
-	// returns the x coordinate of where the ball touched the paddle
-	// returns -1 if the ball hit the ground
-	// returns 0 otherwise
-	global.ballWallCollision = checkWallCollision(ball, paddle);
-
-	// if the ball hit the paddle, increase the speed
-	if(global.ballWallCollision > 0) {
-		increaseSpeed();
-	}
-
-	// returns true if a brick was hit
-	// returns false otherwise
-	global.ballBrickCollision = checkBrickCollision(bricks, brickLayout, ball, global);
+	// dictates the logic of the ball
+	updateBall(global, ball, paddle, bricks, brickLayout);
 
 	// dictates the logic of the extra ball - assuming it exists
 	if(global.extraBall) {
 		drawBall(global.extraBall);
-
 		updateExtraBall(global, paddle, bricks, brickLayout);
-		
-		// // returns the x coordinate of where the extra ball touched the paddle
-		// // returns -1 if the extra ball touched the ground
-		// // returns 0 otherwise
-		// global.extraBallWallCollision = checkWallCollision(global.extraBall, paddle);
-
-		// // returns true if a brick was hit
-		// // returns false otherwise
-		// global.extraBallBrickCollision = checkBrickCollision(bricks, brickLayout, global.extraBall, global);
-
-		// // update position of extra ball
-		// global.extraBall.x += global.extraBall.dx;
-		// global.extraBall.y += global.extraBall.dy;
 	}
 
 	// dictates the logic of the power ball - assuming it exists
@@ -400,3 +375,4 @@ function draw() {
 		paddle.position -= paddle.distance;
 	}
 }
+
