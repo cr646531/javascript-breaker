@@ -1,4 +1,4 @@
-export default function checkBrickCollision(bricks, brickLayout, ball) {
+export default function checkBrickCollision(bricks, brickLayout, ball, global) {
 
 	for(var i = 0; i < brickLayout.columns; i++){
 		for(var j = 0; j < brickLayout.rows; j++){
@@ -62,6 +62,9 @@ export default function checkBrickCollision(bricks, brickLayout, ball) {
 								}
 							}
 
+							// if the ball is a giant ball - destroy bricks based on radius of ball
+
+
 							// if the ball is a ghost ball - only destroy the brick if the ball is moving downwards
 							if(ball.power == "Ghost Ball") {
 								if(ball.dy == 2){
@@ -73,7 +76,7 @@ export default function checkBrickCollision(bricks, brickLayout, ball) {
 							
 						}
 
-                        // if the ball is a super ball or laser shot - don't change direction
+                        // if the ball is a super ball, or laser shot - don't change direction
 						if(ball.power !== "Super Ball" && ball.power !== "laser") {
 						    // change vertical direction of the ball
                             ball.dy = -ball.dy;

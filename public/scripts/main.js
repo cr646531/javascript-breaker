@@ -6,6 +6,8 @@ import checkBrickCollision from './brickCollision.js';
 import checkConditions from './checkConditions.js';
 import generateLevel from './generateLevel.js';
 
+import updatePowerBall from './powers/powerBall.js';
+
 var canvas = document.getElementById('myCanvas');
 var ctx = canvas.getContext('2d');
 
@@ -28,6 +30,7 @@ var global = {
 	advance: false,
 	randomNumberGenerator: null,
 	rowThrottle: 3,
+	sizeUp: 0,
 
 	// collision detection variables
 	ballWallCollision: 0,
@@ -46,7 +49,7 @@ var global = {
 	lasers: [],
 
 	// power up
-	powerUp: 0
+	powerUp: "Super Ball"
 
 }
 
@@ -184,7 +187,7 @@ function gameOver() {
 
 function increaseSpeed() {
 	clearInterval(interval);
-	speed -= 0.05;
+	speed -= 0.02;
 	interval = setInterval(draw, speed);
 }
 
@@ -217,6 +220,9 @@ function usePowerUp() {
 	}
 	if(global.powerUp == "Ghost Ball") {
 		ball.power = "Ghost Ball";
+	}
+	if(global.powerUp = "Destroy Bomb") {
+		global.bomb = 0;
 	}
 
 	// releases the ball if it is stuck to the paddle
@@ -257,7 +263,7 @@ function draw() {
 
 	// returns true if a brick was hit
 	// returns false otherwise
-	global.ballBrickCollision = checkBrickCollision(bricks, brickLayout, ball);
+	global.ballBrickCollision = checkBrickCollision(bricks, brickLayout, ball, global);
 
 	// dictates the logic of the extra ball - assuming it exists
 	if(global.extraBall) {
@@ -270,7 +276,7 @@ function draw() {
 
 		// returns true if a brick was hit
 		// returns false otherwise
-		global.extraBallBrickCollision = checkBrickCollision(bricks, brickLayout, global.extraBall);
+		global.extraBallBrickCollision = checkBrickCollision(bricks, brickLayout, global.extraBall, global);
 
 		// update position of extra ball
 		global.extraBall.x += global.extraBall.dx;
@@ -280,19 +286,7 @@ function draw() {
 	// dictates the logic of the power ball - assuming it exists
 	if(global.powerBall) {
 		drawBall(global.powerBall);
-
-		// returns the x coordinate of where the power ball touched the paddle
-		// returns -1 if the power ball touched the ground
-		// returns 0 otherwise
-		global.powerBallWallCollision = checkWallCollision(global.powerBall, paddle);
-
-		// returns true if a brick was hit
-		// returns false otherwise
-		global.powerBallBrickCollision = checkBrickCollision(bricks, brickLayout, global.powerBall);
-
-		// update position of power ball
-		global.powerBall.x += global.powerBall.dx;
-		global.powerBall.y += global.powerBall.dy;
+		updatePowerBall(global, paddle, bricks, brickLayout);
 	}
 
 	// dictates the logic of the scatter balls - assuming they exist
@@ -310,7 +304,7 @@ function draw() {
 			drawBall(curr);
 
 			// check to see if a brick was hit
-			checkBrickCollision(bricks, brickLayout, curr);
+			checkBrickCollision(bricks, brickLayout, curr, global);
 			checkWallCollision(curr, paddle);
 
 			// update position of power ball
@@ -334,7 +328,7 @@ function draw() {
 			drawBall(curr);
 
 			// check to see if a brick was hit
-			checkBrickCollision(bricks, brickLayout, curr);
+			checkBrickCollision(bricks, brickLayout, curr, global);
 
 			// check to see if the top edge was hit
 			checkWallCollision(curr, paddle);
