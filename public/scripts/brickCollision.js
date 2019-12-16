@@ -61,14 +61,29 @@ export default function checkBrickCollision(bricks, brickLayout, ball) {
 									bricks[i][y].status = 0;
 								}
 							}
-			
-							currBrick.status = 0;
+
+							// if the ball is a ghost ball - only destroy the brick if the ball is moving downwards
+							if(ball.power == "Ghost Ball") {
+								if(ball.dy == 2){
+									currBrick.status = 0;
+								}
+							} else {
+								currBrick.status = 0;
+							}
+							
 						}
 
                         // if the ball is a super ball or laser shot - don't change direction
 						if(ball.power !== "Super Ball" && ball.power !== "laser") {
 						    // change vertical direction of the ball
                             ball.dy = -ball.dy;
+						}
+
+						// if the ball is a ghost ball - only change direction if the ball hits the top of a brick
+						if(ball.power == "Ghost Ball") {
+							if(ball.dy == 2){
+								ball.dy = -ball.dy;
+							}
 						}
 						
 						// if the ball is a scatter ball, or laser shot, it disappears when it hits a brick
