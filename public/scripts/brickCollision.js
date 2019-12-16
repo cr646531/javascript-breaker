@@ -15,14 +15,10 @@ export default function checkBrickCollision(bricks, brickLayout, ball) {
 
 						// the power ball doesn't destroy any blocks
 						// check to make sure we are not evaluating the power ball
-                        if(ball.power !== 'powerBall'){
+                        if(ball.power !== "powerBall"){
 
 							// if the ball is a cluster bomb, destroy all the surrounding bricks
-							// otherwise, destroy the brick
-							if(ball.power === 'Cluster Bomb') {
-
-								console.log('cluster bomb');
-
+							if(ball.power === "Cluster Bomb") {
 								for(var x = -1; x < 2; x++) {
 									for(var y = -1; y < 2; y++) {
 										if(i + x >= 0 && i + x < brickLayout.columns) {
@@ -32,10 +28,22 @@ export default function checkBrickCollision(bricks, brickLayout, ball) {
 										}
 									}
 								}
-
-							} else {
-								currBrick.status = 0;
+							} 
+							
+							// if the ball is a row blaster, destroy the entire row
+							if(ball.power == "Row Blaster") {
+								for(var x = 0; x < brickLayout.columns; x++) {
+									bricks[x][j].status = 0;
+								}
 							}
+
+							if(ball.power == "Column Blaster") {
+								for(var y = 0; y < brickLayout.rows; y++) {
+									bricks[i][y].status = 0;
+								}
+							}
+							
+							currBrick.status = 0;
 						}
 						
 

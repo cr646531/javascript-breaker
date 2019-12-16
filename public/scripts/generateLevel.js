@@ -29,19 +29,10 @@ export default function generateLevel(global, ball, paddle, brickLayout, bricks,
 		global.extraBall = 0;
 	}
 
-	// if the player ended a level with the super ball - remove the power up
-	if(ball.power == "Super Ball") {
+	// remove any power up's at the end of a level
+	if(ball.power) {
 		ball.power = "none";
-	}
-
-	// if the player ended a level with the sticky paddle - remove the power up
-	if(paddle.power == "Sticky Paddle") {
 		paddle.power = "none";
-	}
-
-	// if the player ended a level with the cluster bomb - remove the power up 
-	if(ball.power == "Cluster Bomb") {
-		ball.power = "none";
 	}
 
 	// determines, at random, which extra entities will spawn

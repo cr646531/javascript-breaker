@@ -18,7 +18,7 @@ var interval = setInterval(draw, speed);
 
 /* ----------------------- GLOBAL VARIABLES ---------------------- */
 var global = {
-	level: 0,
+	level: 9,
 	score: 0,
 	lives: 3,
 	gameStatus: 0,
@@ -200,6 +200,12 @@ function usePowerUp() {
 	}
 	if(global.powerUp == "Cluster Bomb") {
 		ball.power = "Cluster Bomb";
+	}
+	if(global.powerUp == "Row Blaster") {
+		ball.power = "Row Blaster";
+	}
+	if(global.powerUp == "Column Blaster") {
+		ball.power = "Column Blaster";
 	}
 
 	// releases the ball if it is stuck to the paddle
