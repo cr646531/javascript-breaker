@@ -45,15 +45,17 @@ export default function checkBrickCollision(bricks, brickLayout, ball) {
 							
 							currBrick.status = 0;
 						}
-						
-
-
 
                         // if the player has the power ball - don't change direction
                         if(ball.power !== "Super Ball") {
 						    // change vertical direction of the ball
                             ball.dy = -ball.dy;
-                        }
+						}
+						
+						// if the ball is a scatter ball, it disappears when it hits a brick
+						if(ball.power == "scatter"){
+							ball.power = "none";
+						}
 
 						return true;
 					}	

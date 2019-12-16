@@ -30,10 +30,8 @@ export default function generateLevel(global, ball, paddle, brickLayout, bricks,
 	}
 
 	// remove any power up's at the end of a level
-	if(ball.power) {
-		ball.power = "none";
-		paddle.power = "none";
-	}
+	ball.power = "none";
+	paddle.power = "none";
 
 	// determines, at random, which extra entities will spawn
 

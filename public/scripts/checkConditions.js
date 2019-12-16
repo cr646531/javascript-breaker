@@ -1,7 +1,8 @@
 import getRandomInt from './rng.js';
+import Ball from './classes/Ball.js';
 
 
-export default function checkConditions(global, brickLayout, bricks) {
+export default function checkConditions(global, brickLayout, bricks, ball, paddle) {
 
 	// if the ball touched the floor then the player loses a life
 	// if the player has no more lives, then the game ends
@@ -21,7 +22,7 @@ export default function checkConditions(global, brickLayout, bricks) {
 
 	// if the extra ball touched the paddle, the player gains a point
 	if(global.extraBallWallCollision > 0){
-        global.score++;
+		global.score++;
     }
     
     // if the power ball touched the floor, the player loses the power ball
@@ -32,7 +33,7 @@ export default function checkConditions(global, brickLayout, bricks) {
     // if the power ball touched the paddle, the player gains a power up
     if(global.powerBallWallCollision > 0) {
         if(global.powerBall) {
-            global.randomNumberGenerator = getRandomInt(6);
+            global.randomNumberGenerator = getRandomInt(7);
             if(global.randomNumberGenerator == 0) {
                 global.powerUp = "Slow Time";
             }
@@ -50,6 +51,9 @@ export default function checkConditions(global, brickLayout, bricks) {
 			}
 			if(global.randomNumberGenerator == 5) {
 				global.powerUp = "Column Blaster";
+			}
+			if(global.randomNumberGenerator == 6) {
+				global.powerUp = "Scatter Shot";
 			}
         }
         global.powerBall = 0;
@@ -73,6 +77,25 @@ export default function checkConditions(global, brickLayout, bricks) {
             // go to the next level
             return 1;
 		}
+
+		// // if the player has the scatter shot power up, add two extra balls
+		// if(ball.power == "Scatter Shot"){
+		// 	var scatterBallOne = new Ball(paddle.position + global.ballWallCollision, 320 - 30, 10, "orange", -ball.dx, -2, "scatter");
+		// 	var scatterBallTwo = new Ball(paddle.position + global.ballWallCollision, 320 - 30, 10, "orange", 0, -2, "scatter");
+		// 	global.scatterBalls.push(scatterBallOne);
+		// 	global.scatterBalls.push(scatterBallTwo);
+		// }
+
+		// if the player has the scatter shot power up, add two extra balls
+		if(ball.power == "Scatter Shot"){
+			var scatterBallOne = new Ball(paddle.position + global.ballWallCollision, 320 - 30, 10, "orange", -ball.dx, -2, "scatter");
+			var scatterBallTwo = new Ball(paddle.position + global.ballWallCollision, 320 - 30, 10, "orange", -ball.dx / 2, -2, "scatter");
+			var scatterBallThree = new Ball(paddle.position + global.ballWallCollision, 320 - 30, 10, "orange", ball.dx / 2, -2, "scatter");
+			global.scatterBalls.push(scatterBallOne);
+			global.scatterBalls.push(scatterBallTwo);
+			global.scatterBalls.push(scatterBallThree);
+		}
+
 		global.score++;
 	}
 

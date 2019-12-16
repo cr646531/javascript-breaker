@@ -18,7 +18,7 @@ var interval = setInterval(draw, speed);
 
 /* ----------------------- GLOBAL VARIABLES ---------------------- */
 var global = {
-	level: 9,
+	level: 0,
 	score: 0,
 	lives: 3,
 	gameStatus: 0,
@@ -42,9 +42,10 @@ var global = {
 	extraBall: 0,
 	bomb: 0,
 	powerBall: 0,
+	scatterBalls: [],
 
 	// power up
-	powerUp: 0
+	powerUp: "Scatter Shot"
 
 }
 
@@ -207,6 +208,9 @@ function usePowerUp() {
 	if(global.powerUp == "Column Blaster") {
 		ball.power = "Column Blaster";
 	}
+	if(global.powerUp == "Scatter Shot") {
+		ball.power = "Scatter Shot";
+	}
 
 	// releases the ball if it is stuck to the paddle
 	if(global.holdBall){
@@ -284,6 +288,30 @@ function draw() {
 		global.powerBall.y += global.powerBall.dy;
 	}
 
+	// dictates the logic of the scatter balls - assuming they exist
+	for(var i = 0; i < global.scatterBalls.length; i++) {
+
+		var curr = global.scatterBalls[i];
+		
+		// if the scatter ball hit a brick - erase it
+		// otherwise, update it
+		if(curr.power == "none") {
+			global.scatterBalls.splice(i, 1);
+			// update index so no elements are skipped within the loop
+			i--;
+		} else {
+			drawBall(curr);
+
+			// check to see if a brick was hit
+			checkBrickCollision(bricks, brickLayout, curr);
+			checkWallCollision(curr, paddle);
+
+			// update position of power ball
+			curr.x += curr.dx;
+			curr.y += curr.dy;
+		}
+	}
+
 	// use the player's power up
 	if(click == true) {
 		usePowerUp();
@@ -307,7 +335,7 @@ function draw() {
 
 	// returns 1 if the player cleared the level
 	// returns -1 if game over
-	global.gameStatus = checkConditions(global, brickLayout, bricks);
+	global.gameStatus = checkConditions(global, brickLayout, bricks, ball, paddle);
 
 	if(global.gameStatus == 1) {
 		newLevel();
