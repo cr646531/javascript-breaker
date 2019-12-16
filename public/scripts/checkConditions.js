@@ -79,6 +79,7 @@ export default function checkConditions(global, brickLayout, bricks, ball, paddl
 		}
 
 		// // if the player has the scatter shot power up, add two extra balls
+
 		// if(ball.power == "Scatter Shot"){
 		// 	var scatterBallOne = new Ball(paddle.position + global.ballWallCollision, 320 - 30, 10, "orange", -ball.dx, -2, "scatter");
 		// 	var scatterBallTwo = new Ball(paddle.position + global.ballWallCollision, 320 - 30, 10, "orange", 0, -2, "scatter");
@@ -94,6 +95,12 @@ export default function checkConditions(global, brickLayout, bricks, ball, paddl
 			global.scatterBalls.push(scatterBallOne);
 			global.scatterBalls.push(scatterBallTwo);
 			global.scatterBalls.push(scatterBallThree);
+		}
+
+		// if the player has the laser shot power up, fire one extra ball
+		if(ball.power == "Laser Shot") {
+			var laser = new Ball(paddle.position + global.ballWallCollision, 320 - 30, 10, "black", 0, -2, "laser");
+			global.lasers.push(laser);
 		}
 
 		global.score++;

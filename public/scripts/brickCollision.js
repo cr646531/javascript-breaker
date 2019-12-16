@@ -52,8 +52,8 @@ export default function checkBrickCollision(bricks, brickLayout, ball) {
                             ball.dy = -ball.dy;
 						}
 						
-						// if the ball is a scatter ball, it disappears when it hits a brick
-						if(ball.power == "scatter"){
+						// if the ball is a scatter ball, or laser shot, it disappears when it hits a brick
+						if(ball.power == "scatter" || ball.power == "laser"){
 							ball.power = "none";
 						}
 

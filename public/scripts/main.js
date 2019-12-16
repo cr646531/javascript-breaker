@@ -43,9 +43,10 @@ var global = {
 	bomb: 0,
 	powerBall: 0,
 	scatterBalls: [],
+	lasers: [],
 
 	// power up
-	powerUp: "Scatter Shot"
+	powerUp: 0
 
 }
 
@@ -211,6 +212,9 @@ function usePowerUp() {
 	if(global.powerUp == "Scatter Shot") {
 		ball.power = "Scatter Shot";
 	}
+	if(global.powerUp == "Laser Shot") {
+		ball.power = "Laser Shot";
+	}
 
 	// releases the ball if it is stuck to the paddle
 	if(global.holdBall){
@@ -304,6 +308,32 @@ function draw() {
 
 			// check to see if a brick was hit
 			checkBrickCollision(bricks, brickLayout, curr);
+			checkWallCollision(curr, paddle);
+
+			// update position of power ball
+			curr.x += curr.dx;
+			curr.y += curr.dy;
+		}
+	}
+
+	// dictates the logic of the lasers - assuming they exist
+	for(var i = 0; i < global.lasers.length; i++) {
+
+		var curr = global.lasers[i];
+		
+		// if the scatter ball hit a brick - erase it
+		// otherwise, update it
+		if(curr.power == "none") {
+			global.lasers.splice(i, 1);
+			// update index so no elements are skipped within the loop
+			i--;
+		} else {
+			drawBall(curr);
+
+			// check to see if a brick was hit
+			checkBrickCollision(bricks, brickLayout, curr);
+
+			// check to see if the top edge was hit
 			checkWallCollision(curr, paddle);
 
 			// update position of power ball

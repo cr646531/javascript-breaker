@@ -6,6 +6,11 @@ export default function checkWallCollision(ball, paddle) {
 	// ball touches top edge
 	if(ball.y + ball.dy < ball.radius) {
 		ball.dy = -ball.dy;
+
+		// if the ball is a laser shot, the ball disappears
+		if(ball.power == "laser") {
+			ball.power = "none";
+		}
 	}
 
 	// ball touches left or right edge
