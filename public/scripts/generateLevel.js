@@ -3,9 +3,6 @@ import Bomb from './classes/bomb.js';
 import Bricks from './classes/bricks.js';
 import getRandomInt from './rng.js';
 
-// function getRandomInt(max) {
-// 	return Math.floor(Math.random() * Math.floor(max));
-// }
 
 export default function generateLevel(global, ball, paddle, brickLayout, bricks, drawBricks) {
 
@@ -61,7 +58,7 @@ export default function generateLevel(global, ball, paddle, brickLayout, bricks,
 	// generates a bomb
 	global.randomNumberGenerator = getRandomInt(3);
 	if(global.randomNumberGenerator == 2) {
-		global.bomb = new Bomb(canvas.width / 2, canvas.height - 30);
+		global.bomb = new Bomb(480 / 2, 320 - 30);
     }
     
 
