@@ -2,6 +2,7 @@ import Ball from '../classes/ball.js';
 
 import clusterBomb from './clusterBomb.js';
 import rowBlaster from './rowBlaster.js';
+import columnBlaster from './columnBlaster.js';
 
 export default function checkBrickCollision(bricks, brickLayout, ball, global) {
 
@@ -33,11 +34,9 @@ export default function checkBrickCollision(bricks, brickLayout, ball, global) {
 
 							}
 
+							// if the ball is a column blaster, destroy all the bricks in the same column
 							if(ball.power == "Column Blaster") {
-								for(var y = 0; y < brickLayout.rows; y++) {
-									bricks[i][y].status = 0;
-									global.score++;
-								}
+								columnBlaster(global, bricks, brickLayout, i);
 							}
 
 							// if the ball is a ghost ball - only destroy the brick if the ball is moving downwards
