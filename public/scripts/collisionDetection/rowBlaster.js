@@ -23,7 +23,7 @@ export default function rowBlaster(global, bricks, brickLayout, brickX, brickY) 
         } else {
 
             // if the brick was not active, break the loop
-            x = brickLayout.columns;
+            index = brickLayout.columns;
         }
 
         // move to the brick on the right
