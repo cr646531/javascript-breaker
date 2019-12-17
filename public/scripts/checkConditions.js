@@ -61,9 +61,6 @@ export default function checkConditions(global, brickLayout, bricks, ball, paddl
 			if(global.randomNumberGenerator == 8) {
 				global.powerUp = "Ghost Ball";
 			}
-			if(global.randomNumberGenerator == 9) {
-				global.powerUp = "Destroy Bomb";
-			}
         }
         global.powerBall = 0;
     }

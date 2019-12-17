@@ -51,8 +51,14 @@ var global = {
 	scatterBalls: [],
 	lasers: [],
 
+	releasedPowerBall: 0,
+	brickContainingPowerUp: {
+		x: 0,
+		y: 0
+	},
+
 	// power up
-	powerUp: "Sticky Paddle"
+	powerUp: 0
 
 }
 
@@ -177,8 +183,12 @@ function clickHandler(event) {
 /* ------------------- LEVEL GENERATOR ----------------------- */
 
 function newLevel() {
-	brickLayout = generateLevel(global, ball, paddle);
-	bricks = brickLayout.getArray();
+
+	// temp will hold a brickLayout and a set of bricks
+	var temp = generateLevel(global, ball, paddle);
+	brickLayout = temp.brickLayout;
+	bricks = temp.bricks;
+	// bricks = brickLayout.getArray();
 	drawBricks();
 }
 
@@ -223,9 +233,6 @@ function usePowerUp() {
 	}
 	if(global.powerUp == "Ghost Ball") {
 		ball.power = "Ghost Ball";
-	}
-	if(global.powerUp = "Destroy Bomb") {
-		global.bomb = 0;
 	}
 
 	// releases the ball if it is stuck to the paddle

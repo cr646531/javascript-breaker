@@ -1,3 +1,6 @@
+import Ball from './classes/ball.js';
+import getRandomInt from './rng.js';
+
 export default function checkBrickCollision(bricks, brickLayout, ball, global) {
 
 	for(var i = 0; i < brickLayout.columns; i++){
@@ -73,11 +76,10 @@ export default function checkBrickCollision(bricks, brickLayout, ball, global) {
 								currBrick.status = 0;
 								global.score++;
 							}
-							
 						}
 
-                        // if the ball is a super ball, or laser shot - don't change direction
-						if(ball.power !== "Super Ball" && ball.power !== "laser") {
+                        // if the ball is a super ball, laser shot, or power ball - don't change direction
+						if(ball.power !== "Super Ball" && ball.power !== "laser" && ball.power !== "powerBall") {
 						    // change vertical direction of the ball
                             ball.dy = -ball.dy;
 						}
@@ -98,7 +100,21 @@ export default function checkBrickCollision(bricks, brickLayout, ball, global) {
 					}	
 				}
 			}
+
+			// release power ball if the brick containing power up is destroyed
+			if(!global.releasedPowerBall){
+				if(currBrick.status == 0 && currBrick.holdsPowerUp == true) {
+					console.log('release');
+
+					// generates the power ball
+					global.powerBall = new Ball(currBrick.x + (brickLayout.width / 2), currBrick.y, 10, "yellow", 0, 0.5, "powerBall")
+
+					// sets the global variable to indicate that the power ball has already been released
+					global.releasedPowerBall = true;
+				}
+			}
 		}
-    }
+	}
+	
     return false;
 }

@@ -4,7 +4,8 @@ import Bricks from './classes/bricks.js';
 import getRandomInt from './rng.js';
 
 
-export default function generateLevel(global, ball, paddle, brickLayout, bricks, drawBricks) {
+export default function generateLevel(global, ball, paddle) {
+
 
 	// at level 10 and level 30, remove one row of bricks
 	if(global.level == 10) {
@@ -35,11 +36,11 @@ export default function generateLevel(global, ball, paddle, brickLayout, bricks,
 
 	// determines, at random, which extra entities will spawn
 
-	// generates the power ball
-	global.randomNumberGenerator = getRandomInt(2);
-	if(global.randomNumberGenerator == 1){
-		global.powerBall = new Ball(480 / 2, 320 - 30, 10, "yellow", 0.5, -0.5, "powerBall")
-	}
+	// // generates the power ball
+	// global.randomNumberGenerator = getRandomInt(2);
+	// if(global.randomNumberGenerator == 1){
+	// 	global.powerBall = new Ball(480 / 2, 320 - 30, 10, "yellow", 0.5, -0.5, "powerBall")
+	// }
 
 	// ensures the player will not receive an extra ball and a power ball at the same time
 	if(!global.powerBall){
@@ -50,15 +51,42 @@ export default function generateLevel(global, ball, paddle, brickLayout, bricks,
 	}
 
 	// generates a bomb
-	// global.randomNumberGenerator = getRandomInt(3);
-	global.randomNumberGenerator = 2;
+	global.randomNumberGenerator = getRandomInt(3);
 	if(global.randomNumberGenerator == 2) {
 		global.bomb = new Bomb(480 / 2, 320 - 30);
     }
     
 
     // draw the next set of bricks
-    var output = new Bricks(global.level, global.rowThrottle)
-    return output;
+	var newBrickLayout = new Bricks(global.level, global.rowThrottle)
+	var newBricks = newBrickLayout.getArray();
+
+	// get random coordinate to determine which brick will hold the power ball
+	var xCoordinate = getRandomInt(newBrickLayout.columns);
+	var yCoordinate = getRandomInt(newBrickLayout.rows);
+
+	console.log(`brick containing power up: column ${xCoordinate}, row ${yCoordinate}`)
+
+	newBricks[xCoordinate][yCoordinate].holdsPowerUp = true;
+
+	var brickContainingPowerUp = {
+		x: xCoordinate,
+		y: yCoordinate
+	}
+
+	global.brickContainingPowerUp = brickContainingPowerUp;
+
+	var temp = {
+		brickLayout: newBrickLayout,
+		bricks: newBricks
+	}
+
+	// if the power ball does not exist at the start of the new level, reset the global variable
+    if(!global.powerBall){
+        //reset global variable releasedPowerBall to prompt the next power ball to be created
+        global.releasedPowerBall = false;
+    }
+
+    return temp;
 	
 }
