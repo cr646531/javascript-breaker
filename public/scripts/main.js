@@ -58,7 +58,7 @@ var global = {
 	},
 
 	// power up
-	powerUp: 'Column Blaster'
+	powerUp: 'Ghost Ball'
 }
 
 // entity variables

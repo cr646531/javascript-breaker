@@ -3,6 +3,7 @@ import Ball from '../classes/ball.js';
 import clusterBomb from './clusterBomb.js';
 import rowBlaster from './rowBlaster.js';
 import columnBlaster from './columnBlaster.js';
+import ghostBall from './ghostBall.js';
 
 export default function checkBrickCollision(bricks, brickLayout, ball, global) {
 
@@ -41,10 +42,7 @@ export default function checkBrickCollision(bricks, brickLayout, ball, global) {
 
 							// if the ball is a ghost ball - only destroy the brick if the ball is moving downwards
 							if(ball.power == "Ghost Ball") {
-								if(ball.dy == 2){
-									currBrick.status = 0;
-									global.score++;
-								}
+								ghostBall(global, ball, currBrick)
 							} else {
 								currBrick.status = 0;
 								global.score++;
