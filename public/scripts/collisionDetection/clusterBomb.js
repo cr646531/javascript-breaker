@@ -1,7 +1,9 @@
+/*
+    brickX and brickY are the coordinates of the brick that was hit
+    destroy all the bricks that are adjacent to this brick
+*/
+
 export default function clusterBomb(global, bricks, brickLayout, brickX, brickY) {
-    
-    // brickX and brickY are the coordinates of the brick that was hit
-    // destroy all the bricks that are adjacent to this brick
 
     // loop from left column through right column
     for(var i = -1; i < 2; i++) {
