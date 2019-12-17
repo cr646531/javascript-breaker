@@ -1,5 +1,7 @@
 import Ball from '../classes/ball.js';
 
+import clusterBomb from './clusterBomb.js';
+
 export default function checkBrickCollision(bricks, brickLayout, ball, global) {
 
 	for(var i = 0; i < brickLayout.columns; i++){
@@ -21,16 +23,7 @@ export default function checkBrickCollision(bricks, brickLayout, ball, global) {
 
 							// if the ball is a cluster bomb, destroy all the surrounding bricks
 							if(ball.power === "Cluster Bomb") {
-								for(var x = -1; x < 2; x++) {
-									for(var y = -1; y < 2; y++) {
-										if(i + x >= 0 && i + x < brickLayout.columns) {
-											if(j + y >= 0 && j +y < brickLayout.rows) {
-												bricks[i + x][j + y].status = 0;
-												global.score++;
-											}
-										}
-									}
-								}
+								clusterBomb(global, bricks, brickLayout, i, j);
 							} 
 							
 							// if the ball is a row blaster, destroy all bricks in the same row that are touching the brick

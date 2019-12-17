@@ -23,7 +23,7 @@ var interval = setInterval(draw, speed);
 
 /* ----------------------- GLOBAL VARIABLES ---------------------- */
 var global = {
-	level: 0,
+	level: 5,
 	score: 0,
 	lives: 3,
 	gameStatus: 0,
@@ -58,7 +58,7 @@ var global = {
 	},
 
 	// power up
-	powerUp: 0
+	powerUp: 'Cluster Bomb'
 }
 
 // entity variables
