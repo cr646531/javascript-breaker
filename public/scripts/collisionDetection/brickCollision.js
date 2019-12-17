@@ -1,5 +1,4 @@
-import Ball from './classes/ball.js';
-import getRandomInt from './rng.js';
+import Ball from '../classes/ball.js';
 
 export default function checkBrickCollision(bricks, brickLayout, ball, global) {
 

@@ -1,5 +1,5 @@
 import checkWallCollision from '../wallCollision.js';
-import checkBrickCollision from '../brickCollision.js';
+import checkBrickCollision from '../collisionDetection/brickCollision.js';
 
 export default function updatePowerBall(global, paddle, bricks, brickLayout) {
     // returns the x coordinate of where the extra ball touched the paddle

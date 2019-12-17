@@ -2,7 +2,7 @@ import Ball from './classes/ball.js';
 import Paddle from './classes/paddle.js';
 import Bricks from './classes/bricks.js';
 import checkWallCollision from './wallCollision.js';
-import checkBrickCollision from './brickCollision.js';
+import checkBrickCollision from './collisionDetection/brickCollision.js';
 import checkConditions from './checkConditions.js';
 import generateLevel from './generateLevel.js';
 
@@ -59,7 +59,6 @@ var global = {
 
 	// power up
 	powerUp: 0
-
 }
 
 // entity variables

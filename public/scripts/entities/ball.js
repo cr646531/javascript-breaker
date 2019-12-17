@@ -1,5 +1,5 @@
 import checkWallCollision from '../wallCollision.js';
-import checkBrickCollision from '../brickCollision.js';
+import checkBrickCollision from '../collisionDetection/brickCollision.js';
 
 export default function updateBall(global, ball, paddle, bricks, brickLayout) {
 
