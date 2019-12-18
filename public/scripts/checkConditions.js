@@ -104,11 +104,6 @@ export default function checkConditions(global, brickLayout, bricks, ball, paddl
 		global.score++;
 	}
 
-	// if the player destroyed a brick with the extra ball, the player gains 10 points
-	// if(global.extraBallBrickCollision){
-	// 	global.score += 10;
-	// }
-
 	// if there are no bricks remaining, the player is ready to advance
 	// the new level will begin once the ball touches the players paddle
 	var flag = 0;

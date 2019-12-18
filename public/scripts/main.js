@@ -352,9 +352,7 @@ function draw() {
 
 	// reset collision detection variables
 	global.ballWallCollision = 0;
-	// global.ballBrickCollision = 0;
 	global.extraBallWallCollision = 0;
-	// global.extraBallBrickCollision = 0;
 	global.bombCollision = 0;
 
 	// set the next position of the paddle based on the keyboard input

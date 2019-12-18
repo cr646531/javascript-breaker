@@ -1,10 +1,6 @@
 import Ball from '../classes/ball.js';
 
-import clusterBomb from './clusterBomb.js';
-import rowBlaster from './rowBlaster.js';
-import columnBlaster from './columnBlaster.js';
-import ghostBall from './ghostBall.js';
-
+import destroyBricks from './destroyBricks/destroyBricks.js';
 import ballMovement from './ballMovement.js';
 
 export default function checkBrickCollision(bricks, brickLayout, ball, global) {
@@ -25,45 +21,10 @@ export default function checkBrickCollision(bricks, brickLayout, ball, global) {
 						// the power ball doesn't destroy any blocks
 						// check to make sure we are not evaluating the power ball
                         if(ball.power !== "powerBall"){
-
-							// logic that dictates the destruction of bricks based on what kind of ball hit the brick
-							if(ball.power === "Cluster Bomb") {
-
-								// if the ball is a cluster bomb, destroy all the surrounding bricks
-								clusterBomb(global, bricks, brickLayout, i, j);
-
-							} else if(ball.power == "Row Blaster") {
-
-								// if the ball is a row blaster, destroy all bricks in the same row that are touching the brick
-								rowBlaster(global, bricks, brickLayout, i, j)
-
-							} else if(ball.power == "Column Blaster") {
-
-								// if the ball is a column blaster, destroy all the bricks in the same column
-								columnBlaster(global, bricks, brickLayout, i);
-
-							} else if(ball.power == "Ghost Ball") {
-
-								// if the ball is a ghost ball - only destroy the brick if the ball is moving downwards
-								ghostBall(global, ball, currBrick)
-
-							} else {
-
-								// if the ball is standard, destroy the brick
-								currBrick.status = 0;
-
-								// if the ball was destroyed with the extra ball, gain 10 points
-								// otherwise gain 5 points
-								if(ball == global.extraBall) {
-									global.score += 10;
-								} else {
-									global.score += 5;
-								}
-							}
+							destroyBricks(global, ball, bricks, brickLayout, currBrick, i, j)	
 						}
 
-						// logic that dictates the destruction of bricks based on what kind of ball hit the brick
-
+						// logic that dictates the directional movement of the ball
 						ballMovement(ball);
 						
 						// if the ball is a scatter ball, or laser shot, it disappears when it hits a brick
