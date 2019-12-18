@@ -7,11 +7,10 @@ import getRandomInt from './rng.js';
 export default function generateLevel(global, ball, paddle) {
 
 
-	// at level 10 and level 30, remove one row of bricks
-	if(global.level == 10) {
-		global.rowThrottle--;
-	} else if(global.level == 30) {
-		global.rowThrottle--;
+	// at level 15, add a row of bricks
+	if(global.level == 15) {
+		global.level = 1;
+		global.rowThrottle++;
 	}
 
 	// increase the level
@@ -50,7 +49,6 @@ export default function generateLevel(global, ball, paddle) {
 		global.bomb = new Bomb(480 / 2, 320 - 30);
     }
     
-
     // draw the next set of bricks
 	var newBrickLayout = new Bricks(global.level, global.rowThrottle)
 	var newBricks = newBrickLayout.getArray();

@@ -1,7 +1,5 @@
-import randomNumberGenerator from '../rng.js';
-
 export default class Bricks {
-    constructor(columns = 5, rows = 3, color = "red", padding = 10, width = 75, height = 20, topOffset = 30, leftOffset = 30, brickContainingPowerUp = {x: 0, y: 0}) {
+    constructor(columns = 5, rows = 3, color = "red", padding = 10, width = 75, height = 20, topOffset = 30, offset = 30, brickContainingPowerUp = {x: 0, y: 0}) {
         this.canvasWidth = 480;
         this.canvasHeight = 320
  
@@ -12,7 +10,7 @@ export default class Bricks {
         this.width = width;
         this.height = height;
         this.topOffset = topOffset;
-        this.leftOffset = leftOffset;
+        this.offset = offset;
         this.brickContainingPowerUp = brickContainingPowerUp;
     }
 
@@ -40,39 +38,6 @@ export default class Bricks {
 
         return brickArray;
     }
-
-    // setRandomCoordinate() {
-    //     // get random coordinates to determine which brick holds the power ball
-    //     if(this.columns == 0) {
-    //         var xCoordinate = 0;
-    //     } else {
-    //         var xCoordinate = randomNumberGenerator(this.columns);
-    //     }
-
-    //     if(this.rows == 0){
-    //         var yCoordinate = 0;
-    //     } else {
-    //         var yCoordinate = randomNumberGenerator(this.rows);
-    //     }
-
-    //     if(this.brickArray !== []) {
-
-    //         console.log(xCoordinate);
-    //         console.log(yCoordinate);
-    //         console.log(this.brickArray[0][0]);
-    //         console.log(this.brickArray[xCoordinate][yCoordinate]);
-
-    //         brickArray[xCoordinate][yCoordinate].holdsPowerUp = true;
-
-    //         var brickContainingPowerUp = {
-    //             x: xCoordinate,
-    //             y: yCoordinate
-    //         }
-
-    //         this.brickContainingPowerUp = brickContainingPowerUp;
-    //     }
-    // }
-
 }
 
 
