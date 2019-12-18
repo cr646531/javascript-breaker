@@ -8,9 +8,8 @@ export default function updateBall(global, ball, paddle, bricks, brickLayout) {
 	// returns 0 otherwise
 	global.ballWallCollision = checkWallCollision(ball, paddle);
 
-	// returns true if a brick was hit
-	// returns false otherwise
-    global.ballBrickCollision = checkBrickCollision(bricks, brickLayout, ball, global);
+	// check if the ball hit a brick
+    checkBrickCollision(bricks, brickLayout, ball, global);
 
     // set the next position of the ball
 

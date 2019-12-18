@@ -23,7 +23,7 @@ var interval = setInterval(draw, speed);
 
 /* ----------------------- GLOBAL VARIABLES ---------------------- */
 var global = {
-	level: 5,
+	level: 0,
 	score: 0,
 	lives: 3,
 	gameStatus: 0,
@@ -37,9 +37,7 @@ var global = {
 
 	// collision detection variables
 	ballWallCollision: 0,
-	ballBrickCollision: 0,
 	extraBallWallCollision: 0,
-	extraBallBrickCollision: 0,
 	bombCollision: 0,
 	powerBallWallCollision: 0,
 	powerBallBrickCollision: 0,
@@ -58,7 +56,7 @@ var global = {
 	},
 
 	// power up
-	powerUp: 'Ghost Ball'
+	powerUp: 'Cluster Bomb'
 }
 
 // entity variables
@@ -354,9 +352,9 @@ function draw() {
 
 	// reset collision detection variables
 	global.ballWallCollision = 0;
-	global.ballBrickCollision = 0;
+	// global.ballBrickCollision = 0;
 	global.extraBallWallCollision = 0;
-	global.extraBallBrickCollision = 0;
+	// global.extraBallBrickCollision = 0;
 	global.bombCollision = 0;
 
 	// set the next position of the paddle based on the keyboard input

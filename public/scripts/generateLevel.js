@@ -36,12 +36,6 @@ export default function generateLevel(global, ball, paddle) {
 
 	// determines, at random, which extra entities will spawn
 
-	// // generates the power ball
-	// global.randomNumberGenerator = getRandomInt(2);
-	// if(global.randomNumberGenerator == 1){
-	// 	global.powerBall = new Ball(480 / 2, 320 - 30, 10, "yellow", 0.5, -0.5, "powerBall")
-	// }
-
 	// ensures the player will not receive an extra ball and a power ball at the same time
 	if(!global.powerBall){
 		global.randomNumberGenerator = getRandomInt(3);
@@ -64,8 +58,6 @@ export default function generateLevel(global, ball, paddle) {
 	// get random coordinate to determine which brick will hold the power ball
 	var xCoordinate = getRandomInt(newBrickLayout.columns);
 	var yCoordinate = getRandomInt(newBrickLayout.rows);
-
-	console.log(`brick containing power up: column ${xCoordinate}, row ${yCoordinate}`)
 
 	newBricks[xCoordinate][yCoordinate].holdsPowerUp = true;
 

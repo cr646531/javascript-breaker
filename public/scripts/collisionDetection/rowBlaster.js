@@ -17,8 +17,8 @@ export default function rowBlaster(global, bricks, brickLayout, brickX, brickY) 
             // destroy the brick
             bricks[index][brickY].status = 0;
 
-            // increase the score by one
-            global.score++;
+            // increase the score by five
+            global.score += 5;
 
         } else {
 
@@ -42,8 +42,8 @@ export default function rowBlaster(global, bricks, brickLayout, brickX, brickY) 
             // destroy the brick
             bricks[index][brickY].status = 0;
             
-            // increase the score by one
-            global.score++;
+            // increase the score by five
+            global.score += 5;
 
         } else {
 

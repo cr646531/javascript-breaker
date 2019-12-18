@@ -17,11 +17,15 @@ export default function clusterBomb(global, bricks, brickLayout, brickX, brickY)
                 // check if the y-coordinate of the brick is in bounds
                 if(brickY + j >= 0 && brickY + j < brickLayout.rows) {
 
-                    // destroy the brick
-                    bricks[brickX + i][brickY + j].status = 0;
+                    // if the brick has not been destroyed
+                    if(bricks[brickX + i][brickY + j].status == 1) {
+                        
+                        // destroy the brick
+                        bricks[brickX + i][brickY + j].status = 0;
 
-                    // increase the score by one
-                    global.score++;
+                        // increase the score by five
+                        global.score += 5;
+                    }
                 }
             }
         }

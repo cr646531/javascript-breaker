@@ -51,37 +51,25 @@ export default function checkBrickCollision(bricks, brickLayout, ball, global) {
 
 								// if the ball is standard, destroy the brick
 								currBrick.status = 0;
-								global.score++;
 
+								// if the ball was destroyed with the extra ball, gain 10 points
+								// otherwise gain 5 points
+								if(ball == global.extraBall) {
+									global.score += 10;
+								} else {
+									global.score += 5;
+								}
 							}
 						}
 
 						// logic that dictates the destruction of bricks based on what kind of ball hit the brick
 
 						ballMovement(ball);
-					
-						// /* 
-						// 	The super ball, laser shot, and power ball don't bounce off bricks.
-						// 	The ghost ball only bounces off the top of bricks.
-						// 	Everything else bounces of the bricks normally
-						// */
-
-						// // the ball is not the super ball, laser shot, power ball, and ghost bomb - change vertical direction
-						// if(ball.power !== "Super Ball" && ball.power !== "laser" && ball.power !== "powerBall" && ball.power == "Ghost Ball") {
-						// 	ball.dy = -ball.dy;
-						// // if the ball is a ghost ball, only change vertical direction if the ball is moving downwards
-						// } else if(ball.power == "Ghost Ball") {
-						// 	if(ball.dy == -2) {
-						// 		ball.dy = -ball.dy;
-						// 	}
-						// }
 						
 						// if the ball is a scatter ball, or laser shot, it disappears when it hits a brick
 						if(ball.power == "scatter") {
 							ball.power = "none";
 						}
-
-						return true;
 					}	
 				}
 			}
@@ -89,7 +77,6 @@ export default function checkBrickCollision(bricks, brickLayout, ball, global) {
 			// release power ball if the brick containing power up is destroyed
 			if(!global.releasedPowerBall){
 				if(currBrick.status == 0 && currBrick.holdsPowerUp == true) {
-					console.log('release');
 
 					// generates the power ball
 					global.powerBall = new Ball(currBrick.x + (brickLayout.width / 2), currBrick.y, 10, "yellow", 0, 0.5, "powerBall")
@@ -100,6 +87,4 @@ export default function checkBrickCollision(bricks, brickLayout, ball, global) {
 			}
 		}
 	}
-	
-    return false;
 }

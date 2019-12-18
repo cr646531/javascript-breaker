@@ -84,16 +84,7 @@ export default function checkConditions(global, brickLayout, bricks, ball, paddl
             return 1;
 		}
 
-		// // if the player has the scatter shot power up, add two extra balls
-
-		// if(ball.power == "Scatter Shot"){
-		// 	var scatterBallOne = new Ball(paddle.position + global.ballWallCollision, 320 - 30, 10, "orange", -ball.dx, -2, "scatter");
-		// 	var scatterBallTwo = new Ball(paddle.position + global.ballWallCollision, 320 - 30, 10, "orange", 0, -2, "scatter");
-		// 	global.scatterBalls.push(scatterBallOne);
-		// 	global.scatterBalls.push(scatterBallTwo);
-		// }
-
-		// if the player has the scatter shot power up, add two extra balls
+		// if the player has the scatter shot power up, generate three extra balls
 		if(ball.power == "Scatter Shot"){
 			var scatterBallOne = new Ball(paddle.position + global.ballWallCollision, 320 - 30, 10, "orange", -ball.dx, -2, "scatter");
 			var scatterBallTwo = new Ball(paddle.position + global.ballWallCollision, 320 - 30, 10, "orange", -ball.dx / 2, -2, "scatter");
@@ -109,18 +100,14 @@ export default function checkConditions(global, brickLayout, bricks, ball, paddl
 			global.lasers.push(laser);
 		}
 
+		// increase the score by one
 		global.score++;
 	}
 
-	// if the player destroyed a brick, the player gains five points
-	if(global.ballBrickCollision){
-		global.score += 5;
-	}
-
 	// if the player destroyed a brick with the extra ball, the player gains 10 points
-	if(global.extraBallBrickCollision){
-		global.score += 10;
-	}
+	// if(global.extraBallBrickCollision){
+	// 	global.score += 10;
+	// }
 
 	// if there are no bricks remaining, the player is ready to advance
 	// the new level will begin once the ball touches the players paddle
