@@ -1,4 +1,4 @@
-import checkWallCollision from '../wallCollision.js';
+import checkWallCollision from '../collisionDetection/wallCollision.js';
 
 export default function updateBomb(global, paddle) {
 

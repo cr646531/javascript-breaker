@@ -1,4 +1,4 @@
-import checkWallCollision from '../wallCollision.js';
+import checkWallCollision from '../collisionDetection/wallCollision.js';
 import checkBrickCollision from '../collisionDetection/brickCollision.js';
 
 export default function updatePowerBall(global, paddle, bricks, brickLayout) {
