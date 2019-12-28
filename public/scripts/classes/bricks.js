@@ -19,9 +19,11 @@ export default class Bricks {
 
         if(this.columns <= 5){
             var padding = (this.canvasWidth - (this.columns * 75)) / (this.columns + 1);
-        } else {
+        } else if(this.columns <= 15) {
             padding = 10;
             this.width = (this.canvasWidth - (padding * (this.columns + 1))) / this.columns;
+        } else {
+            
         }
 
         for(var i = 0; i < this.columns; i++){

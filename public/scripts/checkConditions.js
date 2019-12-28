@@ -33,34 +33,36 @@ export default function checkConditions(global, brickLayout, bricks, ball, paddl
     // if the power ball touched the paddle, the player gains a power up
     if(global.powerBallWallCollision > 0) {
         if(global.powerBall) {
-            global.randomNumberGenerator = getRandomInt(9);
-            if(global.randomNumberGenerator == 0) {
-                global.powerUp = "Slow Time";
-            }
-            if(global.randomNumberGenerator == 1) {
-                global.powerUp = "Super Ball";
-            }
-            if(global.randomNumberGenerator == 2) {
-                global.powerUp = "Sticky Paddle";
-			}
-			if(global.randomNumberGenerator == 3) {
-				global.powerUp = "Cluster Bomb";
-			}
-			if(global.randomNumberGenerator == 4) {
-				global.powerUp = "Row Blaster";
-			}
-			if(global.randomNumberGenerator == 5) {
-				global.powerUp = "Column Blaster";
-			}
-			if(global.randomNumberGenerator == 6) {
-				global.powerUp = "Scatter Shot";
-			}
-			if(global.randomNumberGenerator == 7) {
-				global.powerUp = "Laser Shot";
-			}
-			if(global.randomNumberGenerator == 8) {
-				global.powerUp = "Ghost Ball";
-			}
+			global.randomNumberGenerator = getRandomInt(9);
+			global.powerUp = global.powers[global.randomNumberGenerator];
+
+            // if(global.randomNumberGenerator == 0) {
+            //     global.powerUp = "Slow Time";
+            // }
+            // if(global.randomNumberGenerator == 1) {
+            //     global.powerUp = "Super Ball";
+            // }
+            // if(global.randomNumberGenerator == 2) {
+            //     global.powerUp = "Sticky Paddle";
+			// }
+			// if(global.randomNumberGenerator == 3) {
+			// 	global.powerUp = "Cluster Bomb";
+			// }
+			// if(global.randomNumberGenerator == 4) {
+			// 	global.powerUp = "Row Blaster";
+			// }
+			// if(global.randomNumberGenerator == 5) {
+			// 	global.powerUp = "Column Blaster";
+			// }
+			// if(global.randomNumberGenerator == 6) {
+			// 	global.powerUp = "Scatter Shot";
+			// }
+			// if(global.randomNumberGenerator == 7) {
+			// 	global.powerUp = "Laser Shot";
+			// }
+			// if(global.randomNumberGenerator == 8) {
+			// 	global.powerUp = "Ghost Ball";
+			// }
         }
         global.powerBall = 0;
     }

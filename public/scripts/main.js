@@ -56,7 +56,8 @@ var global = {
 	},
 
 	// power up
-	powerUp: 'Cluster Bomb'
+	powerUp: 0,
+	powers: ["Slow Time", "Super Ball", "Sticky Paddle", "Cluster Bomb", "Row Blaster", "Column Blaster", "Scatter Shot", "Laser Shot", "Ghost Ball"]
 }
 
 // entity variables
@@ -123,7 +124,7 @@ function drawBomb(bomb) {
 function drawPowerUp() {
 	ctx.font = "16px Arial";
 	ctx.fillStyle = "black";
-	ctx.fillText(`${global.powerUp}`, canvas.width / 2, canvas.height / 2)
+	ctx.fillText(`${global.powerUp}`, canvas.width / 2 - 40, (canvas.height / 3) * 2)
 }
 
 
@@ -167,12 +168,6 @@ function mouseMoveHandler(event) {
 function clickHandler(event) {
 	click = true;
 }
-
-
-
-
-/* ------------------- RANDOM NUMBER GENERATOR ------------------ */
-
 
 
 
