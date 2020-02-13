@@ -57,8 +57,7 @@ var global = {
 
 	// power up
 	powerUp: 0,
-	powers: ["Slow Time", "Super Ball", "Sticky Paddle", "Cluster Bomb", "Row Blaster", "Column Blaster", "Scatter Shot", "Laser Shot", "Ghost Ball"],
-	pause: false
+	powers: ["Slow Time", "Super Ball", "Sticky Paddle", "Cluster Bomb", "Row Blaster", "Column Blaster", "Scatter Shot", "Laser Shot", "Ghost Ball"]
 }
 
 // entity variables
@@ -72,6 +71,14 @@ var bricks = brickLayout.getArray();
 
 
 /* ------------------------ DRAW FUNCTIONS ------------------------- */
+
+
+function drawIntro() {
+	ctx.font = "42px Arial";
+	ctx.fillStyle = "black";
+	ctx.fillText(`Press the spacebar`, 50, 100);
+	ctx.fillText('to start the game', 70, 200);
+}
 
 function drawBall(ball) {
 	ctx.beginPath();
@@ -138,6 +145,7 @@ var rightPressed = false;
 var leftPressed = false;
 var click = false;
 var pause = false;
+var play = false;
 
 document.addEventListener("keydown", keyDownHandler);
 document.addEventListener("keyup", keyUpHandler);
@@ -155,6 +163,8 @@ function keyDownHandler(event) {
 		} else {
 			pause = true;
 		}
+	} else if(event.keyCode == 32) {
+		play = true;
 	}
 }
 
@@ -168,7 +178,6 @@ function keyUpHandler(event) {
 
 function mouseMoveHandler(event) {
 	if(!pause) {
-
 		var relativeX = event.clientX - canvas.offsetLeft;
 		if(relativeX > paddle.width / 2 && relativeX < canvas.width - paddle.width / 2) {
 			paddle.position = relativeX - paddle.width / 2;
@@ -256,126 +265,133 @@ function usePowerUp() {
 
 
 function draw() {
-	// clear the canvas
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-	drawBall(ball);
-	drawPaddle();
-	drawBricks();
-	drawScore();
-	drawLives();
+	// CHECK TO SEE IF THE GAME HAS BEGUN
+	if(!play){
+		drawIntro();
+	} else {
 
-	if(global.powerUp) {
-		drawPowerUp();
-	}
+		// clear the canvas
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-	// CHECK TO SEE IF THE GAME IS PAUSED
-
-	if(!pause) {
-
-		// dictates the logic of the ball
-		updateBall(global, ball, paddle, bricks, brickLayout);
 		drawBall(ball);
-		// if the ball hit the paddle, increase the speed
-		if(global.ballWallCollision > 0) {
-			increaseSpeed();
+		drawPaddle();
+		drawBricks();
+		drawScore();
+		drawLives();
+
+		if(global.powerUp) {
+			drawPowerUp();
 		}
 
-		// dictates the logic of the bomb - assuming it exists
-		if(global.bomb) {
-			drawBomb(global.bomb);
-			updateBomb(global, paddle);
-		}
+		// CHECK TO SEE IF THE GAME IS PAUSED
 
-		// dictates the logic of the extra ball - assuming it exists
-		if(global.extraBall) {
-			drawBall(global.extraBall);
-			updateExtraBall(global, paddle, bricks, brickLayout);
-		}
+		if(!pause) {
 
-		// dictates the logic of the power ball - assuming it exists
-		if(global.powerBall) {
-			drawBall(global.powerBall);
-			updatePowerBall(global, paddle, bricks, brickLayout);
-		}
-
-		// dictates the logic of the scatter balls - assuming they exist
-		for(var i = 0; i < global.scatterBalls.length; i++) {
-
-			var curr = global.scatterBalls[i];
-			
-			// if the scatter ball hit a brick - erase it
-			// otherwise, update it
-			if(curr.power == "none") {
-				global.scatterBalls.splice(i, 1);
-				// update index so no elements are skipped within the loop
-				i--;
-			} else {
-				drawBall(curr);
-
-				// check to see if a brick was hit
-				checkBrickCollision(bricks, brickLayout, curr, global);
-				checkWallCollision(curr, paddle);
-
-				// update position of power ball
-				curr.x += curr.dx;
-				curr.y += curr.dy;
+			// dictates the logic of the ball
+			updateBall(global, ball, paddle, bricks, brickLayout);
+			drawBall(ball);
+			// if the ball hit the paddle, increase the speed
+			if(global.ballWallCollision > 0) {
+				increaseSpeed();
 			}
-		}
 
-		// dictates the logic of the lasers - assuming they exist
-		for(var i = 0; i < global.lasers.length; i++) {
-
-			var curr = global.lasers[i];
-			
-			// if the scatter ball hit a brick - erase it
-			// otherwise, update it
-			if(curr.power == "none") {
-				global.lasers.splice(i, 1);
-				// update index so no elements are skipped within the loop
-				i--;
-			} else {
-				drawBall(curr);
-
-				// check to see if a brick was hit
-				checkBrickCollision(bricks, brickLayout, curr, global);
-
-				// check to see if the top edge was hit
-				checkWallCollision(curr, paddle);
-
-				// update position of power ball
-				curr.x += curr.dx;
-				curr.y += curr.dy;
+			// dictates the logic of the bomb - assuming it exists
+			if(global.bomb) {
+				drawBomb(global.bomb);
+				updateBomb(global, paddle);
 			}
-		}
 
-		// use the player's power up
-		if(click == true) {
-			usePowerUp();
-			global.powerUp = 0;
-			click = false;
-		}
+			// dictates the logic of the extra ball - assuming it exists
+			if(global.extraBall) {
+				drawBall(global.extraBall);
+				updateExtraBall(global, paddle, bricks, brickLayout);
+			}
 
-		// returns 1 if the player cleared the level
-		// returns -1 if game over
-		global.gameStatus = checkConditions(global, brickLayout, bricks, ball, paddle);
+			// dictates the logic of the power ball - assuming it exists
+			if(global.powerBall) {
+				drawBall(global.powerBall);
+				updatePowerBall(global, paddle, bricks, brickLayout);
+			}
 
-		if(global.gameStatus == 1) {
-			newLevel();
-		} else if(global.gameStatus == -1) {
-			gameOver();
-		}
+			// dictates the logic of the scatter balls - assuming they exist
+			for(var i = 0; i < global.scatterBalls.length; i++) {
 
-		// reset collision detection variables
-		global.ballWallCollision = 0;
-		global.extraBallWallCollision = 0;
-		global.bombCollision = 0;
+				var curr = global.scatterBalls[i];
+				
+				// if the scatter ball hit a brick - erase it
+				// otherwise, update it
+				if(curr.power == "none") {
+					global.scatterBalls.splice(i, 1);
+					// update index so no elements are skipped within the loop
+					i--;
+				} else {
+					drawBall(curr);
 
-		// set the next position of the paddle based on the keyboard input
-		if(rightPressed && paddle.position < canvas.width - paddle.width) {
-			paddle.position += paddle.distance;
-		} else if(leftPressed && paddle.position > 0) {
-			paddle.position -= paddle.distance;
+					// check to see if a brick was hit
+					checkBrickCollision(bricks, brickLayout, curr, global);
+					checkWallCollision(curr, paddle);
+
+					// update position of power ball
+					curr.x += curr.dx;
+					curr.y += curr.dy;
+				}
+			}
+
+			// dictates the logic of the lasers - assuming they exist
+			for(var i = 0; i < global.lasers.length; i++) {
+
+				var curr = global.lasers[i];
+				
+				// if the scatter ball hit a brick - erase it
+				// otherwise, update it
+				if(curr.power == "none") {
+					global.lasers.splice(i, 1);
+					// update index so no elements are skipped within the loop
+					i--;
+				} else {
+					drawBall(curr);
+
+					// check to see if a brick was hit
+					checkBrickCollision(bricks, brickLayout, curr, global);
+
+					// check to see if the top edge was hit
+					checkWallCollision(curr, paddle);
+
+					// update position of power ball
+					curr.x += curr.dx;
+					curr.y += curr.dy;
+				}
+			}
+
+			// use the player's power up
+			if(click == true) {
+				usePowerUp();
+				global.powerUp = 0;
+				click = false;
+			}
+
+			// returns 1 if the player cleared the level
+			// returns -1 if game over
+			global.gameStatus = checkConditions(global, brickLayout, bricks, ball, paddle);
+
+			if(global.gameStatus == 1) {
+				newLevel();
+			} else if(global.gameStatus == -1) {
+				gameOver();
+			}
+
+			// reset collision detection variables
+			global.ballWallCollision = 0;
+			global.extraBallWallCollision = 0;
+			global.bombCollision = 0;
+
+			// set the next position of the paddle based on the keyboard input
+			if(rightPressed && paddle.position < canvas.width - paddle.width) {
+				paddle.position += paddle.distance;
+			} else if(leftPressed && paddle.position > 0) {
+				paddle.position -= paddle.distance;
+			}
 		}
 	}
 }
