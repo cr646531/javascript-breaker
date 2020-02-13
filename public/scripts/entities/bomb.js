@@ -10,4 +10,6 @@ export default function updateBomb(global, paddle) {
     // update position of the bomb
     global.bomb.x += global.bomb.dx;
     global.bomb.y += global.bomb.dy;
+
+    console.log(global.bomb.y);
 }

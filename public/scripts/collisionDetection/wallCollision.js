@@ -1,35 +1,66 @@
-export default function checkWallCollision(ball, paddle) {
+export default function checkWallCollision(obj, paddle) {
 
     var canvasWidth = 480;
-    var canvasHeight = 320;
+	var canvasHeight = 320;
 
-	// ball touches top edge
-	if(ball.y + ball.dy < ball.radius) {
-		ball.dy = -ball.dy;
+	// if the object is a bomb
+	if(obj.radius == "bomb") {
 
-		// if the ball is a laser shot, the ball disappears
-		if(ball.power == "laser") {
-			ball.power = "none";
+		// bomb touches top edge
+		if(obj.y == 0) {
+			obj.dy = -obj.dy;
+		}
+
+		// bomb touches left or right edge
+		if(obj.x == 0 || obj.x + obj.width == canvasWidth) {
+			obj.dx = -obj.dx;
+		}
+
+		// bomb touches the bottom frame
+		if(obj.y + obj.height == canvasHeight){
+
+			// change direction of vertical movement
+			obj.dy = -obj.dy;
+
+			// bomb is between left and right edges of the paddle
+			if(obj.x + obj.width / 2 > paddle.position && obj.x + obj.width / 2 < paddle.position + paddle.width) {
+				return obj.x - paddle.position
+			} else {
+				return -1;
+			}
+		}
+
+	} else {
+
+		// obj touches top edge
+		if(obj.y + obj.dy < obj.radius) {
+			obj.dy = -obj.dy;
+
+			// if the obj is a laser shot, the obj disappears
+			if(obj.power == "laser") {
+				obj.power = "none";
+			}
+		}
+
+		// obj touches left or right edge
+		if(obj.x + obj.dx < obj.radius || obj.x + obj.dx > canvasWidth - obj.radius) {
+			obj.dx = -obj.dx;
+		}
+
+		// obj touches the bottom frame
+		if(obj.y + obj.dy > canvasHeight - obj.radius){
+
+			// change direction of vertical movement
+			obj.dy = -obj.dy;
+
+			// obj is between left and right edges of the paddle
+			if(obj.x > paddle.position && obj.x < paddle.position + paddle.width) {
+				return obj.x - paddle.position
+			} else {
+				return -1;
+			}
 		}
 	}
 
-	// ball touches left or right edge
-	if(ball.x + ball.dx < ball.radius || ball.x + ball.dx > canvasWidth - ball.radius) {
-		ball.dx = -ball.dx;
-	}
-
-	// ball touches the bottom frame
-	if(ball.y + ball.dy > canvasHeight - ball.radius){
-
-        // change direction of vertical movement
-		ball.dy = -ball.dy;
-
-		// ball is between left and right edges of the paddle
-		if(ball.x > paddle.position && ball.x < paddle.position + paddle.width) {
-			return ball.x - paddle.position
-		} else {
-			return -1;
-		}
-	}
 	return 0;
 }

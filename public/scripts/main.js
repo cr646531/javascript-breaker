@@ -11,7 +11,9 @@ import updateExtraBall from './entities/extraBall.js';
 import updateBall from './entities/ball.js';
 import updateBomb from './entities/bomb.js';
 
+// document elements
 var canvas = document.getElementById('myCanvas');
+var bombImage = document.getElementById("bomb");
 var ctx = canvas.getContext('2d');
 
 
@@ -23,11 +25,12 @@ var interval = setInterval(draw, speed);
 
 /* ----------------------- GLOBAL VARIABLES ---------------------- */
 var global = {
+
+	// gameplay variables
 	level: 0,
 	score: 0,
 	lives: 3,
 	gameStatus: 0,
-	holdBall: false,
 
 	//level generator variables
 	advance: false,
@@ -41,6 +44,7 @@ var global = {
 	bombCollision: 0,
 	powerBallWallCollision: 0,
 	powerBallBrickCollision: 0,
+	holdBall: false,
 
 	// extra entity variables
 	extraBall: 0,
@@ -49,6 +53,7 @@ var global = {
 	scatterBalls: [],
 	lasers: [],
 
+	// power up ball location and status
 	releasedPowerBall: 0,
 	brickContainingPowerUp: {
 		x: 0,
@@ -148,9 +153,10 @@ function drawLives() {
 }
 
 function drawBomb(bomb) {
-	ctx.font = "16px Arial";
-	ctx.fillStyle = bomb.color;
-	ctx.fillText('X', bomb.x, bomb.y);
+	ctx.drawImage(bombImage, bomb.x, bomb.y);
+	// ctx.font = "16px Arial";
+	// ctx.fillStyle = bomb.color;
+	// ctx.fillText('X', bomb.x, bomb.y);
 }
 
 function drawPowerUp() {
