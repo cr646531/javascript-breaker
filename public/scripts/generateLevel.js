@@ -45,8 +45,7 @@ export default function generateLevel(global, ball, paddle) {
 
 	// generates a bomb
 	global.randomNumberGenerator = getRandomInt(3);
-	// if(global.randomNumberGenerator == 2) {
-	if(true) {
+	if(global.randomNumberGenerator == 2) {
 		global.bomb = new Bomb(480 / 2, 320 - 30);
     }
     

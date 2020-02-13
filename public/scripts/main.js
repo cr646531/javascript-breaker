@@ -225,12 +225,6 @@ function clickHandler(event) {
 	click = true;
 }
 
-function pressHandler(event, global) {
-	if(event.keyCode == 80) {
-		pause = true;
-	}
-}
-
 
 
 
