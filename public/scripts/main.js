@@ -80,6 +80,30 @@ function drawIntro() {
 	ctx.fillText('to start the game', 70, 200);
 }
 
+function drawPause() {
+
+	// draw a black border around the white text
+	ctx.font = "bold 64px Verdana";
+	ctx.fillStyle = "black";
+
+	var x = 111;
+	var y = 170;
+
+	for(var i = 0; i <= 8; i++) {
+		for(var j = 0; j <= 10; j++) {
+			ctx.fillText('PAUSE', x, y);
+			y++;
+		}
+		x++;
+		y = 170;
+	}
+	
+	// draw the white text over the border
+	ctx.font = "bold 64px Verdana";
+	ctx.fillStyle = "white";
+	ctx.fillText(`PAUSE`, 115, 175);
+}
+
 function drawBall(ball) {
 	ctx.beginPath();
 	ctx.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);
@@ -144,8 +168,12 @@ function drawPowerUp() {
 var rightPressed = false;
 var leftPressed = false;
 var click = false;
-var pause = false;
 var play = false;
+
+// controls the pause screen
+var pause = false;
+// delays the pause menu to make the text flash on and off
+var count = 0;
 
 document.addEventListener("keydown", keyDownHandler);
 document.addEventListener("keyup", keyUpHandler);
@@ -162,6 +190,8 @@ function keyDownHandler(event) {
 			pause = false;
 		} else {
 			pause = true;
+			count = 0;
+
 		}
 	} else if(event.keyCode == 32) {
 		play = true;
@@ -201,7 +231,6 @@ function pressHandler(event, global) {
 /* ------------------- LEVEL GENERATOR ----------------------- */
 
 function newLevel() {
-
 	// temp will hold a brickLayout and a set of bricks
 	var temp = generateLevel(global, ball, paddle);
 	brickLayout = temp.brickLayout;
@@ -263,30 +292,46 @@ function usePowerUp() {
 
 /* -------------------- GAME LOGIC ---------------------- */
 
-
 function draw() {
 
 	// CHECK TO SEE IF THE GAME HAS BEGUN
 	if(!play){
+
+		// if the game has not begun, draw the intro screen
 		drawIntro();
+
 	} else {
 
 		// clear the canvas
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-		drawBall(ball);
-		drawPaddle();
-		drawBricks();
 		drawScore();
 		drawLives();
-
-		if(global.powerUp) {
-			drawPowerUp();
-		}
+		drawPaddle();
 
 		// CHECK TO SEE IF THE GAME IS PAUSED
+		if(pause) {
 
-		if(!pause) {
+			// if the game is paused, draw the pause screen
+			// conditionally draw the pause screen to make the text flash on and off
+
+			if(count < 100) {
+				drawPause();
+			} else {
+				if(count === 150) {
+					count = 0;
+				}
+			}
+			count++;
+
+		} else {
+
+			drawBall(ball);
+			drawBricks();
+
+			if(global.powerUp) {
+				drawPowerUp();
+			}
 
 			// dictates the logic of the ball
 			updateBall(global, ball, paddle, bricks, brickLayout);
