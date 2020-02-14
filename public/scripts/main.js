@@ -16,6 +16,7 @@ var canvas = document.getElementById('myCanvas');
 var ctx = canvas.getContext('2d');
 
 // images
+var game_ball = document.getElementById("game_ball");
 var bombImage = document.getElementById("bomb");
 var clockImage = document.getElementById("clock");
 
@@ -154,11 +155,11 @@ function drawBall(ball) {
 		if(global.nextPower == "Slow Time") {
 			ctx.drawImage(clockImage, ball.x - ball.radius, ball.y - ball.radius)
 		} else if(global.nextPower == "Arrow") {
-			ctx.drawImage(arrow, ball.x - ball.radius, ball.y - ball.radius);
+			ctx.drawImage(arrow_SE, ball.x - ball.radius, ball.y - ball.radius);
 		} else if(global.nextPower == "Sticky Paddle") {
 			ctx.drawImage(slime_ball, ball.x - ball.radius, ball.y - ball.radius);
 		} else if(global.nextPower == "Missile") {
-			ctx.drawImage(missile, ball.x - ball.radius, ball.y - ball.radius);
+			ctx.drawImage(missile_SE, ball.x - ball.radius, ball.y - ball.radius);
 		} else if(global.nextPower == "Row Blaster") {
 			ctx.drawImage(row_blaster, ball.x - ball.radius, ball.y - ball.radius);
 		} else if(global.nextPower == "Column Blaster") {
@@ -230,11 +231,13 @@ function drawBall(ball) {
 		} else {
 
 			// if the ball is standard
-			ctx.beginPath();
-			ctx.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);
-			ctx.fillStyle = ball.color;
-			ctx.fill();
-			ctx.closePath();
+			ctx.drawImage(game_ball, ball.x - ball.radius, ball.y - ball.radius);
+
+			// ctx.beginPath();
+			// ctx.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);
+			// ctx.fillStyle = ball.color;
+			// ctx.fill();
+			// ctx.closePath();
 		}
 	}
 }
