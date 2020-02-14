@@ -117,7 +117,7 @@ function drawBall(ball) {
 	if(ball.power == "powerBall") {
 		// draw a clock
 		if(global.nextPower == "Slow Time") {
-			ctx.drawImage(clockImage, ball.x, ball.y)
+			ctx.drawImage(clockImage, ball.x - ball.radius, ball.y - ball.radius)
 		}
 	} else {
 		ctx.beginPath();
