@@ -44,6 +44,12 @@ var lightning_NW = document.getElementById("lightning_NW");
 var laser_S = document.getElementById("laser_S");
 var laser_N = document.getElementById("laser_N");
 
+var ghost = document.getElementById("ghost");
+var ghost_NE = document.getElementById("ghost_NE");
+var ghost_SE = document.getElementById("ghost_SE");
+var ghost_SW = document.getElementById("ghost_SW");
+var ghost_NW = document.getElementById("ghost_NW");
+
 
 // update the canvas every 10ms
 var speed = 10;
@@ -161,6 +167,8 @@ function drawBall(ball) {
 			ctx.drawImage(scatter_shot, ball.x - ball.radius, ball.y - ball.radius);
 		} else if(global.nextPower == "Laser Shot") {
 			ctx.drawImage(laser_S, ball.x - ball.radius, ball.y - ball.radius);
+		} else if(global.nextPower = "Ghost Ball") {
+			ctx.drawImage(ghost, ball.x - ball.radius, ball.y - ball.radius);
 		}
 
 	} else if(ball.power == "scatter") {
@@ -204,8 +212,21 @@ function drawBall(ball) {
 			}
 		} else if(ball.power == "laser") {
 
+			// draw a laser facing downward
 			ctx.drawImage(laser_N, ball.x - ball.radius, ball.y - ball.radius);
 
+		} else if(ball.power == "Ghost Ball") {
+
+			// draw the missile so that it faces the correct direction
+			if(ball.dx > 0 && ball.dy < 0) {
+				ctx.drawImage(ghost_NE, ball.x - ball.radius, ball.y - ball.radius);
+			} else if(ball.dx > 0 && ball.dy > 0) {
+				ctx.drawImage(ghost_SE, ball.x - ball.radius, ball.y - ball.radius);
+			} else if(ball.dx < 0 && ball.dy > 0) {
+				ctx.drawImage(ghost_SW, ball.x - ball.radius, ball.y - ball.radius);
+			} else if(ball.dx < 0 && ball.dy < 0) {
+				ctx.drawImage(ghost_NW, ball.x - ball.radius, ball.y - ball.radius);
+			}	
 		} else {
 
 			// if the ball is standard
