@@ -18,17 +18,18 @@ var ctx = canvas.getContext('2d');
 // images
 var bombImage = document.getElementById("bomb");
 var clockImage = document.getElementById("clock");
+
 var arrow = document.getElementById("arrow");
 var arrow_NE = document.getElementById("arrow_NE");
 var arrow_SE = document.getElementById("arrow_SE");
 var arrow_SW = document.getElementById("arrow_SW");
 var arrow_NW = document.getElementById("arrow_NW");
 
+var missile = document.getElementById("missile");
 var missile_NE = document.getElementById("missile_NE");
 var missile_SE = document.getElementById("missile_SE");
 var missile_SW = document.getElementById("missile_SW");
 var missile_NW = document.getElementById("missile_NW");
-var missile = document.getElementById("missile");
 
 var slime_ball = document.getElementById("slime_ball");
 
@@ -79,7 +80,7 @@ var global = {
 	// power up
 	powerUp: 0,
 	nextPower: 0,
-	powers: ["Slow Time", "Arrow", "Sticky Paddle", "Cluster Bomb", "Row Blaster", "Column Blaster", "Scatter Shot", "Laser Shot", "Ghost Ball"]
+	powers: ["Slow Time", "Arrow", "Sticky Paddle", "Missile", "Row Blaster", "Column Blaster", "Scatter Shot", "Laser Shot", "Ghost Ball"]
 }
 
 // entity variables
@@ -140,16 +141,15 @@ function drawBall(ball) {
 			ctx.drawImage(arrow, ball.x - ball.radius, ball.y - ball.radius);
 		} else if(global.nextPower == "Sticky Paddle") {
 			ctx.drawImage(slime_ball, ball.x - ball.radius, ball.y - ball.radius);
-		} else if(global.nextPower = "Cluster Bomb") {
+		} else if(global.nextPower = "Missile") {
 			ctx.drawImage(missile, ball.x - ball.radius, ball.y - ball.radius);
 		}
 
 	} else {
 
-		// if the ball is a super ball
 		if(ball.power == "Arrow") {
 
-			// draw the image so that the bullet faces the correct direction
+			// draw the Arrow so that the it faces the correct direction
 			if(ball.dx > 0 && ball.dy < 0) {
 				ctx.drawImage(arrow_NE, ball.x - ball.radius, ball.y - ball.radius);
 			} else if(ball.dx > 0 && ball.dy > 0) {
@@ -159,7 +159,20 @@ function drawBall(ball) {
 			} else if(ball.dx < 0 && ball.dy < 0) {
 				ctx.drawImage(arrow_NW, ball.x - ball.radius, ball.y - ball.radius);
 			}
-		} else {
+		} else if(ball.power == "Missile") {
+
+			// draw the missile so that it faces the correct direction
+			if(ball.dx > 0 && ball.dy < 0) {
+				ctx.drawImage(missile_NE, ball.x - ball.radius, ball.y - ball.radius);
+			} else if(ball.dx > 0 && ball.dy > 0) {
+				ctx.drawImage(missile_SE, ball.x - ball.radius, ball.y - ball.radius);
+			} else if(ball.dx < 0 && ball.dy > 0) {
+				ctx.drawImage(missile_SW, ball.x - ball.radius, ball.y - ball.radius);
+			} else if(ball.dx < 0 && ball.dy < 0) {
+				ctx.drawImage(missile_NW, ball.x - ball.radius, ball.y - ball.radius);
+			}	
+		}
+		else {
 
 			// if the ball is standard
 			ctx.beginPath();
@@ -315,8 +328,8 @@ function usePowerUp() {
 		paddle.power = "Sticky Paddle";
 		paddle.color = "green";
 	}
-	if(global.powerUp == "Cluster Bomb") {
-		ball.power = "Cluster Bomb";
+	if(global.powerUp == "Missile") {
+		ball.power = "Missile";
 	}
 	if(global.powerUp == "Row Blaster") {
 		ball.power = "Row Blaster";

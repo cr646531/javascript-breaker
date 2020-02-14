@@ -1,4 +1,4 @@
-import clusterBomb from './clusterBomb.js';
+import missile from './missile.js';
 import rowBlaster from './rowBlaster.js';
 import columnBlaster from './columnBlaster.js';
 import ghostBall from './ghostBall.js';
@@ -6,10 +6,10 @@ import ghostBall from './ghostBall.js';
 export default function destroyBricks(global, ball, bricks, brickLayout, currBrick, brickX, brickY) {
 
     
-    if(ball.power === "Cluster Bomb") {
+    if(ball.power === "Missile") {
 
         // if the ball is a cluster bomb, destroy all the surrounding bricks
-        clusterBomb(global, bricks, brickLayout, brickX, brickY);
+        missile(global, bricks, brickLayout, brickX, brickY);
 
     } else if(ball.power == "Row Blaster") {
 

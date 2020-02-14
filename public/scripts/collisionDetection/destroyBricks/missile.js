@@ -3,7 +3,7 @@
     destroy all the bricks that are adjacent to this brick
 */
 
-export default function clusterBomb(global, bricks, brickLayout, brickX, brickY) {
+export default function missile(global, bricks, brickLayout, brickX, brickY) {
 
     // loop from left column through right column
     for(var i = -1; i < 2; i++) {
