@@ -13,9 +13,16 @@ import updateBomb from './entities/bomb.js';
 
 // document elements
 var canvas = document.getElementById('myCanvas');
+var ctx = canvas.getContext('2d');
+
+// images
 var bombImage = document.getElementById("bomb");
 var clockImage = document.getElementById("clock");
-var ctx = canvas.getContext('2d');
+var arrow = document.getElementById("arrow");
+var arrow_NE = document.getElementById("arrow_NE");
+var arrow_SE = document.getElementById("arrow_SE");
+var arrow_SW = document.getElementById("arrow_SW");
+var arrow_NW = document.getElementById("arrow_NW");
 
 
 // update the canvas every 10ms
@@ -115,16 +122,40 @@ function drawBall(ball) {
 
 	// if the ball is a power ball
 	if(ball.power == "powerBall") {
+
+		// draw the appropriate icon that matches the power up
+
 		// draw a clock
 		if(global.nextPower == "Slow Time") {
 			ctx.drawImage(clockImage, ball.x - ball.radius, ball.y - ball.radius)
+		} else if(global.nextPower == "Super Ball") {
+			ctx.drawImage(arrow, ball.x - ball.radius, ball.y - ball.radius);
 		}
+
 	} else {
-		ctx.beginPath();
-		ctx.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);
-		ctx.fillStyle = ball.color;
-		ctx.fill();
-		ctx.closePath();
+
+		// if the ball is a super ball
+		if(ball.power == "Super Ball") {
+
+			// draw the image so that the bullet faces the correct direction
+			if(ball.dx > 0 && ball.dy < 0) {
+				ctx.drawImage(arrow_NE, ball.x - ball.radius, ball.y - ball.radius);
+			} else if(ball.dx > 0 && ball.dy > 0) {
+				ctx.drawImage(arrow_SE, ball.x - ball.radius, ball.y - ball.radius);
+			} else if(ball.dx < 0 && ball.dy > 0) {
+				ctx.drawImage(arrow_SW, ball.x - ball.radius, ball.y - ball.radius);
+			} else if(ball.dx < 0 && ball.dy < 0) {
+				ctx.drawImage(arrow_NW, ball.x - ball.radius, ball.y - ball.radius);
+			}
+		} else {
+
+			// if the ball is standard
+			ctx.beginPath();
+			ctx.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);
+			ctx.fillStyle = ball.color;
+			ctx.fill();
+			ctx.closePath();
+		}
 	}
 }
 
