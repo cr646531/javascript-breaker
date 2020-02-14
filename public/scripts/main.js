@@ -21,14 +21,13 @@ var bombImage = document.getElementById("bomb");
 var heart = document.getElementById("heart");
 var coin = document.getElementById("coin");
 var clockImage = document.getElementById("clock");
+var revert_paddle = document.getElementById("revert_paddle");
 
-var arrow = document.getElementById("arrow");
 var arrow_NE = document.getElementById("arrow_NE");
 var arrow_SE = document.getElementById("arrow_SE");
 var arrow_SW = document.getElementById("arrow_SW");
 var arrow_NW = document.getElementById("arrow_NW");
 
-var missile = document.getElementById("missile");
 var missile_NE = document.getElementById("missile_NE");
 var missile_SE = document.getElementById("missile_SE");
 var missile_SW = document.getElementById("missile_SW");
@@ -100,7 +99,7 @@ var global = {
 	// power up
 	powerUp: 0,
 	nextPower: 0,
-	powers: ["Slow Time", "Extra Life", "Arrow", "Sticky Paddle", "Missile", "Row Blaster", "Column Blaster", "Scatter Shot", "Laser Shot", "Ghost Ball"]
+	powers: ["Slow Time", "Extra Life", "Arrow", "Sticky Paddle", "Missile", "Row Blaster", "Column Blaster", "Scatter Shot", "Laser Shot", "Ghost Ball", "Revert Paddle"]
 }
 
 // entity variables
@@ -172,8 +171,10 @@ function drawBall(ball) {
 			ctx.drawImage(scatter_shot, ball.x - ball.radius, ball.y - ball.radius);
 		} else if(global.nextPower == "Laser Shot") {
 			ctx.drawImage(laser_S, ball.x - ball.radius, ball.y - ball.radius);
-		} else if(global.nextPower = "Ghost Ball") {
+		} else if(global.nextPower == "Ghost Ball") {
 			ctx.drawImage(ghost, ball.x - ball.radius, ball.y - ball.radius);
+		} else if(global.nextPower == "Revert Paddle") {
+			ctx.drawImage(revert_paddle, ball.x - ball.radius, ball.y - ball.radius);
 		}
 
 	} else if(ball.power == "extraBall") {
@@ -240,12 +241,6 @@ function drawBall(ball) {
 
 			// if the ball is standard
 			ctx.drawImage(game_ball, ball.x - ball.radius, ball.y - ball.radius);
-
-			// ctx.beginPath();
-			// ctx.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);
-			// ctx.fillStyle = ball.color;
-			// ctx.fill();
-			// ctx.closePath();
 		}
 	}
 }
@@ -411,6 +406,9 @@ function usePowerUp() {
 	}
 	if(global.powerUp == "Ghost Ball") {
 		ball.power = "Ghost Ball";
+	}
+	if(global.powerUp == "Revert Paddle") {
+		paddle.width = 75;
 	}
 
 	// releases the ball if it is stuck to the paddle

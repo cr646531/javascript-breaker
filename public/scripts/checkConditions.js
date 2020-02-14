@@ -1,4 +1,3 @@
-import getRandomInt from './rng.js';
 import Ball from './classes/Ball.js';
 
 
