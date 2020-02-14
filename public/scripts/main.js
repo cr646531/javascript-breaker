@@ -33,6 +33,7 @@ var missile_NW = document.getElementById("missile_NW");
 
 var slime_ball = document.getElementById("slime_ball");
 var row_blaster = document.getElementById("row_blaster");
+var column_blaster = document.getElementById("column_blaster");
 
 
 // update the canvas every 10ms
@@ -135,7 +136,6 @@ function drawBall(ball) {
 
 		// draw the appropriate icon that matches the power up
 
-		// draw a clock
 		if(global.nextPower == "Slow Time") {
 			ctx.drawImage(clockImage, ball.x - ball.radius, ball.y - ball.radius)
 		} else if(global.nextPower == "Arrow") {
@@ -146,6 +146,8 @@ function drawBall(ball) {
 			ctx.drawImage(missile, ball.x - ball.radius, ball.y - ball.radius);
 		} else if(global.nextPower == "Row Blaster") {
 			ctx.drawImage(row_blaster, ball.x - ball.radius, ball.y - ball.radius);
+		} else if(global.nextPower == "Column Blaster") {
+			ctx.drawImage(column_blaster, ball.x - ball.radius, ball.y - ball.radius);
 		}
 
 	} else {
