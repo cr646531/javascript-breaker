@@ -2,6 +2,7 @@ import checkWallCollision from '../collisionDetection/wallCollision.js';
 import checkBrickCollision from '../collisionDetection/brickCollision.js';
 
 export default function updatePowerBall(global, paddle, bricks, brickLayout) {
+    
     // returns the x coordinate of where the power ball touched the paddle
     // returns -1 if the power ball touched the ground
     // returns 0 otherwise

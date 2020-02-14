@@ -1,5 +1,6 @@
 import Ball from '../classes/ball.js';
 
+import getRandomInt from '../rng.js';
 import destroyBricks from './destroyBricks/destroyBricks.js';
 import ballMovement from './ballMovement.js';
 
@@ -38,6 +39,10 @@ export default function checkBrickCollision(bricks, brickLayout, ball, global) {
 			// release power ball if the brick containing power up is destroyed
 			if(!global.releasedPowerBall){
 				if(currBrick.status == 0 && currBrick.holdsPowerUp == true) {
+
+					global.randomNumberGenerator = getRandomInt(9);
+					//global.nextPower = global.powers[global.randomNumberGenerator];
+					global.nextPower = global.powers[0];
 
 					// generates the power ball
 					global.powerBall = new Ball(currBrick.x + (brickLayout.width / 2), currBrick.y, 10, "yellow", 0, 0.5, "powerBall")

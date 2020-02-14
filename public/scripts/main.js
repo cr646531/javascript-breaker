@@ -14,6 +14,7 @@ import updateBomb from './entities/bomb.js';
 // document elements
 var canvas = document.getElementById('myCanvas');
 var bombImage = document.getElementById("bomb");
+var clockImage = document.getElementById("clock");
 var ctx = canvas.getContext('2d');
 
 
@@ -62,6 +63,7 @@ var global = {
 
 	// power up
 	powerUp: 0,
+	nextPower: 0,
 	powers: ["Slow Time", "Super Ball", "Sticky Paddle", "Cluster Bomb", "Row Blaster", "Column Blaster", "Scatter Shot", "Laser Shot", "Ghost Ball"]
 }
 
@@ -110,11 +112,20 @@ function drawPause() {
 }
 
 function drawBall(ball) {
-	ctx.beginPath();
-	ctx.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);
-	ctx.fillStyle = ball.color;
-	ctx.fill();
-	ctx.closePath();
+
+	// if the ball is a power ball
+	if(ball.power == "powerBall") {
+		// draw a clock
+		if(global.nextPower == "Slow Time") {
+			ctx.drawImage(clockImage, ball.x, ball.y)
+		}
+	} else {
+		ctx.beginPath();
+		ctx.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);
+		ctx.fillStyle = ball.color;
+		ctx.fill();
+		ctx.closePath();
+	}
 }
 
 function drawPaddle() {
@@ -154,9 +165,6 @@ function drawLives() {
 
 function drawBomb(bomb) {
 	ctx.drawImage(bombImage, bomb.x, bomb.y);
-	// ctx.font = "16px Arial";
-	// ctx.fillStyle = bomb.color;
-	// ctx.fillText('X', bomb.x, bomb.y);
 }
 
 function drawPowerUp() {
