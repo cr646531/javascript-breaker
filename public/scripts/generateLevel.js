@@ -40,7 +40,7 @@ export default function generateLevel(global, ball, paddle) {
 	if(!global.powerBall){
 		global.randomNumberGenerator = getRandomInt(3);
 		if(global.randomNumberGenerator == 2) {
-			global.extraBall = new Ball(480 / 2, 320 - 30, 10, "purple", 0.5, -0.5)
+			global.extraBall = new Ball(480 / 2, 320 - 30, 10, "purple", 0.5, -0.5, "extraBall");
 		}
 	}
 

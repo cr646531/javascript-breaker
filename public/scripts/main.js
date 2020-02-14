@@ -18,6 +18,8 @@ var ctx = canvas.getContext('2d');
 // images
 var game_ball = document.getElementById("game_ball");
 var bombImage = document.getElementById("bomb");
+var heart = document.getElementById("heart");
+var coin = document.getElementById("coin");
 var clockImage = document.getElementById("clock");
 
 var arrow = document.getElementById("arrow");
@@ -98,7 +100,7 @@ var global = {
 	// power up
 	powerUp: 0,
 	nextPower: 0,
-	powers: ["Slow Time", "Arrow", "Sticky Paddle", "Missile", "Row Blaster", "Column Blaster", "Scatter Shot", "Laser Shot", "Ghost Ball"]
+	powers: ["Slow Time", "Extra Life", "Arrow", "Sticky Paddle", "Missile", "Row Blaster", "Column Blaster", "Scatter Shot", "Laser Shot", "Ghost Ball"]
 }
 
 // entity variables
@@ -154,6 +156,8 @@ function drawBall(ball) {
 
 		if(global.nextPower == "Slow Time") {
 			ctx.drawImage(clockImage, ball.x - ball.radius, ball.y - ball.radius)
+		} else if(global.nextPower == "Extra Life") {
+			ctx.drawImage(heart, ball.x - ball.radius, ball.y - ball.radius)
 		} else if(global.nextPower == "Arrow") {
 			ctx.drawImage(arrow_SE, ball.x - ball.radius, ball.y - ball.radius);
 		} else if(global.nextPower == "Sticky Paddle") {
@@ -171,6 +175,10 @@ function drawBall(ball) {
 		} else if(global.nextPower = "Ghost Ball") {
 			ctx.drawImage(ghost, ball.x - ball.radius, ball.y - ball.radius);
 		}
+
+	} else if(ball.power == "extraBall") {
+
+		ctx.drawImage(coin, ball.x - ball.radius, ball.y - ball.radius);
 
 	} else if(ball.power == "scatter") {
 

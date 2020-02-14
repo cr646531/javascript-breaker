@@ -40,7 +40,7 @@ export default function checkBrickCollision(bricks, brickLayout, ball, global) {
 			if(!global.releasedPowerBall){
 				if(currBrick.status == 0 && currBrick.holdsPowerUp == true) {
 
-					global.randomNumberGenerator = getRandomInt(9);
+					global.randomNumberGenerator = getRandomInt(10);
 					global.nextPower = global.powers[global.randomNumberGenerator];
 					//global.nextPower = global.powers[3];
 

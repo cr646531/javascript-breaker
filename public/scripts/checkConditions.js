@@ -33,7 +33,11 @@ export default function checkConditions(global, brickLayout, bricks, ball, paddl
     // if the power ball touched the paddle, the player gains a power up
     if(global.powerBallWallCollision > 0) {
         if(global.powerBall) {
-			global.powerUp = global.nextPower;
+			if(global.nextPower == "Extra Life") {
+				global.lives++;
+			} else {
+				global.powerUp = global.nextPower;
+			}
         }
 		global.powerBall = 0;
 		global.nextPower = 0;
