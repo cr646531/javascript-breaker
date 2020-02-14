@@ -42,7 +42,7 @@ export default function checkBrickCollision(bricks, brickLayout, ball, global) {
 
 					global.randomNumberGenerator = getRandomInt(9);
 					//global.nextPower = global.powers[global.randomNumberGenerator];
-					global.nextPower = global.powers[5];
+					global.nextPower = global.powers[7];
 
 					console.log(global.nextPower);
 

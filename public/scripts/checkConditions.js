@@ -71,7 +71,7 @@ export default function checkConditions(global, brickLayout, bricks, ball, paddl
 
 		// if the player has the laser shot power up, fire one extra ball
 		if(ball.power == "Laser Shot") {
-			var laser = new Ball(paddle.position + global.ballWallCollision, 320 - 30, 10, "black", 0, -2, "laser");
+			var laser = new Ball(paddle.position + global.ballWallCollision, 320 - 30, 10, "black", 0, -10, "laser");
 			global.lasers.push(laser);
 		}
 

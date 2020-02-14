@@ -35,6 +35,15 @@ var slime_ball = document.getElementById("slime_ball");
 var row_blaster = document.getElementById("row_blaster");
 var column_blaster = document.getElementById("column_blaster");
 
+var scatter_shot = document.getElementById("scatter_shot");
+var lightning_NE = document.getElementById("lightning_NE");
+var lightning_SE = document.getElementById("lightning_SE");
+var lightning_SW = document.getElementById("lightning_SW");
+var lightning_NW = document.getElementById("lightning_NW");
+
+var laser_S = document.getElementById("laser_S");
+var laser_N = document.getElementById("laser_N");
+
 
 // update the canvas every 10ms
 var speed = 10;
@@ -148,6 +157,23 @@ function drawBall(ball) {
 			ctx.drawImage(row_blaster, ball.x - ball.radius, ball.y - ball.radius);
 		} else if(global.nextPower == "Column Blaster") {
 			ctx.drawImage(column_blaster, ball.x - ball.radius, ball.y - ball.radius);
+		} else if(global.nextPower == "Scatter Shot") {
+			ctx.drawImage(scatter_shot, ball.x - ball.radius, ball.y - ball.radius);
+		} else if(global.nextPower == "Laser Shot") {
+			ctx.drawImage(laser_S, ball.x - ball.radius, ball.y - ball.radius);
+		}
+
+	} else if(ball.power == "scatter") {
+
+		// draw the lightning so that the it faces the correct direction
+		if(ball.dx > 0 && ball.dy < 0) {
+			ctx.drawImage(lightning_NE, ball.x - ball.radius, ball.y - ball.radius);
+		} else if(ball.dx > 0 && ball.dy > 0) {
+			ctx.drawImage(lightning_SE, ball.x - ball.radius, ball.y - ball.radius);
+		} else if(ball.dx < 0 && ball.dy > 0) {
+			ctx.drawImage(lightning_SW, ball.x - ball.radius, ball.y - ball.radius);
+		} else if(ball.dx < 0 && ball.dy < 0) {
+			ctx.drawImage(lightning_NW, ball.x - ball.radius, ball.y - ball.radius);
 		}
 
 	} else {
@@ -175,9 +201,12 @@ function drawBall(ball) {
 				ctx.drawImage(missile_SW, ball.x - ball.radius, ball.y - ball.radius);
 			} else if(ball.dx < 0 && ball.dy < 0) {
 				ctx.drawImage(missile_NW, ball.x - ball.radius, ball.y - ball.radius);
-			}	
-		}
-		else {
+			}
+		} else if(ball.power == "laser") {
+
+			ctx.drawImage(laser_N, ball.x - ball.radius, ball.y - ball.radius);
+
+		} else {
 
 			// if the ball is standard
 			ctx.beginPath();
