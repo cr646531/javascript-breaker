@@ -32,6 +32,7 @@ var missile_SW = document.getElementById("missile_SW");
 var missile_NW = document.getElementById("missile_NW");
 
 var slime_ball = document.getElementById("slime_ball");
+var row_blaster = document.getElementById("row_blaster");
 
 
 // update the canvas every 10ms
@@ -141,8 +142,10 @@ function drawBall(ball) {
 			ctx.drawImage(arrow, ball.x - ball.radius, ball.y - ball.radius);
 		} else if(global.nextPower == "Sticky Paddle") {
 			ctx.drawImage(slime_ball, ball.x - ball.radius, ball.y - ball.radius);
-		} else if(global.nextPower = "Missile") {
+		} else if(global.nextPower == "Missile") {
 			ctx.drawImage(missile, ball.x - ball.radius, ball.y - ball.radius);
+		} else if(global.nextPower == "Row Blaster") {
+			ctx.drawImage(row_blaster, ball.x - ball.radius, ball.y - ball.radius);
 		}
 
 	} else {
