@@ -8,7 +8,7 @@ export default function checkConditions(global, brickLayout, bricks, ball, paddl
 	// if the player has no more lives, then the game ends
 	if(global.ballWallCollision == -1) {
 		if(global.lives > 0){
-            global.lives--;
+            // global.lives--;
         } else {
             // game over
             return -1;
