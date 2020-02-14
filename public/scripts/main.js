@@ -24,6 +24,14 @@ var arrow_SE = document.getElementById("arrow_SE");
 var arrow_SW = document.getElementById("arrow_SW");
 var arrow_NW = document.getElementById("arrow_NW");
 
+var missile_NE = document.getElementById("missile_NE");
+var missile_SE = document.getElementById("missile_SE");
+var missile_SW = document.getElementById("missile_SW");
+var missile_NW = document.getElementById("missile_NW");
+var missile = document.getElementById("missile");
+
+var slime_ball = document.getElementById("slime_ball");
+
 
 // update the canvas every 10ms
 var speed = 10;
@@ -71,7 +79,7 @@ var global = {
 	// power up
 	powerUp: 0,
 	nextPower: 0,
-	powers: ["Slow Time", "Super Ball", "Sticky Paddle", "Cluster Bomb", "Row Blaster", "Column Blaster", "Scatter Shot", "Laser Shot", "Ghost Ball"]
+	powers: ["Slow Time", "Arrow", "Sticky Paddle", "Cluster Bomb", "Row Blaster", "Column Blaster", "Scatter Shot", "Laser Shot", "Ghost Ball"]
 }
 
 // entity variables
@@ -128,14 +136,18 @@ function drawBall(ball) {
 		// draw a clock
 		if(global.nextPower == "Slow Time") {
 			ctx.drawImage(clockImage, ball.x - ball.radius, ball.y - ball.radius)
-		} else if(global.nextPower == "Super Ball") {
+		} else if(global.nextPower == "Arrow") {
 			ctx.drawImage(arrow, ball.x - ball.radius, ball.y - ball.radius);
+		} else if(global.nextPower == "Sticky Paddle") {
+			ctx.drawImage(slime_ball, ball.x - ball.radius, ball.y - ball.radius);
+		} else if(global.nextPower = "Cluster Bomb") {
+			ctx.drawImage(missile, ball.x - ball.radius, ball.y - ball.radius);
 		}
 
 	} else {
 
 		// if the ball is a super ball
-		if(ball.power == "Super Ball") {
+		if(ball.power == "Arrow") {
 
 			// draw the image so that the bullet faces the correct direction
 			if(ball.dx > 0 && ball.dy < 0) {
@@ -296,11 +308,12 @@ function usePowerUp() {
 		speed = 10;
 		interval = setInterval(draw, speed);
 	}
-	if(global.powerUp == "Super Ball") {
-		ball.power = "Super Ball";
+	if(global.powerUp == "Arrow") {
+		ball.power = "Arrow";
 	}
 	if(global.powerUp == "Sticky Paddle") {
 		paddle.power = "Sticky Paddle";
+		paddle.color = "green";
 	}
 	if(global.powerUp == "Cluster Bomb") {
 		ball.power = "Cluster Bomb";

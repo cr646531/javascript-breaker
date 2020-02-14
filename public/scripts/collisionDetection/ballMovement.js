@@ -6,7 +6,7 @@ export default function ballMovement(ball) {
     */
 
     // the ball is not the super ball, laser shot, power ball, and ghost bomb - change vertical direction
-    if(ball.power !== "Super Ball" && ball.power !== "laser" && ball.power !== "powerBall" && ball.power !== "Ghost Ball") {
+    if(ball.power !== "Arrow" && ball.power !== "laser" && ball.power !== "powerBall" && ball.power !== "Ghost Ball") {
         ball.dy = -ball.dy;
     // if the ball is a ghost ball, only change vertical direction if the ball is moving downwards
     } else if(ball.power == "Ghost Ball") {

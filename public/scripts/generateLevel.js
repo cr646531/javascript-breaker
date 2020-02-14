@@ -32,6 +32,7 @@ export default function generateLevel(global, ball, paddle) {
 	// remove any power up's at the end of a level
 	ball.power = "none";
 	paddle.power = "none";
+	paddle.color = "black";
 
 	// determines, at random, which extra entities will spawn
 
