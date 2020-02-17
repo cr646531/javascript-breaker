@@ -99,7 +99,11 @@ var global = {
 	// power up
 	powerUp: 0,
 	nextPower: 0,
-	powers: ["Slow Time", "Extra Life", "Arrow", "Sticky Paddle", "Missile", "Row Blaster", "Column Blaster", "Scatter Shot", "Laser Shot", "Ghost Ball", "Revert Paddle"]
+	powers: [
+		"Sticky Paddle", "Arrow", "Scatter Shot", "Laser Shot", 
+		"Missile", "Row Blaster", "Column Blaster", 
+		"Ghost Ball", "Revert Paddle", "Slow Time", "Extra Life"
+	]
 }
 
 // entity variables
@@ -118,7 +122,7 @@ var bricks = brickLayout.getArray();
 function drawIntro() {
 	ctx.font = "42px Arial";
 	ctx.fillStyle = "black";
-	ctx.fillText(`Press the spacebar`, 50, 100);
+	ctx.fillText(`Press the Enter key`, 50, 100);
 	ctx.fillText('to start the game', 70, 200);
 }
 
@@ -262,6 +266,13 @@ function drawBricks() {
 				ctx.rect(currBrick.x, currBrick.y, brickLayout.width, brickLayout.height);
 				ctx.fillStyle = brickLayout.color;
 				ctx.fill();
+				ctx.strokeStyle = 'white';
+				
+				for(var k = -1; k <= 1; k++){
+					ctx.strokeRect(currBrick.x + k, currBrick.y, brickLayout.width, brickLayout.height);
+					ctx.strokeRect(currBrick.x, currBrick.y + k, brickLayout.width, brickLayout.height);
+				}
+
 				ctx.closePath();
 			}
 		}
@@ -324,7 +335,7 @@ function keyDownHandler(event) {
 			count = 0;
 
 		}
-	} else if(event.keyCode == 32) {
+	} else if(event.keyCode == 13) {
 		play = true;
 	}
 }

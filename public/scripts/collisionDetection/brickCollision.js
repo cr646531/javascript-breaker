@@ -40,9 +40,33 @@ export default function checkBrickCollision(bricks, brickLayout, ball, global) {
 			if(!global.releasedPowerBall){
 				if(currBrick.status == 0 && currBrick.holdsPowerUp == true) {
 
-					global.randomNumberGenerator = getRandomInt(11);
-					//global.nextPower = global.powers[global.randomNumberGenerator];
-					global.nextPower = global.powers[10];
+					var powers = [
+						["Sticky Paddle", "Arrow", "Laser Shot", "Scatter Shot"],
+						["Missile", "Row Blaster", "Column Blaster", "Scatter Shot"],
+						["Ghost Ball", "Extra Life", "Slow Time", "Revert Paddle"]
+					];
+
+					var tier;
+
+					if(global.level <= 5){
+						tier = 0;
+					} else if(global.level <= 10) {
+						tier = getRandomInt(1);
+					} else if(global.level < 15) {
+						tier = getRandomInt(2);
+					} else if(global.level == 15) {
+						tier = 2;
+					} else {
+						tier = getRandomInt(2);
+						if(tier == 0) {
+							tier = 2;
+						}
+					}
+
+					global.randomNumberGenerator = getRandomInt(4);
+					global.nextPower = powers[tier][global.randomNumberGenerator];
+
+					console.log(global.nextPower);
 
 					// generates the power ball
 					global.powerBall = new Ball(currBrick.x + (brickLayout.width / 2), currBrick.y, 12, "yellow", 0, 0.5, "powerBall")
