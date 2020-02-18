@@ -1,7 +1,7 @@
 export default class Bricks {
-    constructor(columns = 5, rows = 3, color = "#cc2900", padding = 10, width = 75, height = 20, topOffset = 30, offset = 30, brickContainingPowerUp = {x: 0, y: 0}) {
-        this.canvasWidth = 480;
-        this.canvasHeight = 320;
+    constructor(columns = 5, rows = 3, color = "#cc2900", padding = 15, width = 100, height = 25, topOffset = 30, offset = 40, brickContainingPowerUp = {x: 0, y: 0}) {
+        this.canvasWidth = 640;
+        this.canvasHeight = 420;
  
         this.color = color;
         this.rows = rows;
@@ -18,7 +18,7 @@ export default class Bricks {
         var brickArray = [];
 
         if(this.columns <= 5){
-            var padding = (this.canvasWidth - (this.columns * 75)) / (this.columns + 1);
+            var padding = (this.canvasWidth - (this.columns * this.width)) / (this.columns + 1);
         } else if(this.columns <= 15) {
             padding = 10;
             this.width = (this.canvasWidth - (padding * (this.columns + 1))) / this.columns;
@@ -31,7 +31,7 @@ export default class Bricks {
             for(var j = 0; j < this.rows; j++){
                 brickArray[i][j] = {
                     x: i * this.width + (i+1) * padding,
-                    y: j * (this.height + 10) + this.topOffset,
+                    y: j * (this.height + this.padding) + this.topOffset,
                     status: 1,
                     holdsPowerUp: false
                 }
@@ -39,6 +39,12 @@ export default class Bricks {
         }
 
         return brickArray;
+    }
+
+    getArrayTwo() {
+        var brickArray = [];
+
+
     }
 }
 

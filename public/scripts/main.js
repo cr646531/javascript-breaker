@@ -63,7 +63,7 @@ var interval = setInterval(draw, speed);
 var global = {
 
 	// gameplay variables
-	level: 0,
+	level: 14,
 	score: 0,
 	lives: 3,
 	gameStatus: 0,

@@ -1,7 +1,7 @@
 export default function checkWallCollision(obj, paddle) {
 
-    var canvasWidth = 480;
-	var canvasHeight = 320;
+    var canvasWidth = 640;
+	var canvasHeight = 420;
 
 	// if the object is a bomb
 	if(obj.radius == "bomb") {
