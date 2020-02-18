@@ -37,19 +37,19 @@ export default function generateLevel(global, ball, paddle) {
 	// determines, at random, which extra entities will spawn
 
 	// gives a 33% chance to spawn an extra ball
-	if(!global.powerBall){
-		global.randomNumberGenerator = getRandomInt(3);
-		if(global.randomNumberGenerator == 2) {
-			global.extraBall = new Ball(480 / 2, 320 - 30, 10, "purple", 0.75, -0.75, "extraBall");
-		}
+	global.randomNumberGenerator = getRandomInt(3);
+	if(global.randomNumberGenerator == 2) {
+		global.extraBall = new Ball(480 / 2, 320 - 30, 10, "purple", 0.75, -0.75, "extraBall");
 	}
 
-	// generates a bomb
-	global.randomNumberGenerator = getRandomInt(3);
-	
-	if(global.randomNumberGenerator == 2) {
-		global.bomb = new Bomb(480 / 2, 320 - 30);
-    }
+	// gives a 33% chance of generating a bomb, but only if the extra ball hasn't spawned
+
+	if(!global.extraBall) {
+		global.randomNumberGenerator = getRandomInt(3);
+		if(global.randomNumberGenerator == 2) {
+			global.bomb = new Bomb(480 / 2, 320 - 30);
+		}
+	}
     
     // draw the next set of bricks
 	var newBrickLayout = new Bricks(global.level, global.rowThrottle)
