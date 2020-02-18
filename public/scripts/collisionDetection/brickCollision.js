@@ -69,7 +69,7 @@ export default function checkBrickCollision(bricks, brickLayout, ball, global) {
 					console.log(global.nextPower);
 
 					// generates the power ball
-					global.powerBall = new Ball(currBrick.x + (brickLayout.width / 2), currBrick.y, 12, "yellow", 0, 0.5, "powerBall")
+					global.powerBall = new Ball(currBrick.x + (brickLayout.width / 2), currBrick.y, 10, "yellow", 0, 0.5, "powerBall")
 
 					// sets the global variable to indicate that the power ball has already been released
 					global.releasedPowerBall = true;

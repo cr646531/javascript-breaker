@@ -36,11 +36,11 @@ export default function generateLevel(global, ball, paddle) {
 
 	// determines, at random, which extra entities will spawn
 
-	// ensures the player will not receive an extra ball and a power ball at the same time
+	// gives a 33% chance to spawn an extra ball
 	if(!global.powerBall){
 		global.randomNumberGenerator = getRandomInt(3);
 		if(global.randomNumberGenerator == 2) {
-			global.extraBall = new Ball(480 / 2, 320 - 30, 10, "purple", 0.5, -0.5, "extraBall");
+			global.extraBall = new Ball(480 / 2, 320 - 30, 10, "purple", 0.75, -0.75, "extraBall");
 		}
 	}
 
