@@ -16,8 +16,8 @@ var canvas = document.getElementById('myCanvas');
 var ctx = canvas.getContext('2d');
 
 // images
-
 var begin = document.getElementById("begin");
+var watermark = document.getElementById("watermark");
 
 var game_ball = document.getElementById("game_ball");
 var bombImage = document.getElementById("bomb");
@@ -301,6 +301,10 @@ function drawPowerUp() {
 	ctx.fillText(`${global.powerUp}`, canvas.width / 2 - 40, (canvas.height / 3) * 2)
 }
 
+function drawWatermark() {
+	ctx.drawImage(watermark, 0, 0);
+}
+
 
 
 
@@ -466,6 +470,7 @@ function draw() {
 
 		} else {
 
+			drawWatermark();
 			drawBall(ball);
 			drawBricks();
 

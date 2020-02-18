@@ -64,9 +64,9 @@ export default function checkConditions(global, brickLayout, bricks, ball, paddl
 
 		// if the player has the scatter shot power up, generate three extra balls
 		if(ball.power == "Scatter Shot"){
-			var scatterBallOne = new Ball(paddle.position + global.ballWallCollision, 320 - 30, 10, "orange", -ball.dx, -2, "scatter");
-			var scatterBallTwo = new Ball(paddle.position + global.ballWallCollision, 320 - 30, 10, "orange", -ball.dx / 2, -2, "scatter");
-			var scatterBallThree = new Ball(paddle.position + global.ballWallCollision, 320 - 30, 10, "orange", ball.dx / 2, -2, "scatter");
+			var scatterBallOne = new Ball(paddle.position + global.ballWallCollision, 420 - 30, 10, "orange", -ball.dx, -2, "scatter");
+			var scatterBallTwo = new Ball(paddle.position + global.ballWallCollision, 420 - 30, 10, "orange", -ball.dx / 2, -2, "scatter");
+			var scatterBallThree = new Ball(paddle.position + global.ballWallCollision, 420 - 30, 10, "orange", ball.dx / 2, -2, "scatter");
 			global.scatterBalls.push(scatterBallOne);
 			global.scatterBalls.push(scatterBallTwo);
 			global.scatterBalls.push(scatterBallThree);
@@ -74,7 +74,7 @@ export default function checkConditions(global, brickLayout, bricks, ball, paddl
 
 		// if the player has the laser shot power up, fire one extra ball
 		if(ball.power == "Laser Shot") {
-			var laser = new Ball(paddle.position + global.ballWallCollision, 320 - 30, 10, "black", 0, -10, "laser");
+			var laser = new Ball(paddle.position + global.ballWallCollision, 420 - 30, 10, "black", 0, -10, "laser");
 			global.lasers.push(laser);
 		}
 
