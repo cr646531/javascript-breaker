@@ -16,6 +16,9 @@ var canvas = document.getElementById('myCanvas');
 var ctx = canvas.getContext('2d');
 
 // images
+
+var begin = document.getElementById("begin");
+
 var game_ball = document.getElementById("game_ball");
 var bombImage = document.getElementById("bomb");
 var heart = document.getElementById("heart");
@@ -120,10 +123,13 @@ var bricks = brickLayout.getArray();
 
 
 function drawIntro() {
-	ctx.font = "42px Arial";
-	ctx.fillStyle = "black";
-	ctx.fillText(`Press the Enter key`, 50, 100);
-	ctx.fillText('to start the game', 70, 200);
+
+	ctx.drawImage(begin, 0, 0);
+
+	// ctx.font = "42px Arial";
+	// ctx.fillStyle = "black";
+	// ctx.fillText(`Press the Enter key`, 50, 100);
+	// ctx.fillText('to start the game', 70, 200);
 }
 
 function drawPause() {
