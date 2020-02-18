@@ -123,13 +123,7 @@ var bricks = brickLayout.getArray();
 
 
 function drawIntro() {
-
 	ctx.drawImage(begin, 0, 0);
-
-	// ctx.font = "42px Arial";
-	// ctx.fillStyle = "black";
-	// ctx.fillText(`Press the Enter key`, 50, 100);
-	// ctx.fillText('to start the game', 70, 200);
 }
 
 function drawPause() {
@@ -138,8 +132,8 @@ function drawPause() {
 	ctx.font = "bold 64px Verdana";
 	ctx.fillStyle = "black";
 
-	var x = 111;
-	var y = 170;
+	var x = 190;
+	var y = 220;
 
 	for(var i = 0; i <= 8; i++) {
 		for(var j = 0; j <= 10; j++) {
@@ -147,13 +141,13 @@ function drawPause() {
 			y++;
 		}
 		x++;
-		y = 170;
+		y -= 11;
 	}
 	
 	// draw the white text over the border
 	ctx.font = "bold 64px Verdana";
 	ctx.fillStyle = "white";
-	ctx.fillText(`PAUSE`, 115, 175);
+	ctx.fillText(`PAUSE`, x - 5, y + 5);
 }
 
 function drawBall(ball) {
