@@ -55,6 +55,16 @@ var ghost_SE = document.getElementById("ghost_SE");
 var ghost_SW = document.getElementById("ghost_SW");
 var ghost_NW = document.getElementById("ghost_NW");
 
+var scatter_shot_text = document.getElementById("scatter_shot_text");
+var row_blaster_text = document.getElementById("row_blaster_text");
+var column_blaster_text = document.getElementById("column_blaster_text");
+var missile_text = document.getElementById("missile_text");
+var sticky_paddle_text = document.getElementById("sticky_paddle_text");
+var arrow_text = document.getElementById("arrow_text");
+var slow_time_text = document.getElementById("slow_time_text");
+var laser_text = document.getElementById("laser_text");
+var ghost_ball_text = document.getElementById("ghost_ball_text");
+
 
 // update the canvas every 10ms
 var speed = 10;
@@ -296,9 +306,30 @@ function drawBomb(bomb) {
 }
 
 function drawPowerUp() {
-	ctx.font = "16px Arial";
-	ctx.fillStyle = "black";
-	ctx.fillText(`${global.powerUp}`, canvas.width / 2 - 40, (canvas.height / 3) * 2)
+
+	if(global.powerUp == "Slow Time") {
+		ctx.drawImage(slow_time_text, 0, 0);
+	} else if(global.powerUp == "Arrow") {
+		ctx.drawImage(arrow_text, 0, 0);
+	} else if(global.powerUp == "Sticky Paddle") {
+		ctx.drawImage(sticky_paddle_text, 0, 0);
+	} else if(global.powerUp == "Missile") {
+		ctx.drawImage(missile_text, 0, 0);
+	} else if(global.powerUp == "Row Blaster") {
+		ctx.drawImage(row_blaster_text, 0, 0);
+	} else if(global.powerUp == "Column Blaster") {
+		ctx.drawImage(column_blaster_text, 0, 0);
+	} else if(global.powerUp == "Scatter Shot") {
+		ctx.drawImage(scatter_shot_text, 0, 0);
+	} else if(global.powerUp == "Laser Shot") {
+		ctx.drawImage(laser_text, 0, 0);
+	} else if(global.powerUp == "Ghost Ball") {
+		ctx.drawImage(ghost_ball_text, 0, 0);
+	} else {
+		ctx.font = "16px Arial";
+		ctx.fillStyle = "black";
+		ctx.fillText(`${global.powerUp}`, canvas.width / 2 - 40, (canvas.height / 3) * 2)
+	}
 }
 
 function drawWatermark() {
