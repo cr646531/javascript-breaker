@@ -20,6 +20,8 @@
   "homepage": "https://github.com/cr646531/breakout#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "nodemon": "^2.0.1"
+    "nodemon": "^2.0.1",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11"
   }
 }
