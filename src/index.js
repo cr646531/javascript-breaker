@@ -6,10 +6,10 @@ import checkBrickCollision from './collisionDetection/brickCollision.js';
 import checkConditions from './checkConditions.js';
 import generateLevel from './generateLevel.js';
 
-import updatePowerBall from './entities/powerBall.js';
-import updateExtraBall from './entities/extraBall.js';
-import updateBall from './entities/ball.js';
-import updateBomb from './entities/bomb.js';
+import updatePowerBall from './updateDetection/updatePowerBall';
+import updateExtraBall from './updateDetection/updateExtraBall';
+import updateBall from './updateDetection/updateBall';
+import updateBomb from './updateDetection/updateBomb';
 
 // document elements
 var canvas = document.getElementById('myCanvas');
