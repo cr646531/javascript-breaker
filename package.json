@@ -2,6 +2,7 @@
   "name": "javascript-breaker",
   "version": "1.0.0",
   "description": "",
+  "main": "index.js",
   "scripts": {
     "build": "webpack",
     "start": "npm run build & node index.js",
