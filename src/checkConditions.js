@@ -1,5 +1,4 @@
-import Ball from './classes/Ball.js';
-
+import Ball from './classes/ball.js';
 
 export default function checkConditions(global, brickLayout, bricks, ball, paddle) {
 
