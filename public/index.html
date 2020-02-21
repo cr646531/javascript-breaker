@@ -20,8 +20,7 @@
 </head>
 <body>
 
-	<h1> Breakout! </h1>
-	<h1> Testing </h1>
+	<h1>JavaScript Breaker</h1>
 	<br />
 	
 	<canvas id="myCanvas" width="640" height="420" style="border:1px solid #000000;"></canvas>
@@ -63,72 +62,87 @@
 	<body class="py-4">
 		<div class="container">
 	
-	  <h1>Legend</h1>
-	  <p class="lead">Subtext</p>
+			<h1>How To Play</h1>
+			<!-- <p class="lead">Subtext</p> -->
 
-	  <h2 class="mt-4">Power Ups</h2>
-	
-	  <div class="row mb-3">
-		<div class="col-4 themed-grid-col">
-			<p><img id="game_ball" src="./img/ball.png" alt="?"> - Ball</p>
-		</div>
-		<div class="col-4 themed-grid-col">
-			<p><img id="coin" src="./img/coin.png" alt="?"> - Coin</p>
-		</div>
-		<div class="col-4 themed-grid-col">
-			<p><img id="bomb" src="./img/bomb.png" alt="?"> - Bomb</p>
-		</div>
-	  </div>
-	
-	  <div class="row mb-3">
-		<div class="col-4 themed-grid-col">
-			<p><img id="heart" src="./img/heart.png" alt="?"> - Extra Life</p>
-		</div>
-		<div class="col-4 themed-grid-col">
-			<p><img id="revert_paddle" src="./img/revert_paddle.png" alt="?"> - Revert Paddle Size</p>
-		</div>
-		<div class="col-4 themed-grid-col">
-			<p><img id="ghost" src="./img/ghost.png" alt="?"> - Ghost Ball</p>
-		</div>
-	  </div>
-	
-	  <div class="row mb-3">
-		<div class="col-4 themed-grid-col">
-			<p><img id="laser_S" src="./img/laser_S.png" alt="?"> - Laser</p>
-		</div>
-		<div class="col-4 themed-grid-col">
-			<p><img id="clock" src="./img/clock.png" alt="?"> - Slow Time</p>
-		</div>
-		<div class="col-4 themed-grid-col">
-			<p><img id="arrow_NE" src="./img/arrow_NE.png" alt="?"> - Arrow</p>
-		</div>
-	  </div>
-	
-	  <div class="row mb-3">
-		<div class="col-4 themed-grid-col">
-			<p><img id="slime_ball" src="./img/slime_ball.png" alt="?"> - Sticky Paddle</p>
-		</div>
-		<div class="col-4 themed-grid-col">
-			<p><img id="missile_NE" src="./img/missile_NE.png" alt="?"> - Missile</p>
-		</div>
-		<div class="col-4 themed-grid-col">
-			<p><img id="row_blaster" src="./img/row_blaster.png" alt="?"> - Row Blaster</p>
-		</div>
-	  </div>
-	
-	  <div class="row mb-3">
-		<div class="col-4 themed-grid-col">
-			<p><img id="column_blaster" src="./img/column_blaster.png" alt="?"> - Column Blaser</p>
-		</div>
-		<div class="col-4 themed-grid-col">
-			<p><img id="scatter_shot" src="./img/scatter_shot.png" alt="?"> - Scatter Shot</p>
-		</div>
-		<div class="col-4 themed-grid-col">
+			<ul>
+				<li>Press the ENTER button to start the game.</li> 
+				<li>Use the mouse or the LEFT ARROW and RIGHT ARROW keys to control the paddle.</li>
+				<li>Use the paddle to bounce the ball towards the bricks.</li>
+				<li>Destroy all the bricks to proceed to the next level.</li>
+				<li>If the ball hits the ground, the player loses a life.</li>
+				<li>If the player loses all their lives, the game is over.</li>
+				<li>Power-ups will drop when the brick containing them is destroyed.</li>
+				<li>There is only one power-up for each level.</li>
+				<li>The power-up you collect will be displayed on the screen.</li>
+				<li>To use your power-up, click the mouse button.</li>
+				<li>Press the P button to pause the game at any time.</li>
+				<li>The object of the game is to get the highest score possible.</li>
+				<li>Your score is located in the top left of the screen.</li>
+				<li>Your final score will be displayed at the end of the game.</li>
+			</ul>
+
+			<h2 class="mt-4">Power Ups</h2>
 			
-		</div>
-	  </div>
+			<div class="row mb-3">
+				<div class="col-4 themed-grid-col">
+					<p><img id="game_ball" src="./img/ball.png" alt="?"> - Ball</p>
+				</div>
+				<div class="col-4 themed-grid-col">
+					<p><img id="coin" src="./img/coin.png" alt="?"> - Coin</p>
+				</div>
+				<div class="col-4 themed-grid-col">
+					<p><img id="bomb" src="./img/bomb.png" alt="?"> - Bomb</p>
+				</div>
+			</div>
+			
+			<div class="row mb-3">
+				<div class="col-4 themed-grid-col">
+					<p><img id="heart" src="./img/heart.png" alt="?"> - Extra Life</p>
+				</div>
+				<div class="col-4 themed-grid-col">
+					<p><img id="revert_paddle" src="./img/revert_paddle.png" alt="?"> - Revert Paddle Size</p>
+				</div>
+				<div class="col-4 themed-grid-col">
+					<p><img id="ghost" src="./img/ghost.png" alt="?"> - Ghost Ball</p>
+				</div>
+			</div>
+			
+			<div class="row mb-3">
+				<div class="col-4 themed-grid-col">
+					<p><img id="laser_S" src="./img/laser_S.png" alt="?"> - Laser</p>
+				</div>
+				<div class="col-4 themed-grid-col">
+					<p><img id="clock" src="./img/clock.png" alt="?"> - Slow Time</p>
+				</div>
+				<div class="col-4 themed-grid-col">
+					<p><img id="arrow_NE" src="./img/arrow_NE.png" alt="?"> - Arrow</p>
+				</div>
+			</div>
+			
+			<div class="row mb-3">
+				<div class="col-4 themed-grid-col">
+					<p><img id="slime_ball" src="./img/slime_ball.png" alt="?"> - Sticky Paddle</p>
+				</div>
+				<div class="col-4 themed-grid-col">
+					<p><img id="missile_NE" src="./img/missile_NE.png" alt="?"> - Missile</p>
+				</div>
+				<div class="col-4 themed-grid-col">
+					<p><img id="row_blaster" src="./img/row_blaster.png" alt="?"> - Row Blaster</p>
+				</div>
+			</div>
+			
+			<div class="row mb-3">
+				<div class="col-4 themed-grid-col">
+					<p><img id="column_blaster" src="./img/column_blaster.png" alt="?"> - Column Blaser</p>
+				</div>
+				<div class="col-4 themed-grid-col">
+					<p><img id="scatter_shot" src="./img/scatter_shot.png" alt="?"> - Scatter Shot</p>
+				</div>
+				
+			</div>
 
-	<script src="dist/main.js" defer></script>
-	
-</body>
+			<script src="dist/main.js" defer></script>
+		</div>
+	</body>
 </html>
