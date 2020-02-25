@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --watch",
     "start": "npm run build & node index.js",
     "start:dev": "npm run build & nodemon index.js"
   },
