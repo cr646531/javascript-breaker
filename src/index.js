@@ -71,7 +71,6 @@ var speed = 10;
 var interval = setInterval(draw, speed);
 
 
-
 /* ----------------------- GLOBAL VARIABLES ---------------------- */
 var global = {
 
